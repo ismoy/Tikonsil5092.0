@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/homenav.xml"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.tikonsil.tikonsil509.ui.fragment.home.HomeFragment"
+        android:label="Home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_sendRechargeFragment"
+            app:destination="@id/sendRechargeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_historySalesFragment"
+            app:destination="@id/historySalesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_saleWithOtherAgentFragment"
+            app:destination="@id/saleWithOtherAgentFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_registerReferencesFragment"
+            app:destination="@id/registerReferencesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_policyAndPrivacyFragment"
+            app:destination="@id/policyAndPrivacyFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_requestRechargeFragment"
+            app:destination="@id/requestRechargeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.tikonsil.tikonsil509.ui.fragment.profile.ProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/sendRechargeFragment"
+        android:name="com.tikonsil.tikonsil509.ui.fragment.sendrecharge.SendRechargeFragment"
+        android:label="@string/SendReload"
+        tools:layout="@layout/fragment_send_recharge" >
+        <action
+            android:id="@+id/action_sendRechargeFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/historySalesFragment"
+        android:name="com.tikonsil.tikonsil509.ui.fragment.historysales.HistorySalesFragment"
+        android:label="@string/history"
+        tools:layout="@layout/fragment_history_sales" >
+        <action
+            android:id="@+id/action_historySalesFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/saleWithOtherAgentFragment"
+        android:name="com.tikonsil.tikonsil509.ui.fragment.saleWithOtherAgent.SaleWithOtherAgentFragment"
+        android:label="@string/sendreload_other_agent"
+        tools:layout="@layout/fragment_sale_with_other_agent" >
+        <action
+            android:id="@+id/action_saleWithOtherAgentFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerReferencesFragment"
+        android:name="com.tikonsil.tikonsil509.ui.fragment.registerReferences.RegisterReferencesFragment"
+        android:label="@string/register_reference"
+        tools:layout="@layout/fragment_register_references" >
+        <action
+            android:id="@+id/action_registerReferencesFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/policyAndPrivacyFragment"
+        android:name="com.tikonsil.tikonsil509.ui.fragment.policyAndPrivacy.PolicyAndPrivacyFragment"
+        android:label="@string/policy_privacy"
+        tools:layout="@layout/fragment_policy_and_privacy" >
+        <action
+            android:id="@+id/action_policyAndPrivacyFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/requestRechargeFragment"
+        android:name="com.tikonsil.tikonsil509.ui.fragment.request_recharge.RequestRechargeFragment"
+        android:label="@string/request_recharge"
+        tools:layout="@layout/fragment_request_recharge" >
+        <action
+            android:id="@+id/action_requestRechargeFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+</navigation>

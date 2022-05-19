@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tikonsil509</string>
+    <string name="Wellcome">Bienvenue(a):</string>
+    <string name="lastersale">10 dernières ventes</string>
+    <string name="no_hay_ventas_registrada">Il n\'y a pas de ventes enregistrées</string>
+    <string name="total_balance">Solde total </string>
+    <string name="singin">Commencer la session</string>
+    <string name="email">Courrier électronique</string>
+    <string name="password">Mot de passe</string>
+    <string name="Newhere">Nouveau ici? Créer un compte!</string>
+    <string name="erroremptyfield">Veuillez entrer les informations demandées</string>
+    <string name="error_email_invalid">Veuillez entrer un email valide</string>
+    <string name="error_longitudepassword">Mot de passe doit être d\'au moins 8 caractères</string>
+    <string name="verifyaccount">Veuillez vérifier votre compte</string>
+    <string name="noconnetion_internet">Vous n\'avez pas de connexion Internet. Veuillez réessayer plus tard</string>
+    <string name="register">Enregistrement</string>
+    <string name="Firstname">Prénom</string>
+    <string name="default_first_name">Jean</string>
+    <string name="LastName">Le nom</string>
+    <string name="default_last_name">Francois</string>
+    <string name="defaulemail">jeanFrancois@gmail.com</string>
+    <string name="phone">Téléphone</string>
+    <string name="repeatpassword">Confirmer mot de passe</string>
+    <string name="error_firsname_onlyletter">Veuillez entrer un prénom valide (Ejp:Jean)</string>
+    <string name="error_lastname_onlyletter">S\'il vous plait entrer un nom de famille valide (Ejp:Francois)</string>
+    <string name="error_longitud_number">S\'il vous plait entrez un numéro de téléphone valide (EJP: 954545454)</string>
+    <string name="error_no_coecidence_password">Les mots de passe ne correspondent pas. Essaye à nouveau.</string>
+    <string name="succescreateaccount">Votre compte à été créé avec succès. Vérifiez votre email pour activer le compte</string>
+    <string name="existemail">Vous avez déjà un compte dans notre registre avec cet e-mail</string>
+    <string name="profile">Profil</string>
+    <string name="SendReload">Envoyer une recharge</string>
+    <string name="history">Historique des ventes</string>
+    <string name="sendreload_other_agent">Vendre à d\'autres agents</string>
+    <string name="register_reference">Enregistrer les références</string>
+    <string name="policy_privacy">Politique de confidentialité</string>
+    <string name="request_recharge">Demander une recharge</string>
+    <string name="ayuda">Support technique</string>
+    <string name="description" >La description</string>
+    <string name="total">Montant</string>
+    <string name="date">Date</string>
+    <string name="title_methode_pay" >Sélectionnez le mode de paiement pour votre recharge de solde</string>
+</resources>

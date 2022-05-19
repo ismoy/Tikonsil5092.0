@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tikonsil509</string>
+    <string name="Wellcome">Bienvenido(a):</string>
+    <string name="lastersale">Últimas 10 ventas</string>
+    <string name="no_hay_ventas_registrada">No Hay ventas registrada</string>
+    <string name="total_balance">Balance Total </string>
+    <string name="singin">Iniciar sesión</string>
+    <string name="email">Correo electrónico</string>
+    <string name="password">Contraseña</string>
+    <string name="Newhere">Nuevo aquí ? ¡Crea una cuenta!</string>
+    <string name="erroremptyfield">Por favor, ingresa el dato solicitado</string>
+    <string name="error_email_invalid">Por favor, ingresa un correo electrónico válido</string>
+    <string name="error_longitudepassword">La contraseña debe tener al menos 8 caracteres</string>
+    <string name="verifyaccount">Por favor verifica su cuenta</string>
+    <string name="noconnetion_internet">No tienes conexión a internet. Por favor, intenta más tarde</string>
+    <string name="register">Registro</string>
+    <string name="Firstname">Primer Nombre</string>
+    <string name="default_first_name">Juan</string>
+    <string name="LastName">Apellido</string>
+    <string name="default_last_name">Perez</string>
+    <string name="defaulemail">juanPerez@gmail.com</string>
+    <string name="phone">Teléfono</string>
+    <string name="repeatpassword">Confirmar contraseña</string>
+    <string name="error_firsname_onlyletter">Por favor ingrese un Nombre válido (Ejp:Juan)</string>
+    <string name="error_lastname_onlyletter">Por favor ingrese un Apellido válido (Ejp:Perez)</string>
+    <string name="error_longitud_number">Por favor ingresa un numero teléfono válido (EJP: 954545454)</string>
+    <string name="error_no_coecidence_password">Las contraseñas no coinciden. Inténtalo de nuevo.</string>
+    <string name="succescreateaccount">Su cuenta ha sido creada con éxito. Revise su correo electrónico para activar la cuenta</string>
+    <string name="existemail">Ya tienes una cuenta en nuestro registro con ese correo</string>
+    <string name="profile">Perfil</string>
+    <string name="SendReload">Enviar recarga</string>
+    <string name="history">Historial de Ventas</string>
+    <string name="sendreload_other_agent">Vender a Otros Agentes</string>
+    <string name="register_reference">Registrar referidos</string>
+    <string name="policy_privacy">Política de privacidad</string>
+    <string name="request_recharge">Solicitar recarga</string>
+    <string name="ayuda">Soporte técnico</string>
+    <string name="description" >Descripción</string>
+    <string name="total">Monto</string>
+    <string name="date">Fecha</string>
+    <string name="title_methode_pay" >Seleccione el método de pago para su recarga de saldo</string>
+</resources>

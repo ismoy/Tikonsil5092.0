@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_700">#F9A826</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="whiteAlpha">#10FFFFFF</color>
+    <color name="colorboton">#F9A826</color>
+    <color name="colorBg">#0F707070</color>
+    <color name="colorView">#27707070</color>
+    <color name="colorverde">#008f39</color>
+    <color name="colorazul">#0000ff</color>
+    <color name="colorerror">@android:color/holo_red_light</color>
+    <color name="blue_btn_bg_color">#AEDEF4</color>
+    <color name="shimmer_color">#BFBDBD</color>
+</resources>

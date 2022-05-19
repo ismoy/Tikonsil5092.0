@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <ImageView
+        android:id="@+id/image_view_planeta"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/planeta"
+        android:layout_margin="20dp"/>
+
+    <TextView
+        android:id="@+id/name_type_recharge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/image_view_planeta"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="16dp"
+        android:layout_toEndOf="@id/image_view_planeta"
+        android:gravity="center"
+        android:text="TOPUP"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/saldoform"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="27dp"
+        android:layout_toEndOf="@id/name_type_recharge"
+        android:text="0" />
+
+    <TextView
+        android:id="@+id/dateform"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="27dp"
+        android:layout_toEndOf="@id/saldoform"
+        android:text="12/08/2021" />
+</RelativeLayout>

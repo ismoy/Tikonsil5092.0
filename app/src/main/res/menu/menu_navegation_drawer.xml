@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_sendRechargeFragment"
+        android:title="@string/SendReload"
+        android:icon="@drawable/ic_baseline_send_24" />
+
+    <item
+        android:id="@+id/nav_historySalesFragment"
+        android:title="@string/history"
+        android:icon="@drawable/ic_baseline_history_24"/>
+
+    <item
+        android:id="@+id/nav_saleWithOtherAgentFragment"
+        android:title="@string/sendreload_other_agent"
+        android:icon="@drawable/ic_baseline_attach_money_24"/>
+    <item
+        android:id="@+id/nav_registerReferencesFragment"
+        android:title="@string/register_reference"
+        android:icon="@drawable/ic_baseline_person_add_alt_24"/>
+    <item
+        android:id="@+id/nav_policyAndPrivacyFragment"
+        android:title="@string/policy_privacy"
+        android:icon="@drawable/ic_baseline_security_24"/>
+    <item
+        android:id="@+id/nav_requestRechargeFragment"
+        android:title="@string/request_recharge"
+        android:icon="@drawable/ic_baseline_send_24"/>
+    <item
+        android:id="@+id/nav_whatsapp"
+        android:title="@string/ayuda"
+        android:icon="@drawable/ic_baseline_whatsapp_24"
+        />
+
+</menu>

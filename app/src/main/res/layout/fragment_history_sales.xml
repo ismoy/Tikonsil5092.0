@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragment.historysales.HistorySalesFragment"
+    android:layout_marginBottom="90dp">
+
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/shimmer_history"
+            app:shimmer_duration="20"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <include layout="@layout/history_sale_item_shimmer_effect"/>
+                <include layout="@layout/history_sale_item_shimmer_effect"/>
+                <include layout="@layout/history_sale_item_shimmer_effect"/>
+                <include layout="@layout/history_sale_item_shimmer_effect"/>
+                <include layout="@layout/history_sale_item_shimmer_effect"/>
+                <include layout="@layout/history_sale_item_shimmer_effect"/>
+                <include layout="@layout/history_sale_item_shimmer_effect"/>
+                <include layout="@layout/history_sale_item_shimmer_effect"/>
+                <include layout="@layout/history_sale_item_shimmer_effect"/>
+                <include layout="@layout/history_sale_item_shimmer_effect"/>
+                <include layout="@layout/history_sale_item_shimmer_effect"/>
+                <include layout="@layout/history_sale_item_shimmer_effect"/>
+                <include layout="@layout/history_sale_item_shimmer_effect"/>
+                <include layout="@layout/history_sale_item_shimmer_effect"/>
+
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerviewhistory"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:visibility="gone">
+        </androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/nodatahistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_centerInParent="true"
+        android:textStyle="bold"
+        android:text="@string/no_hay_ventas_registrada" />
+</RelativeLayout>

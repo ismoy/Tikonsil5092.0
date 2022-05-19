@@ -1,0 +1,120 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Tikonsil509</string>
+    <string name="Firstname">First Name</string>
+    <string name="LastName">Last Name</string>
+    <string name="register">Register</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="repeatpassword">Confirm Password</string>
+    <string name="forgetpassword" translatable="false">Forget Password?</string>
+    <string name="Newhere">New here ? Create an account!</string>
+    <string name="singup" translatable="false">Sign up</string>
+    <string name="singin">Log in</string>
+
+    <string name="Onlyallowletters" translatable="false">Only allow letters</string>
+    <string name="Onlyallowlettersandnumber" translatable="false">Only allow letters and Number</string>
+    <string name="Nocaracteresspecial" translatable="false">Does not allow special characters</string>
+    <string name="Pleaseenteryourfullname" translatable="false">Please enter your full name</string>
+    <string name="Passwordsdonotmatch" translatable="false">Passwords do not match</string>
+    <string name="Namecorto" translatable="false">Username must be at least 4 characters long</string>
+    <!-- message verify -->
+    <string name="Email_is_required." translatable="false">Email is required.</string>
+    <string name="invalid_email" translatable="false">invalid email</string>
+    <string name="Password_is_required." translatable="false">Password is required.</string>
+    <string name="The_password_must_be_at_least_6_characters_long" translatable="false">The password must be at least 6 characters long</string>
+    <string name="Loading..." tools:ignore="TypographyEllipsis" translatable="false">Loading...</string>
+    <string name="User_was_successfully_logged_in" translatable="false">User was successfully logged in</string>
+    <string name="Pleaseenteryournumberphonecorrect" translatable="false">Please enter your cell phone number along with the country area code</string>
+    <string name="Youraccounthasbeencreatedsuccessfully.Checkyouremailtoactivatetheaccount" translatable="false">Your account has been created successfully. Check your email to activate the account</string>
+    <string name="onFailureWecouldnotverifyyouremail" translatable="false">onFailure: We could not verify your email</string>
+    <string name="Error" translatable="false">Error !</string>
+    <string name="Account_not_verified.Please_check_youre_mail" translatable="false">Account not verified. Please check your email</string>
+    <string name="Problemwhenloggingincheckyouremailandpassword" translatable="false">Problem when logging in check your email and password</string>
+    <string name="haiti" translatable="false">HAITI</string>
+    <string name="dominican" translatable="false">DOMINICAN REPUBLIC</string>
+    <string name="panama" translatable="false">PANAMA</string>
+    <string name="cuba" translatable="false">CUBA</string>
+    <string name="brasil" translatable="false">BRAZIL</string>
+    <string name="mexico" translatable="false">MEXICO</string>
+    <string name="Selectatypeofrecharge" translatable="false">Select a type of recharge</string>
+    <string name="topup" translatable="false">TOPUP</string>
+    <string name="moncash" translatable="false">MONCASH</string>
+    <string name="NúmeroTeléfonodeTopUparecargar" translatable="false">TopUp phone number to recharge</string>
+    <string name="date">Date</string>
+    <string name="total">Amount</string>
+    <string name="subtotal" translatable="false">SubTotal</string>
+    <string name="description" >Description</string>
+    <string name="SendReload">Send recharge</string>
+    <string name="Wellcome">Welcome:</string>
+    <string name="Wellcometotikonsil" translatable="false">Welcome to Tikonsil509</string>
+    <string name="Registeredusers" translatable="false">Registered users</string>
+    <string name="ismoy" translatable="false">Ismoy</string>
+    <string name="ismoy90" translatable="false">ismoy90</string>
+    <string name="belizaire" translatable="false">Belizaire</string>
+    <string name="telefono" translatable="false">Phone</string>
+    <string name="_56973030630" translatable="false">+56973030630</string>
+    <string name="admin" translatable="false">Admin</string>
+    <string name="role" translatable="false">Role</string>
+    <string name="logout" translatable="false">Logout</string>
+    <string name="tikonsil509_com_cl" translatable="false">tikonsil509.com@.cl</string>
+    <string name="secure" translatable="false">*******</string>
+    <string name="estado" translatable="false">Estado</string>
+    <string name="action" translatable="false">Actions</string>
+    <string name="sale" translatable="false">Sales</string>
+    <string name="lastersale">Latest 10 sales</string>
+    <string name="cannotreload" translatable="false">Cannot reload to that country at the moment</string>
+    <string name="agent" translatable="false">Agent</string>
+
+    <string name="pleasewait" translatable="false">Please Wait..</string>
+    <string name="sendrequest" translatable="false">Sending Request ...</string>
+    <string name="thanks" translatable="false">Thanks for your purchase</string>
+    <string name="nomoney" translatable="false">You do not have enough balance to make this purchase</string>
+    <string name="yourbalance" translatable="false">Your balance is</string>
+    <string name="theservice" translatable="false">The service</string>
+    <string name="only" translatable="false"> is available only for haiti</string>
+
+
+    <string name="defaultpassword" translatable="false">***********</string>
+    <string name="master" translatable="false">Master</string>
+    <string name="numberdefault" translatable="false">937463640</string>
+    <string name="defaulemail">jhondoe@gmail.com</string>
+    <string name="default_last_name">Doe</string>
+    <string name="default_first_name">Jhon</string>
+    <string name="erroremptyfield">Please enter the requested information</string>
+    <string name="error_firsname_onlyletter">Please enter a valid First Name (Ejp:Jhon)</string>
+    <string name="error_lastname_onlyletter">Please enter a valid Last Name (Ejp:Doe)</string>
+    <string name="error_email_invalid">Please enter a valid email</string>
+    <string name="error_longitud_number">Please enter a valid phone number (EJP: 954545454)</string>
+    <string name="error_longitudepassword">Password must be at least 8 characters</string>
+    <string name="error_no_coecidence_password">Passwords do not match. Try again.</string>
+    <string name="succescreateaccount">Your account has been successfully created. Check your email to activate the account</string>
+    <string name="existemail">You already have an account in our registry with this email</string>
+    <string name="noconnetion_internet">You don\'t have an internet connection. please try again later</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="home" translatable="false">Home</string>
+    <string name="profile">Profile</string>
+    <string name="history">Sales History</string>
+    <string name="sendreload_other_agent">Sell to Other Agents</string>
+    <string name="register_reference">Register Referrals</string>
+    <string name="policy_privacy">Privacy Policy</string>
+    <string name="default_monto" translatable="false">5000</string>
+    <string name="success" translatable="false">Success</string>
+    <string name="next" translatable="false">Next</string>
+    <string name="error" translatable="false">Error!</string>
+    <string name="no_hay_ventas_registrada">There are no registered sales</string>
+    <string name="request_recharge">Request Recharge</string>
+    <string name="title_methode_pay" >Select the payment method for your balance top-up</string>
+    <string name="account_number" translatable="false">Numero de cuenta copiado</string>
+    <string name="info_transferencia" translatable="false">si vas hacer transferencia bancaria por favor enviarnos el comprobante via email t43031313@gmail.com o whatsapp +56932723367</string>
+    <string name="token_api_server_default" translatable="false">AAAAj812wm0:APA91bGryDQHRsHZQQqKNkA6gdpeeEBl1w7prud_cFILDbgDwZoEkpYlO8GjkKfZKzzL_GyBxsjKGkjD4BDZ6Zwrfm793aRL-d3EYwTzvLkXeojUQemb5b0XsehoI5oFGYy5yzvY7hw-</string>
+    <string name="online" translatable="false">Online</string>
+    <string name="natcash" translatable="false">NATCASH</string>
+    <string name="lapoula" translatable="false">LAPOULA</string>
+    <string name="ayudawhatsapp" translatable="false">Hola buena tardes necesito ayuda por favor</string>
+    <string name="total_balance">Total Balance</string>
+    <string name="verifyaccount">Please verify your account</string>
+    <string name="phone">Phone</string>
+    <string name="ayuda">Technical support</string>
+    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+
+</resources>
