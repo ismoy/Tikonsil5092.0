@@ -22,7 +22,7 @@
     <string name="invalid_email" translatable="false">invalid email</string>
     <string name="Password_is_required." translatable="false">Password is required.</string>
     <string name="The_password_must_be_at_least_6_characters_long" translatable="false">The password must be at least 6 characters long</string>
-    <string name="Loading..." tools:ignore="TypographyEllipsis" translatable="false">Loading...</string>
+    <string name="Loading..." translatable="false" tools:ignore="TypographyEllipsis">Loading...</string>
     <string name="User_was_successfully_logged_in" translatable="false">User was successfully logged in</string>
     <string name="Pleaseenteryournumberphonecorrect" translatable="false">Please enter your cell phone number along with the country area code</string>
     <string name="Youraccounthasbeencreatedsuccessfully.Checkyouremailtoactivatetheaccount" translatable="false">Your account has been created successfully. Check your email to activate the account</string>
@@ -43,7 +43,7 @@
     <string name="date">Date</string>
     <string name="total">Amount</string>
     <string name="subtotal" translatable="false">SubTotal</string>
-    <string name="description" >Description</string>
+    <string name="description">Description</string>
     <string name="SendReload">Send recharge</string>
     <string name="Wellcome">Welcome:</string>
     <string name="Wellcometotikonsil" translatable="false">Welcome to Tikonsil509</string>
@@ -103,7 +103,7 @@
     <string name="error" translatable="false">Error!</string>
     <string name="no_hay_ventas_registrada">There are no registered sales</string>
     <string name="request_recharge">Request Recharge</string>
-    <string name="title_methode_pay" >Select the payment method for your balance top-up</string>
+    <string name="title_methode_pay">Select the payment method for your balance top-up</string>
     <string name="account_number" translatable="false">Numero de cuenta copiado</string>
     <string name="info_transferencia" translatable="false">si vas hacer transferencia bancaria por favor enviarnos el comprobante via email t43031313@gmail.com o whatsapp +56932723367</string>
     <string name="token_api_server_default" translatable="false">AAAAj812wm0:APA91bGryDQHRsHZQQqKNkA6gdpeeEBl1w7prud_cFILDbgDwZoEkpYlO8GjkKfZKzzL_GyBxsjKGkjD4BDZ6Zwrfm793aRL-d3EYwTzvLkXeojUQemb5b0XsehoI5oFGYy5yzvY7hw-</string>
@@ -116,5 +116,7 @@
     <string name="phone">Phone</string>
     <string name="ayuda">Technical support</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

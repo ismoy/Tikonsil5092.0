@@ -14,6 +14,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -50,6 +51,7 @@ abstract class RequestRechargeValidate<VB:ViewBinding,VM:ViewModel> :Fragment(){
     protected var account_zelle:TextView?=null
     protected var code_pl:TextView?=null
     protected var email_pl:TextView?=null
+    protected lateinit var navController: NavController
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -64,7 +66,7 @@ abstract class RequestRechargeValidate<VB:ViewBinding,VM:ViewModel> :Fragment(){
         banreserva = binding.root.findViewById(R.id.bandereserva)
         googlepay = binding.root.findViewById(R.id.googlepay)
         mercadopago = binding.root.findViewById(R.id.mercadopago)
-        cardView4 =binding.root.findViewById(R.id.cardView4)
+        cardView4 =binding.root.findViewById(R.id.cardviewbancoestado)
         cardgooglepay = binding.root.findViewById(R.id.cardviewgooglepay)
         cardpaypal = binding.root.findViewById(R.id.cardviewpaypal)
         cardmercadopago = binding.root.findViewById(R.id.cardviewmercadopago)
