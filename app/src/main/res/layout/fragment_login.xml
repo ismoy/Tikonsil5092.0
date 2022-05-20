@@ -71,7 +71,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintVertical_bias="0.2"
+            app:layout_constraintTop_toBottomOf="@+id/view">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emaillogin"
@@ -146,5 +147,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iralregistro" />
 
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/whatsapp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            android:backgroundTint="@color/colorboton"
+            android:minWidth="30dp"
+            android:minHeight="30dp"
+            android:tintMode="screen"
+            android:fadingEdge="none"
+            android:src="@drawable/ic_baseline_whatsapp_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="whatsapp">
+
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.core.widget.NestedScrollView>

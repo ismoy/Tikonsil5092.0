@@ -20,6 +20,7 @@ class LoginFragment : ValidateLogin<LoginViewModel, FragmentLoginBinding>() {
         binding.btnLogin.setOnClickListener {
             validateOnclickButton()
         }
+        clickwhatsapp()
     }
     override fun getViewModel()= LoginViewModel::class.java
 

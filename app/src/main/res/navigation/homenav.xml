@@ -94,5 +94,16 @@
         <action
             android:id="@+id/action_requestRechargeFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_requestRechargeFragment_to_mercadoPagoFragment"
+            app:destination="@id/mercadoPagoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mercadoPagoFragment"
+        android:name="com.tikonsil.tikonsil509.ui.fragment.payment.MercadoPagoFragment"
+        android:label="MercadoPagoFragment" >
+        <action
+            android:id="@+id/action_mercadoPagoFragment_to_requestRechargeFragment"
+            app:destination="@id/requestRechargeFragment" />
     </fragment>
 </navigation>
