@@ -7,4 +7,6 @@
     <string name="total_balance">Total Balance</string>
     <string name="verifyaccount">Por favor verifica su cuenta</string>
     <string name="phone">Phone</string>
+    <string name="usernoactive">User does not have access to the system</string>
+    <string name="thanks">Thanks for your purchase</string>
 </resources>

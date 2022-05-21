@@ -2,11 +2,15 @@ package com.tikonsil.tikonsil509.ui.activity.splashscreen
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
 import com.tikonsil.tikonsil509.data.remote.provider.UserProvider
+import com.tikonsil.tikonsil509.presentation.savestatus.StatusUserViewModel
 import com.tikonsil.tikonsil509.ui.activity.home.HomeActivity
 import com.tikonsil.tikonsil509.ui.activity.login.LoginActivity
 
@@ -14,13 +18,12 @@ import com.tikonsil.tikonsil509.ui.activity.login.LoginActivity
 class SplashScreenActivity : AppCompatActivity() {
     var mAuthProvider: AuthProvider? = null
     var mUserProvider: UserProvider? = null
+    protected  val mviewmodelstatususer by lazy { ViewModelProvider(this)[StatusUserViewModel::class.java] }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mAuthProvider = AuthProvider()
         mUserProvider = UserProvider()
-
         checkuserexixt()
-
     }
 
     private fun checkuserexixt() {
@@ -61,4 +64,5 @@ class SplashScreenActivity : AppCompatActivity() {
 
         }.start()
     }
+
 }

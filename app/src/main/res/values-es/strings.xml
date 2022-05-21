@@ -37,6 +37,9 @@
     <string name="request_recharge">Solicitar recarga</string>
     <string name="ayuda">Soporte técnico</string>
     <string name="description" >Descripción</string>
+    <string name="usernoactive">El usuario no tiene acceso al sistema</string>
+    <string name="thanks">Gracias por su compra</string>
+    <string name="ayudawhatsapp">Hola buenas tardes necesito ayuda por favor</string>
     <string name="total">Monto</string>
     <string name="date">Fecha</string>
     <string name="title_methode_pay" >Seleccione el método de pago para su recarga de saldo</string>
