@@ -63,7 +63,6 @@ abstract class ValidateSaleHistory<VB : ViewBinding, VM : ViewModel> : Fragment(
     shimmerFrameLayout.isGone =true
     recycler?.isGone=false
     nodata.isGone =false
-    Toast.makeText(requireContext(), "lista esta vacio", Toast.LENGTH_SHORT).show()
    }else {
     shimmerFrameLayout.stopShimmer()
     shimmerFrameLayout.isGone =true

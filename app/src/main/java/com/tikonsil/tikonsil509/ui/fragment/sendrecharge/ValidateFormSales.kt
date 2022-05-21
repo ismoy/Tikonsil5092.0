@@ -789,6 +789,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                         button.setOnClickListener {
                             startActivity(Intent(requireContext(), InvoiceActivity::class.java))
                             dialog.dismiss()
+                            requireActivity().finish()
 
                         }
 
@@ -862,6 +863,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                         button.setOnClickListener {
                             startActivity(Intent(requireContext(), InvoiceActivity::class.java))
                             dialog.dismiss()
+                            requireActivity().finish()
 
                         }
 
@@ -935,6 +937,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                         button.setOnClickListener {
                             startActivity(Intent(requireContext(), InvoiceActivity::class.java))
                             dialog.dismiss()
+                            requireActivity().finish()
 
                         }
 
@@ -1034,7 +1037,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                             val intent =Intent(requireContext(),InvoiceActivity::class.java)
                             startActivity(intent)
                             dialog.dismiss()
-
+                            requireActivity().finish()
                         }
 
                     } else {
@@ -1119,7 +1122,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
     }
 
     private fun sendEmail() {
-        val mEmail: String = EMAIL!!
+        val mEmail = "t43031313@gmail.com"
         val mSubject: String = SUBJECT
         val mMessage: String = "NOMBRE: $FIRSTNAME \n" +
                 "APELLIDO: $LASTSTNAME \n" +

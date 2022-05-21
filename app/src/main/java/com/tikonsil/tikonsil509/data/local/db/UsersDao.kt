@@ -1,10 +1,8 @@
 package com.tikonsil.tikonsil509.data.local.db
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
+import com.tikonsil.tikonsil509.domain.model.Users
 
 /** * Created by ISMOY BELIZAIRE on 30/04/2022. */
 /**
@@ -19,4 +17,9 @@ interface UsersDao {
 
   @Query("SELECT * FROM users_table ORDER BY id ASC")
   fun readAllData(): LiveData<List<UsersEntity>>
+  @Delete
+  suspend fun deleteonlyuser(usesersEntity: UsersEntity)
+
+  @Query("DELETE FROM users_table")
+  suspend fun deleteAllUser()
 }

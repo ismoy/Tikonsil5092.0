@@ -66,7 +66,7 @@ abstract class RequestRechargeValidate<VB:ViewBinding,VM:ViewModel> :Fragment(){
         banreserva = binding.root.findViewById(R.id.bandereserva)
         googlepay = binding.root.findViewById(R.id.googlepay)
         mercadopago = binding.root.findViewById(R.id.mercadopago)
-        cardView4 =binding.root.findViewById(R.id.cardView4)
+        cardView4 =binding.root.findViewById(R.id.cardviewbancoestado)
         cardgooglepay = binding.root.findViewById(R.id.cardviewgooglepay)
         cardpaypal = binding.root.findViewById(R.id.cardviewpaypal)
         cardmercadopago = binding.root.findViewById(R.id.cardviewmercadopago)

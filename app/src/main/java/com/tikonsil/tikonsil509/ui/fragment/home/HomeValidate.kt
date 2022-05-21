@@ -1,14 +1,14 @@
 package com.tikonsil.tikonsil509.ui.fragment.home
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
-import android.widget.ScrollView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.cardview.widget.CardView
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -21,9 +21,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.facebook.shimmer.ShimmerFrameLayout
-import com.google.android.material.textfield.TextInputEditText
 import com.tikonsil.tikonsil509.R
 import com.tikonsil.tikonsil509.data.adapter.LastSaleAdapter
+import com.tikonsil.tikonsil509.data.local.savestatus.StatusUser
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
 import com.tikonsil.tikonsil509.data.remote.provider.TokenProvider
 import com.tikonsil.tikonsil509.domain.repository.home.UsersRepository
@@ -32,6 +32,8 @@ import com.tikonsil.tikonsil509.presentation.home.UserViewModel
 import com.tikonsil.tikonsil509.presentation.home.UserViewModelFactory
 import com.tikonsil.tikonsil509.presentation.lastsales.LastSalesViewModel
 import com.tikonsil.tikonsil509.presentation.lastsales.LastSalesViewModelProvider
+import com.tikonsil.tikonsil509.presentation.savestatus.StatusUserViewModel
+import com.tikonsil.tikonsil509.ui.activity.login.LoginActivity
 import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEBRAZIL
 import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODECHILE
 import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEHAITI
@@ -40,10 +42,10 @@ import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEPANAMA
 import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEREPUBLICANDOMINIK
 import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYBRAZIL
 import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYCHILE
-import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYHAITI
 import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYMEXICO
 import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYPANAMA
 import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYREPUBLICANDOMINK
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.STATUSUSERS
 import de.hdodenhof.circleimageview.CircleImageView
 
 /** * Created by ISMOY BELIZAIRE on 26/04/2022. */
@@ -68,6 +70,7 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
  protected var cardviewmoncash:CardView?=null
  protected var cardviewnatcash:CardView?=null
  protected var cardviewlapoula:CardView?=null
+ protected  val mviewmodelstatususer by lazy { ViewModelProvider(requireActivity())[StatusUserViewModel::class.java] }
 
  override fun onCreateView(
   inflater: LayoutInflater,
@@ -107,6 +110,9 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
   viewmodel.getOnlyUser(mAuthProvider.getId().toString())
   viewmodel.ResposeUsers.observe(viewLifecycleOwner, Observer { response->
    if (response.isSuccessful){
+    if (response.body()?.status==0){
+     ShowdialogIncativeAccount()
+    }
     val balance =view?.findViewById<TextView>(R.id.totalbalance)
     val topUpsold =response.body()?.soltopup
     val topMonCashsold =response.body()?.soldmoncash
@@ -157,22 +163,38 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
   })
  }
 
+ private fun ShowdialogIncativeAccount() {
+  val view = View.inflate(requireContext(), R.layout.dialoginactiveaccount, null)
+  val builder = AlertDialog.Builder(requireContext())
+  builder.setView(view)
+  val dialog = builder.create()
+  dialog.show()
+  dialog.setCancelable(false)
+  dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+  val button = view.findViewById<Button>(R.id.confirmnoactive)
+  button.setOnClickListener {
+   startActivity(Intent(requireActivity(),LoginActivity::class.java))
+   requireActivity().finish()
+  }
+ }
+
 
  fun observeData(){
-  mviewmodellastsales.getLastSales(mAuthProvider.getId().toString()).observe(requireActivity(),
-   Observer {
-    if (it.isNotEmpty()){
-     lastSaleAdapter.setsaleListData(it)
-     setupRecyclerview()
-     shimmerFrameLayout?.stopShimmer()
-     shimmerFrameLayout?.isGone=true
-     recycler?.isGone=false
-     binding.root.findViewById<TextView>(R.id.nodata).isGone=true
-    }else{
-     binding.root.findViewById<TextView>(R.id.nodata).isGone=false
-     shimmerFrameLayout?.isGone=true
-    }
-   })
+  mviewmodellastsales.getLastSales(mAuthProvider.getId().toString()).observe(requireActivity()) {
+   if (it==null){
+    shimmerFrameLayout?.stopShimmer()
+    shimmerFrameLayout?.isVisible=false
+    shimmerFrameLayout?.isGone =true
+    recycler?.isGone=false
+   }else {
+    shimmerFrameLayout?.stopShimmer()
+    shimmerFrameLayout?.isGone =true
+    recycler?.isGone=false
+    lastSaleAdapter.setsaleListData(it)
+    setupRecyclerview()
+   }
+
+  }
  }
  abstract fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): VB
 

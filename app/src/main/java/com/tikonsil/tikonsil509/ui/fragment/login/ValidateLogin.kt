@@ -3,9 +3,11 @@ package com.tikonsil.tikonsil509.ui.fragment.login
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,24 +18,34 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.tikonsil.tikonsil509.R
 import com.tikonsil.tikonsil509.domain.repository.login.LoginRepository
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
+import com.tikonsil.tikonsil509.domain.repository.home.UsersRepository
+import com.tikonsil.tikonsil509.domain.repository.lastsales.LastSalesRepository
+import com.tikonsil.tikonsil509.presentation.home.UserViewModel
+import com.tikonsil.tikonsil509.presentation.home.UserViewModelFactory
+import com.tikonsil.tikonsil509.presentation.lastsales.LastSalesViewModelProvider
 import com.tikonsil.tikonsil509.presentation.login.LoginViewModel
 import com.tikonsil.tikonsil509.presentation.login.LoginViewModelFactory
 import com.tikonsil.tikonsil509.ui.activity.home.HomeActivity
 import com.tikonsil.tikonsil509.utils.Constant
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.STATUSUSERS
 
 /** * Created by ISMOY BELIZAIRE on 23/04/2022. */
 abstract class ValidateLogin<VM:ViewModel,VB:ViewBinding>:Fragment() {
  protected lateinit var binding:VB
  protected lateinit var mConstant: Constant
  protected lateinit var viewmodel: LoginViewModel
+
  protected lateinit var mAuthProvider: AuthProvider
  lateinit var dialog:Dialog
  protected lateinit var navController: NavController
+ protected  var whatsapp :FloatingActionButton?=null
 
  override fun onCreateView(
   inflater: LayoutInflater,
@@ -47,6 +59,7 @@ abstract class ValidateLogin<VM:ViewModel,VB:ViewBinding>:Fragment() {
   mAuthProvider = AuthProvider()
   mConstant = Constant()
   dialog = Dialog(requireContext())
+  whatsapp =binding.root.findViewById(R.id.whatsapp)
   return binding.root
  }
 
@@ -137,21 +150,34 @@ abstract class ValidateLogin<VM:ViewModel,VB:ViewBinding>:Fragment() {
     it.addOnCompleteListener {
      if (it.isSuccessful){
       if (mAuthProvider.isEmailVerified()==true){
-       dialog.dismiss()
-       val intent: Intent = Intent(requireContext(), HomeActivity::class.java)
-       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-       startActivity(intent)
+        val intent = Intent(requireContext(), HomeActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(intent)
+        dialog.dismiss()
+
        }else{
         dialog.dismiss()
-        Toast.makeText(requireContext(), getString(R.string.verifyaccount), Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), getString(R.string.verifyaccount), Toast.LENGTH_LONG).show()
        }
       }else{
-       Toast.makeText(requireContext(), it.exception?.message, Toast.LENGTH_SHORT).show()
+       Toast.makeText(requireContext(), it.exception?.message, Toast.LENGTH_LONG).show()
       dialog.dismiss()
       }
      }
    })
  }
+ fun clickwhatsapp(){
+  whatsapp?.setOnClickListener {
+    val mensaje =getString(R.string.ayudawhatsapp)
+    val sendIntent = Intent()
+    sendIntent.action = Intent.ACTION_VIEW
+    val uri = "whatsapp://send?phone=${ConstantGeneral.PHONENUMBERWHATSAPP}&text=$mensaje"
+    sendIntent.data = Uri.parse(uri)
+    startActivity(sendIntent)
+
+  }
+ }
+
 
  abstract fun getViewModel():Class<VM>
  abstract fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?):VB

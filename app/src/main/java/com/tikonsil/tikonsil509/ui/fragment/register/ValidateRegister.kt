@@ -29,7 +29,10 @@ import com.tikonsil.tikonsil509.domain.model.Users
 import com.tikonsil.tikonsil509.presentation.register.RegisterViewModel
 import com.tikonsil.tikonsil509.presentation.register.RegisterViewModelFactory
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
+import com.tikonsil.tikonsil509.domain.repository.bonususer.BonusUserRepository
 import com.tikonsil.tikonsil509.domain.repository.register.RegisterRepository
+import com.tikonsil.tikonsil509.presentation.bonususer.BonusUserViewModel
+import com.tikonsil.tikonsil509.presentation.bonususer.BonusUserViewModelProvider
 import com.tikonsil.tikonsil509.utils.Constant
 import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEBRAZIL
 import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODECHILE
@@ -38,6 +41,38 @@ import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEHAITI
 import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEMEXICO
 import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEPANAMA
 import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEREPUBLICANDOMINIK
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSLAPOULABRAZIL
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSLAPOULACHILE
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSLAPOULACUBA
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSLAPOULAHAITI
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSLAPOULAMEXICO
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSLAPOULAOTHERCOUNTRY
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSLAPOULAPANAMA
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSLAPOULARD
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSMONCASHCASHBRAZIL
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSMONCASHCASHCHILE
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSMONCASHCASHCUBA
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSMONCASHCASHHAITI
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSMONCASHCASHMEXICO
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSMONCASHCASHOTHERCOUNTRY
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSMONCASHCASHPANAMA
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSMONCASHCASHRD
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSNATCASHBRAZIL
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSNATCASHCHILE
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSNATCASHCUBA
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSNATCASHHAITI
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSNATCASHMEXICO
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSNATCASHOTHERCOUNTRY
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSNATCASHPANAMA
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSNATCASHRD
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSTOPUPCASHBRAZIL
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSTOPUPCASHCHILE
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSTOPUPCASHCUBA
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSTOPUPCASHHAITI
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSTOPUPCASHMEXICO
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSTOPUPCASHOTHERCOUNTRY
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSTOPUPCASHPANAMA
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSTOPUPCASHRD
 
 /** * Created by ISMOY BELIZAIRE on 23/04/2022. */
  abstract class ValidateRegister<VM: ViewModel,V: ViewBinding>:Fragment() {
@@ -48,6 +83,7 @@ import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEREPUBLICANDOMINIK
  lateinit var dialog:Dialog
  protected lateinit var auth: FirebaseAuth
  protected lateinit var navController: NavController
+ protected lateinit var viewmodelbonususer:BonusUserViewModel
 
  override fun onCreateView(
   inflater: LayoutInflater,
@@ -62,6 +98,9 @@ import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEREPUBLICANDOMINIK
   mConstant = Constant()
   dialog = Dialog(requireContext())
   auth = FirebaseAuth.getInstance()
+  val repositorybonususer =BonusUserRepository()
+  val factorybonususer =BonusUserViewModelProvider(repositorybonususer)
+  viewmodelbonususer =ViewModelProvider(requireActivity(),factorybonususer)[BonusUserViewModel::class.java]
   return binding.root
  }
 
@@ -276,162 +315,229 @@ import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEREPUBLICANDOMINIK
      findViewById<Button>(R.id.btn_registrar).isClickable = true
      when {
          findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString() == CODECHILE -> {
-          SaveData(
-           findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryName.toString(),
-           findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString(),
-           findViewById<TextInputEditText>(R.id.firstname).text.toString(),
-           findViewById<TextInputEditText>(R.id.lastname).text.toString(),
-           findViewById<TextInputEditText>(R.id.email).text.toString(),
-           findViewById<CountryCodePicker>(R.id.codigo).selectedCountryCodeWithPlus + findViewById<TextInputEditText>(
-            R.id.phone
-           ).text.toString(),
-           users.role,
-           findViewById<TextInputEditText>(R.id.password).text.toString(),
-           findViewById<TextInputEditText>(R.id.repeatpassword).text.toString(),
-           1000F,
-           1000F,
-           1000F,
-           1000F,
-           users.status,
-           ""
-          )
+          BONUSMONCASHCASHCHILE?.let {
+           BONUSTOPUPCASHCHILE?.let { it1 ->
+            BONUSNATCASHCHILE?.let { it2 ->
+             BONUSLAPOULACHILE?.let { it3 ->
+              SaveData(
+               findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryName.toString(),
+               findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString(),
+               findViewById<TextInputEditText>(R.id.firstname).text.toString(),
+               findViewById<TextInputEditText>(R.id.lastname).text.toString(),
+               findViewById<TextInputEditText>(R.id.email).text.toString(),
+               findViewById<CountryCodePicker>(R.id.codigo).selectedCountryCodeWithPlus + findViewById<TextInputEditText>(
+                R.id.phone
+               ).text.toString(),
+               users.role,
+               findViewById<TextInputEditText>(R.id.password).text.toString(),
+               findViewById<TextInputEditText>(R.id.repeatpassword).text.toString(),
+               it,
+               it1,
+               it2,
+               it3,
+               users.status,
+               ""
+              )
+             }
+            }
+           }
+          }
          }
          findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString() == CODEHAITI -> {
-          SaveData(
-           findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryName.toString(),
-           findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString(),
-           findViewById<TextInputEditText>(R.id.firstname).text.toString(),
-           findViewById<TextInputEditText>(R.id.lastname).text.toString(),
-           findViewById<TextInputEditText>(R.id.email).text.toString(),
-           findViewById<CountryCodePicker>(R.id.codigo).selectedCountryCodeWithPlus + findViewById<TextInputEditText>(
-            R.id.phone
-           ).text.toString(),
-           users.role,
-           findViewById<TextInputEditText>(R.id.password).text.toString(),
-           findViewById<TextInputEditText>(R.id.repeatpassword).text.toString(),
-           128F,
-           128F,
-           128F,
-           128F,
-           users.status,
-           ""
-          )
+          BONUSMONCASHCASHHAITI?.let {
+           BONUSTOPUPCASHHAITI?.let { it1 ->
+            BONUSNATCASHHAITI?.let { it2 ->
+             BONUSLAPOULAHAITI?.let { it3 ->
+              SaveData(
+               findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryName.toString(),
+               findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString(),
+               findViewById<TextInputEditText>(R.id.firstname).text.toString(),
+               findViewById<TextInputEditText>(R.id.lastname).text.toString(),
+               findViewById<TextInputEditText>(R.id.email).text.toString(),
+               findViewById<CountryCodePicker>(R.id.codigo).selectedCountryCodeWithPlus + findViewById<TextInputEditText>(
+                R.id.phone
+               ).text.toString(),
+               users.role,
+               findViewById<TextInputEditText>(R.id.password).text.toString(),
+               findViewById<TextInputEditText>(R.id.repeatpassword).text.toString(),
+               it,
+               it1,
+               it2,
+               it3,
+               users.status,
+               ""
+              )
+             }
+            }
+           }
+          }
          }
          findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString() == CODEPANAMA -> {
-          SaveData(
-           findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryName.toString(),
-           findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString(),
-           findViewById<TextInputEditText>(R.id.firstname).text.toString(),
-           findViewById<TextInputEditText>(R.id.lastname).text.toString(),
-           findViewById<TextInputEditText>(R.id.email).text.toString(),
-           findViewById<CountryCodePicker>(R.id.codigo).selectedCountryCodeWithPlus + findViewById<TextInputEditText>(
-            R.id.phone
-           ).text.toString(),
-           users.role,
-           findViewById<TextInputEditText>(R.id.password).text.toString(),
-           findViewById<TextInputEditText>(R.id.repeatpassword).text.toString(),
-           2F,
-           2F,
-           2F,
-           2F,
-           users.status,
-           ""
-          )
+          BONUSMONCASHCASHPANAMA?.let {
+           BONUSTOPUPCASHPANAMA?.let { it1 ->
+            BONUSNATCASHPANAMA?.let { it2 ->
+             BONUSLAPOULAPANAMA?.let { it3 ->
+              SaveData(
+               findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryName.toString(),
+               findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString(),
+               findViewById<TextInputEditText>(R.id.firstname).text.toString(),
+               findViewById<TextInputEditText>(R.id.lastname).text.toString(),
+               findViewById<TextInputEditText>(R.id.email).text.toString(),
+               findViewById<CountryCodePicker>(R.id.codigo).selectedCountryCodeWithPlus + findViewById<TextInputEditText>(
+                R.id.phone
+               ).text.toString(),
+               users.role,
+               findViewById<TextInputEditText>(R.id.password).text.toString(),
+               findViewById<TextInputEditText>(R.id.repeatpassword).text.toString(),
+               it,
+               it1,
+               it2,
+               it3,
+               users.status,
+               ""
+              )
+             }
+            }
+           }
+          }
          }
          findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString() == CODEBRAZIL -> {
-          SaveData(
-           findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryName.toString(),
-           findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString(),
-           findViewById<TextInputEditText>(R.id.firstname).text.toString(),
-           findViewById<TextInputEditText>(R.id.lastname).text.toString(),
-           findViewById<TextInputEditText>(R.id.email).text.toString(),
-           findViewById<CountryCodePicker>(R.id.codigo).selectedCountryCodeWithPlus + findViewById<TextInputEditText>(
-            R.id.phone
-           ).text.toString(),
-           users.role,
-           findViewById<TextInputEditText>(R.id.password).text.toString(),
-           findViewById<TextInputEditText>(R.id.repeatpassword).text.toString(),
-           6F,
-           6F,
-           6F,
-           6F,
-           users.status,
-           ""
-          )
+          BONUSMONCASHCASHBRAZIL?.let {
+           BONUSTOPUPCASHBRAZIL?.let { it1 ->
+            BONUSNATCASHBRAZIL?.let { it2 ->
+             BONUSLAPOULABRAZIL?.let { it3 ->
+              SaveData(
+               findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryName.toString(),
+               findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString(),
+               findViewById<TextInputEditText>(R.id.firstname).text.toString(),
+               findViewById<TextInputEditText>(R.id.lastname).text.toString(),
+               findViewById<TextInputEditText>(R.id.email).text.toString(),
+               findViewById<CountryCodePicker>(R.id.codigo).selectedCountryCodeWithPlus + findViewById<TextInputEditText>(
+                R.id.phone
+               ).text.toString(),
+               users.role,
+               findViewById<TextInputEditText>(R.id.password).text.toString(),
+               findViewById<TextInputEditText>(R.id.repeatpassword).text.toString(),
+               it,
+               it1,
+               it2,
+               it3,
+               users.status,
+               ""
+              )
+             }
+            }
+           }
+          }
          }
       findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString() == CODEMEXICO -> {
-       SaveData(
-        findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryName.toString(),
-        findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString(),
-        findViewById<TextInputEditText>(R.id.firstname).text.toString(),
-        findViewById<TextInputEditText>(R.id.lastname).text.toString(),
-        findViewById<TextInputEditText>(R.id.email).text.toString(),
-        findViewById<CountryCodePicker>(R.id.codigo).selectedCountryCodeWithPlus + findViewById<TextInputEditText>(
-         R.id.phone
-        ).text.toString(),
-        users.role,
-        findViewById<TextInputEditText>(R.id.password).text.toString(),
-        findViewById<TextInputEditText>(R.id.repeatpassword).text.toString(),
-        24F,
-        24F,
-        24F,
-        24F,
-        users.status,
-        ""
-       )
+       BONUSMONCASHCASHMEXICO?.let {
+        BONUSTOPUPCASHMEXICO?.let { it1 ->
+         BONUSNATCASHMEXICO?.let { it2 ->
+          BONUSLAPOULAMEXICO?.let { it3 ->
+           SaveData(
+            findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryName.toString(),
+            findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString(),
+            findViewById<TextInputEditText>(R.id.firstname).text.toString(),
+            findViewById<TextInputEditText>(R.id.lastname).text.toString(),
+            findViewById<TextInputEditText>(R.id.email).text.toString(),
+            findViewById<CountryCodePicker>(R.id.codigo).selectedCountryCodeWithPlus + findViewById<TextInputEditText>(
+                  R.id.phone
+            ).text.toString(),
+            users.role,
+            findViewById<TextInputEditText>(R.id.password).text.toString(),
+            findViewById<TextInputEditText>(R.id.repeatpassword).text.toString(),
+            it,
+            it1,
+            it2,
+            it3,
+            users.status,
+            ""
+           )
+          }
+         }
+        }
+       }
       }
          findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString() == CODECUBA -> {
-          SaveData(
-           findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryName.toString(),
-           findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString(),
-           findViewById<TextInputEditText>(R.id.firstname).text.toString(),
-           findViewById<TextInputEditText>(R.id.lastname).text.toString(),
-           findViewById<TextInputEditText>(R.id.email).text.toString(),
-           findViewById<CountryCodePicker>(R.id.codigo).selectedCountryCodeWithPlus + findViewById<TextInputEditText>(
-            R.id.phone
-           ).text.toString(),
-           users.role,
-           findViewById<TextInputEditText>(R.id.password).text.toString(),
-           findViewById<TextInputEditText>(R.id.repeatpassword).text.toString(),
-           28F,
-           28F,
-           28F,
-           28F,
-           users.status,
-           ""
-          )
+          BONUSMONCASHCASHCUBA?.let {
+           BONUSTOPUPCASHCUBA?.let { it1 ->
+            BONUSNATCASHCUBA?.let { it2 ->
+             BONUSLAPOULACUBA?.let { it3 ->
+              SaveData(
+               findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryName.toString(),
+               findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString(),
+               findViewById<TextInputEditText>(R.id.firstname).text.toString(),
+               findViewById<TextInputEditText>(R.id.lastname).text.toString(),
+               findViewById<TextInputEditText>(R.id.email).text.toString(),
+               findViewById<CountryCodePicker>(R.id.codigo).selectedCountryCodeWithPlus + findViewById<TextInputEditText>(
+                R.id.phone
+               ).text.toString(),
+               users.role,
+               findViewById<TextInputEditText>(R.id.password).text.toString(),
+               findViewById<TextInputEditText>(R.id.repeatpassword).text.toString(),
+               it,
+               it1,
+               it2,
+               it3,
+               users.status,
+               ""
+              )
+             }
+            }
+           }
+          }
          }
          findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString() == CODEREPUBLICANDOMINIK -> {
-          SaveData(
-           findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryName.toString(),
-           findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString(),
-           findViewById<TextInputEditText>(R.id.firstname).text.toString(),
-           findViewById<TextInputEditText>(R.id.lastname).text.toString(),
-           findViewById<TextInputEditText>(R.id.email).text.toString(),
-           findViewById<CountryCodePicker>(R.id.codigo).selectedCountryCodeWithPlus + findViewById<TextInputEditText>(
-            R.id.phone
-           ).text.toString(),
-           users.role,
-           findViewById<TextInputEditText>(R.id.password).text.toString(),
-           findViewById<TextInputEditText>(R.id.repeatpassword).text.toString(),
-           65F,
-           65F,
-           65F,
-           65F,
-           users.status,
-           ""
-          )
+          BONUSMONCASHCASHRD?.let {
+           BONUSTOPUPCASHRD?.let { it1 ->
+            BONUSNATCASHRD?.let { it2 ->
+             BONUSLAPOULARD?.let { it3 ->
+              SaveData(
+               findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryName.toString(),
+               findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString(),
+               findViewById<TextInputEditText>(R.id.firstname).text.toString(),
+               findViewById<TextInputEditText>(R.id.lastname).text.toString(),
+               findViewById<TextInputEditText>(R.id.email).text.toString(),
+               findViewById<CountryCodePicker>(R.id.codigo).selectedCountryCodeWithPlus + findViewById<TextInputEditText>(
+                R.id.phone
+               ).text.toString(),
+               users.role,
+               findViewById<TextInputEditText>(R.id.password).text.toString(),
+               findViewById<TextInputEditText>(R.id.repeatpassword).text.toString(),
+               it,
+               it1,
+               it2,
+               it3,
+               users.status,
+               ""
+              )
+             }
+            }
+           }
+          }
          }
          else -> {
-          SaveData(findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryName.toString(),
-           findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString(),
-           findViewById<TextInputEditText>(R.id.firstname).text.toString(),
-           findViewById<TextInputEditText>(R.id.lastname).text.toString(),
-           findViewById<TextInputEditText>(R.id.email).text.toString(),
-           findViewById<CountryCodePicker>(R.id.codigo).selectedCountryCodeWithPlus + findViewById<TextInputEditText>(R.id.phone).text.toString(),
-           users.role,
-           findViewById<TextInputEditText>(R.id.password).text.toString(),
-           findViewById<TextInputEditText>(R.id.repeatpassword).text.toString(), 1F,1F,1F,1F,users.status,"")
+          BONUSMONCASHCASHOTHERCOUNTRY?.let {
+           BONUSTOPUPCASHOTHERCOUNTRY?.let { it1 ->
+            BONUSNATCASHOTHERCOUNTRY?.let { it2 ->
+             BONUSLAPOULAOTHERCOUNTRY?.let { it3 ->
+              SaveData(findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryName.toString(),
+               findViewById<CountryCodePicker>(R.id.buttonpaises).selectedCountryNameCode.toString(),
+               findViewById<TextInputEditText>(R.id.firstname).text.toString(),
+               findViewById<TextInputEditText>(R.id.lastname).text.toString(),
+               findViewById<TextInputEditText>(R.id.email).text.toString(),
+               findViewById<CountryCodePicker>(R.id.codigo).selectedCountryCodeWithPlus + findViewById<TextInputEditText>(R.id.phone).text.toString(),
+               users.role,
+               findViewById<TextInputEditText>(R.id.password).text.toString(),
+               findViewById<TextInputEditText>(R.id.repeatpassword).text.toString(), it,
+               it1,
+               it2,
+               it3,users.status,"")
+             }
+            }
+           }
+          }
          }
      }
     }
@@ -495,7 +601,48 @@ import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEREPUBLICANDOMINIK
   }
  }
 
+ fun observedatabonususer(){
+  viewmodelbonususer.getBonusUser()
+  viewmodelbonususer.myResponseGetUserBonus.observe(viewLifecycleOwner, Observer { bonususer->
+   if (bonususer.isSuccessful){
+    BONUSLAPOULAHAITI =bonususer.body()?.bounuslapoulahaiti
+    BONUSNATCASHHAITI = bonususer.body()?.bounusnatcashhaiti
+    BONUSMONCASHCASHHAITI =bonususer.body()?.bounusmoncashhaiti
+    BONUSTOPUPCASHHAITI = bonususer.body()?.bounustopuphaiti
+    BONUSLAPOULACHILE = bonususer.body()?.bounuslapoulachile
+    BONUSNATCASHCHILE = bonususer.body()?.bounusnatcashchile
+    BONUSMONCASHCASHCHILE = bonususer.body()?.bounusmoncashchile
+    BONUSTOPUPCASHCHILE = bonususer.body()?.bounustopupchile
+    BONUSLAPOULACUBA = bonususer.body()?.bounuslapoulacuba
+    BONUSNATCASHCUBA =bonususer.body()?.bounusnatcashcuba
+    BONUSMONCASHCASHCUBA =bonususer.body()?.bounusmoncashcuba
+    BONUSTOPUPCASHCUBA = bonususer.body()?.bounustopupcuba
+    BONUSLAPOULAPANAMA = bonususer.body()?.bounuslapoulapanama
+    BONUSNATCASHPANAMA = bonususer.body()?.bounusnatcashpanama
+    BONUSMONCASHCASHPANAMA = bonususer.body()?.bounusmoncashpanama
+    BONUSTOPUPCASHPANAMA = bonususer.body()?.bounustopuppanama
+    BONUSLAPOULARD = bonususer.body()?.bounuslapoulard
+    BONUSNATCASHRD = bonususer.body()?.bounusnatcashrd
+    BONUSMONCASHCASHRD = bonususer.body()?.bounusmoncashrd
+    BONUSTOPUPCASHRD = bonususer.body()?.bounustopuprd
+    BONUSLAPOULABRAZIL = bonususer.body()?.bounuslapoulabrazil
+    BONUSNATCASHBRAZIL = bonususer.body()?.bounusnatcashbrazil
+    BONUSMONCASHCASHBRAZIL = bonususer.body()?.bounusmoncashbrazil
+    BONUSTOPUPCASHBRAZIL = bonususer.body()?.bounustopupbrazil
+    BONUSLAPOULAMEXICO = bonususer.body()?.bounuslapoulamexico
+    BONUSNATCASHMEXICO = bonususer.body()?.bounusnatcashmexico
+    BONUSMONCASHCASHMEXICO = bonususer.body()?.bounusmoncashmexico
+    BONUSTOPUPCASHMEXICO = bonususer.body()?.bounustopupmexico
+    BONUSLAPOULAOTHERCOUNTRY  = bonususer.body()?.bounuslapoulaothercountry
+    BONUSNATCASHOTHERCOUNTRY = bonususer.body()?.bounusnatcashothercountry
+    BONUSMONCASHCASHOTHERCOUNTRY = bonususer.body()?.bounusmoncashothercountry
+    BONUSTOPUPCASHOTHERCOUNTRY = bonususer.body()?.bounustopupothercountry
+   }
+  })
+ }
  abstract fun getViewModel():Class<VM>
  abstract fun getFragmentBinding(inflater: LayoutInflater,container: ViewGroup?):V
+
+
 
 }
