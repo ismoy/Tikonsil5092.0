@@ -24,6 +24,9 @@ interface TikonsilApi {
  @GET("CountryPrice.json")
  suspend fun getCountryPrice():Response<CountryPrice>
 
+ @GET("BonusUser.json")
+ suspend fun getBounusUser():Response<BonusUser>
+
  @Headers(
   "Content-Type:application/json",
   "Authorization:key=${R.string.token_api_server_default}"

@@ -18,5 +18,5 @@ data class UsersEntity(
     var typerecharge:String,
     var date:String,
     var subtotal: String,
-    var description:String
+    var description:String,
 )

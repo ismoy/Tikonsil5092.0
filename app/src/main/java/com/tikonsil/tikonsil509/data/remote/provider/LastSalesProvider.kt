@@ -12,6 +12,6 @@ class LastSalesProvider {
 
  suspend fun getLastSales(idUser:String): Query? {
   val query: Query? =mDatabase?.orderByChild("idUser")?.equalTo(idUser)
-  return query?.ref?.limitToLast(11)
+  return query?.limitToLast(11)
  }
 }
