@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.tikonsil.tikonsil509.R
 import com.tikonsil.tikonsil509.databinding.FragmentRequestRechargeBinding
 import com.tikonsil.tikonsil509.presentation.requestrecharge.RequestRechargeViewModel
@@ -19,6 +20,7 @@ class RequestRechargeFragment :RequestRechargeValidate<FragmentRequestRechargeBi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
         selectemethodpayment()
         binding.clickToCopy.setOnClickListener {
             copyNumberAccount()
@@ -34,6 +36,9 @@ class RequestRechargeFragment :RequestRechargeValidate<FragmentRequestRechargeBi
         }
         binding.clickToCopyPlsemail.setOnClickListener {
             copyEmailAccountPL()
+        }
+        cardmercadopago?.setOnClickListener {
+            navController.navigate(R.id.action_requestRechargeFragment_to_mercadoPagoFragment)
         }
     }
 

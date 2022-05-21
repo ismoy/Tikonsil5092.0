@@ -12,6 +12,7 @@ class Constant {
  companion object{
   const val BASE_URL = "https://tikonsil509-ea2cc-default-rtdb.firebaseio.com/"
   const val BASE_URL_FCM ="https://fcm.googleapis.com/"
+  const val BASE_URL_MERCADOPAGO ="https://api.mercadopago.com/"
   const val SERVER_KEY ="AAAAj812wm0:APA91bGryDQHRsHZQQqKNkA6gdpeeEBl1w7prud_cFILDbgDwZoEkpYlO8GjkKfZKzzL_GyBxsjKGkjD4BDZ6Zwrfm793aRL-d3EYwTzvLkXeojUQemb5b0XsehoI5oFGYy5yzvY7hw-"
   const val CONTENT_TYPE ="application/json"
   const val MATCHES ="^[ a-zA-Z\\u00F1\\u00D1]+\$"

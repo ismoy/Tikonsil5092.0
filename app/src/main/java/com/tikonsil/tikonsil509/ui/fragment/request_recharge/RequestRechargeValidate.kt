@@ -14,6 +14,7 @@ import androidx.cardview.widget.CardView
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -50,6 +51,7 @@ abstract class RequestRechargeValidate<VB:ViewBinding,VM:ViewModel> :Fragment(){
     protected var account_zelle:TextView?=null
     protected var code_pl:TextView?=null
     protected var email_pl:TextView?=null
+    protected lateinit var navController: NavController
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

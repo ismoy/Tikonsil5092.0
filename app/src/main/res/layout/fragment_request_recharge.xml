@@ -523,7 +523,6 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_toEndOf="@+id/btnmercadopago"
-                android:enabled="false"
                 android:text="Mercado Pago" />
 
             <ImageView

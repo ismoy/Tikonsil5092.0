@@ -1,5 +1,6 @@
 package com.tikonsil.tikonsil509.data.remote.api
 
+import com.google.gson.JsonObject
 import com.tikonsil.tikonsil509.R
 import com.tikonsil.tikonsil509.domain.model.*
 import retrofit2.Call
@@ -37,5 +38,8 @@ interface TikonsilApi {
 
  @GET("TokensAdmin.json")
  suspend fun getTokensAdmin():Response<TokensAdmin>
+
+ @POST("v1/card_tokens?public_key=TEST-d6b8c039-4914-46c8-9093-471a1bcd2cda")
+ fun createCardToken(@Body body: MercadoPagoCardTokenBody): Response<JsonObject>
 
 }

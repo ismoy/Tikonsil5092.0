@@ -112,4 +112,6 @@ dependencies {
     implementation files('libs/activation.jar')
     implementation files('libs/additionnal.jar')
     implementation files('libs/mail.jar')
+    //library card form
+    implementation 'com.craftman.cardform:cardform:0.0.2'
 }
