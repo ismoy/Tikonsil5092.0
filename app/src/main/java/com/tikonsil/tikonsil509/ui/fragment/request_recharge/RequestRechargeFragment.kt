@@ -37,9 +37,7 @@ class RequestRechargeFragment :RequestRechargeValidate<FragmentRequestRechargeBi
         binding.clickToCopyPlsemail.setOnClickListener {
             copyEmailAccountPL()
         }
-       /* cardmercadopago?.setOnClickListener {
-         navController.navigate(R.id.action_requestRechargeFragment_to_mercadoPagoFragment)
-        }*/
+
     }
 
     override fun getViewModel()=RequestRechargeViewModel::class.java

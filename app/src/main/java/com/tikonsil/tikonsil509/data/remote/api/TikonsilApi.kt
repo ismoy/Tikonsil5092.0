@@ -21,9 +21,6 @@ interface TikonsilApi {
  @POST("Notification.json")
  suspend fun saveNotification(@Body saveNotification: SaveNotification):Response<SaveNotification>
 
-
-
-
  @GET("CountryPrice.json")
  suspend fun getCountryPrice():Response<CountryPrice>
 
