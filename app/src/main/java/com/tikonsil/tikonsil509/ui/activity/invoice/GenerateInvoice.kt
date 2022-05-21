@@ -55,11 +55,6 @@ abstract class GenerateInvoice<VB:ViewBinding>:AppCompatActivity() {
   binding = getActivityBinding()
   setContentView(binding.root)
   mAuthProvider = AuthProvider()
-  if (checkPermission()){
-   Toast.makeText(this, "Permision Aceptado", Toast.LENGTH_SHORT).show()
-  }else{
-   requestPermissions()
-  }
   firstnamevinvoice =binding.root.findViewById(R.id.nameuser)
   lastnamevinvoice = binding.root.findViewById(R.id.lastnameuser)
   emailvinvoice=binding.root.findViewById(R.id.emailuser)
@@ -74,7 +69,7 @@ abstract class GenerateInvoice<VB:ViewBinding>:AppCompatActivity() {
  }
 
  protected abstract fun getActivityBinding(): VB
-
+/*
  fun generalpdf() {
   val pdfdocument = PdfDocument()
   val paint = Paint()
@@ -106,7 +101,6 @@ abstract class GenerateInvoice<VB:ViewBinding>:AppCompatActivity() {
   try {
    pdfdocument.writeTo(FileOutputStream(getFilePath()))
    Toast.makeText(this, "Boleta Creado correctamente", Toast.LENGTH_SHORT).show()
-   startActivity(Intent(this,HomeActivity::class.java))
   }catch (e:Exception){
   }
   pdfdocument.close()
@@ -152,7 +146,7 @@ abstract class GenerateInvoice<VB:ViewBinding>:AppCompatActivity() {
   val documentDirectory = contextWrapper.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
   val file = File(documentDirectory, "BoletaTikonsil" + ".pdf")
   return file.path
- }
+ }*/
  fun showDataIntent(){
   slogan?.text = SLOGAN
   viewmodel.readAllData.observe(this, Observer {
