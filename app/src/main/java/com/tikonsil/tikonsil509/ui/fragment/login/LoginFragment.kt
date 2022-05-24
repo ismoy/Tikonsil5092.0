@@ -23,7 +23,6 @@ class LoginFragment : ValidateLogin<LoginViewModel, FragmentLoginBinding>() {
             validateOnclickButton()
         }
         clickwhatsapp()
-        Log.d("VALORTRAIDO", STATUSUSERS.toString())
     }
     override fun getViewModel()= LoginViewModel::class.java
 
