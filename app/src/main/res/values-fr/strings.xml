@@ -43,4 +43,7 @@
     <string name="ayudawhatsapp">Salut! Bonjour j\'ai besoin d\'aide s\'il vous plait</string>
     <string name="date">Date</string>
     <string name="title_methode_pay" >Sélectionnez le mode de paiement pour votre recharge de solde</string>
+    <string name="yourbalance">Votre solde est</string>
+    <string name="nomoney" >Vous n\'avez pas assez de solde pour effectuer cet achat</string>
+    <string name="finalizar">Finir</string>
 </resources>

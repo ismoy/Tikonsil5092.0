@@ -1,6 +1,7 @@
 package com.tikonsil.tikonsil509.ui.fragment.sendrecharge
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,13 +14,11 @@ class SendRechargeFragment :ValidateFormSales<FragmentSendRechargeBinding,Countr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         validateitemrealtime()
-        val Sales =view.findViewById<Button>(R.id.recargar)
-        Sales.setOnClickListener {
+        recargar?.setOnClickListener {
             validateOnclickButton()
         }
         getDataUser()
         getPriceCountry()
-
     }
 
 
