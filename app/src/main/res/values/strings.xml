@@ -67,7 +67,7 @@
 
     <string name="pleasewait" translatable="false">Please Wait..</string>
     <string name="sendrequest" translatable="false">Sending Request ...</string>
-    <string name="thanks" translatable="false">Thanks for your purchase</string>
+    <string name="thanks">Thanks for your purchase</string>
     <string name="nomoney" translatable="false">You do not have enough balance to make this purchase</string>
     <string name="yourbalance" translatable="false">Your balance is</string>
     <string name="theservice" translatable="false">The service</string>
@@ -110,13 +110,14 @@
     <string name="online" translatable="false">Online</string>
     <string name="natcash" translatable="false">NATCASH</string>
     <string name="lapoula" translatable="false">LAPOULA</string>
-    <string name="ayudawhatsapp" translatable="false">Hola buena tardes necesito ayuda por favor</string>
+    <string name="ayudawhatsapp">Hello good afternoon I need help please</string>
     <string name="total_balance">Total Balance</string>
     <string name="verifyaccount">Please verify your account</string>
+    <string name="usernoactive">User does not have access to the system</string>
     <string name="phone">Phone</string>
     <string name="ayuda">Technical support</string>
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 
 </resources>

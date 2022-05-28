@@ -15,11 +15,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.viewbinding.ViewBinding
 import com.tikonsil.tikonsil509.R
+import com.tikonsil.tikonsil509.data.local.savestatus.StatusUser
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
 import com.tikonsil.tikonsil509.domain.repository.profile.ProfileRepository
 import com.tikonsil.tikonsil509.presentation.profile.ProfileViewModel
 import com.tikonsil.tikonsil509.presentation.profile.ProfileViewModelFactory
+import com.tikonsil.tikonsil509.presentation.savestatus.StatusUserViewModel
 import com.tikonsil.tikonsil509.ui.activity.login.LoginActivity
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.STATUSUSERS
 
 /** * Created by ISMOY BELIZAIRE on 27/04/2022. */
 abstract class ProfileInfo<VB:ViewBinding,VM:ViewModel>:Fragment() {
@@ -28,6 +31,8 @@ abstract class ProfileInfo<VB:ViewBinding,VM:ViewModel>:Fragment() {
     protected lateinit var mAuthProvider: AuthProvider
     protected lateinit var navController: NavController
     protected var logout:LinearLayout?=null
+    private var STATUS:Int?=null
+    protected  val mviewmodelstatususer by lazy { ViewModelProvider(this)[StatusUserViewModel::class.java] }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,6 +52,7 @@ abstract class ProfileInfo<VB:ViewBinding,VM:ViewModel>:Fragment() {
         viewmodel.getOnlyUser(mAuthProvider.getId().toString())
         viewmodel.ResposeUsers.observe(viewLifecycleOwner, Observer { response->
             if (response.isSuccessful){
+                STATUS =response.body()?.status
                 val role_item =   view?.findViewById<TextView>(R.id.role_item)
                 val firstname_item =view?.findViewById<TextView>(R.id.firstname_item)
                 val lastname_item = view?.findViewById<TextView>(R.id.lastname_item)
@@ -73,6 +79,9 @@ abstract class ProfileInfo<VB:ViewBinding,VM:ViewModel>:Fragment() {
         logout?.setOnClickListener {
             mAuthProvider.logout()
            startActivity(Intent(requireContext(),LoginActivity::class.java))
+                mviewmodelstatususer.deleteAll()
+            STATUSUSERS =0
+
         }
     }
     abstract fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): VB

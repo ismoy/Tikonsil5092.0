@@ -38,6 +38,9 @@
     <string name="ayuda">Support technique</string>
     <string name="description" >La description</string>
     <string name="total">Montant</string>
+    <string name="usernoactive">L\'utilisateur n\'a pas accès au système</string>
+    <string name="thanks">Merci pour votre achat</string>
+    <string name="ayudawhatsapp">Salut! Bonjour j\'ai besoin d\'aide s\'il vous plait</string>
     <string name="date">Date</string>
     <string name="title_methode_pay" >Sélectionnez le mode de paiement pour votre recharge de solde</string>
 </resources>
