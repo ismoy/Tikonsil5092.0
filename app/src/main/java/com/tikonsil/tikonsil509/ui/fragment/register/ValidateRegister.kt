@@ -81,9 +81,9 @@ import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSTOPUPCASHRD
  protected lateinit var viewmodel: RegisterViewModel
  protected lateinit var mAuthProvider: AuthProvider
  lateinit var dialog:Dialog
- protected lateinit var auth: FirebaseAuth
+ private lateinit var auth: FirebaseAuth
  protected lateinit var navController: NavController
- protected lateinit var viewmodelbonususer:BonusUserViewModel
+ private lateinit var viewmodelbonususer:BonusUserViewModel
 
  override fun onCreateView(
   inflater: LayoutInflater,

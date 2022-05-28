@@ -36,15 +36,19 @@ import com.tikonsil.tikonsil509.presentation.savestatus.StatusUserViewModel
 import com.tikonsil.tikonsil509.ui.activity.login.LoginActivity
 import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEBRAZIL
 import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODECHILE
+import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODECUBA
 import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEHAITI
 import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEMEXICO
 import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEPANAMA
 import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEREPUBLICANDOMINIK
 import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYBRAZIL
 import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYCHILE
+import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYCUBA
+import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYHAITI
 import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYMEXICO
 import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYPANAMA
 import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYREPUBLICANDOMINK
+import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYUSA
 import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.STATUSUSERS
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -57,21 +61,21 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
  private  lateinit var mviewmodellastsales:LastSalesViewModel
  private lateinit var lastSaleAdapter: LastSaleAdapter
  private lateinit var linearLayoutManager: LinearLayoutManager
- protected var shimmerFrameLayout: ShimmerFrameLayout?=null
- protected var shimmerFrameLayoutwelcome: ShimmerFrameLayout?=null
- protected var usernamewel:TextView?=null
- protected  var recycler:RecyclerView?=null
+ private var shimmerFrameLayout: ShimmerFrameLayout?=null
+ private var shimmerFrameLayoutwelcome: ShimmerFrameLayout?=null
+ private var usernamewel:TextView?=null
+ private var recycler:RecyclerView?=null
  protected lateinit var mTokenProvider: TokenProvider
- protected var saldotopup:TextView?=null
- protected var saldomoncash:TextView?=null
- protected var saldonatcash:TextView?=null
- protected var saldolapoula:TextView?=null
- protected var cardviewtopup:CardView?=null
- protected var cardviewmoncash:CardView?=null
- protected var cardviewnatcash:CardView?=null
- protected var cardviewlapoula:CardView?=null
+ private var saldotopup:TextView?=null
+ private var saldomoncash:TextView?=null
+ private var saldonatcash:TextView?=null
+ private var saldolapoula:TextView?=null
+ private var cardviewtopup:CardView?=null
+ private var cardviewmoncash:CardView?=null
+ private var cardviewnatcash:CardView?=null
+ private var cardviewlapoula:CardView?=null
+ private var balance:TextView?=null
  protected  val mviewmodelstatususer by lazy { ViewModelProvider(requireActivity())[StatusUserViewModel::class.java] }
-
  override fun onCreateView(
   inflater: LayoutInflater,
   container: ViewGroup?,
@@ -101,10 +105,9 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
   cardviewnatcash = binding.root.findViewById(R.id.cardViewnatcash)
   cardviewlapoula = binding.root.findViewById(R.id.cardViewlapoula)
   mTokenProvider = TokenProvider()
+  balance=binding.root.findViewById(R.id.totalbalance)
   return binding.root
  }
-
-
  @SuppressLint("SetTextI18n")
  fun showDataInView(){
   viewmodel.getOnlyUser(mAuthProvider.getId().toString())
@@ -113,7 +116,6 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
     if (response.body()?.status==0){
      ShowdialogIncativeAccount()
     }
-    val balance =view?.findViewById<TextView>(R.id.totalbalance)
     val topUpsold =response.body()?.soltopup
     val topMonCashsold =response.body()?.soldmoncash
     val lapoulasold =response.body()?.soldlapoula
@@ -132,7 +134,7 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
        balance?.text = "$CURRENCYCHILE $totalbalance"
       }
       equals(CODEHAITI) -> {
-       balance?.text = "$CURRENCYCHILE $totalbalance"
+       balance?.text = "$CURRENCYHAITI $totalbalance"
       }
       equals(CODEREPUBLICANDOMINIK) -> {
        balance?.text = "$CURRENCYREPUBLICANDOMINK $totalbalance"
@@ -146,6 +148,11 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
       equals(CODEBRAZIL) -> {
        balance?.text = "$CURRENCYBRAZIL $totalbalance"
       }
+      equals(CODECUBA)->{
+       balance?.text ="$CURRENCYCUBA $totalbalance"
+      }else->{
+       balance?.text="$CURRENCYUSA $totalbalance"
+      }
      }
     }
     shimmerFrameLayoutwelcome?.stopShimmer()
@@ -154,15 +161,11 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
     binding.root.findViewById<CircleImageView>(R.id.image).isVisible = true
     binding.root.findViewById<RelativeLayout>(R.id.relativebalance).isGone = false
     binding.root.findViewById<ScrollView>(R.id.scrollviewcard).isVisible = true
-
-
-
    }else{
     Toast.makeText(requireContext(), response.code(), Toast.LENGTH_SHORT).show()
    }
   })
  }
-
  private fun ShowdialogIncativeAccount() {
   val view = View.inflate(requireContext(), R.layout.dialoginactiveaccount, null)
   val builder = AlertDialog.Builder(requireContext())
@@ -177,8 +180,6 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
    requireActivity().finish()
   }
  }
-
-
  fun observeData(){
   mviewmodellastsales.getLastSales(mAuthProvider.getId().toString()).observe(requireActivity()) {
    if (it==null){

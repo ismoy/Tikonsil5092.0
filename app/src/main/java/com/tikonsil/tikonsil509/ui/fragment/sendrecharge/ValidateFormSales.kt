@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -82,12 +83,12 @@ import kotlin.math.roundToInt
 abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() {
     protected lateinit var binding: VB
     protected lateinit var viewmodel: SendRechargeViewModel
-    protected lateinit var countrypricesviewmodel: CountryPricesViewModel
-    protected lateinit var sendNotificationViewModel: SendNotificationViewModel
+    private lateinit var countrypricesviewmodel: CountryPricesViewModel
+    private lateinit var sendNotificationViewModel: SendNotificationViewModel
     protected lateinit var mAuthProvider: AuthProvider
     protected lateinit var mConstant: Constant
     protected var selectedcountry: CountryCodePicker? = null
-    protected var typeselected: ChipGroup? = null
+    private var typeselected: ChipGroup? = null
     protected var TOTAL: TextInputEditText? = null
     protected var PHONES: TextInputEditText? = null
     protected var SUBTOTAL: TextInputEditText? = null
@@ -96,16 +97,18 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
     protected var LAYOUPHONE: TextInputLayout? = null
     protected var LAYOUTTOTAL: TextInputLayout? = null
     protected var LAYOUTDESCRIPTION: TextInputLayout? = null
-    protected var CHIPMONCASH:Chip?=null
-    protected var CHIPTOPUP:Chip?=null
-    protected var CHIPNATCASH:Chip?=null
-    protected var CHIPLAPOULA:Chip?=null
-    protected lateinit var mUserProvider: UserProvider
-    protected val roomviewmodel by lazy { ViewModelProvider(this)[UsersRoomViewModel::class.java] }
+    private var CHIPMONCASH:Chip?=null
+    private var CHIPTOPUP:Chip?=null
+    private var CHIPNATCASH:Chip?=null
+    private var CHIPLAPOULA:Chip?=null
+    private lateinit var mUserProvider: UserProvider
+    private val roomviewmodel by lazy { ViewModelProvider(this)[UsersRoomViewModel::class.java] }
     protected val userviewmodel by lazy { ViewModelProvider(requireActivity())[UserViewModel::class.java] }
     lateinit var dialog: Dialog
-    protected lateinit var mTokensAdminProvider: TokensAdminProvider
-    protected lateinit var viewmodelsavenotification: SaveNotificationViewModel
+    private lateinit var mTokensAdminProvider: TokensAdminProvider
+    private lateinit var viewmodelsavenotification: SaveNotificationViewModel
+    private var errorchip:TextView?=null
+    protected var recargar:Button?=null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -154,6 +157,8 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
         CHIPNATCASH =binding.root.findViewById(R.id.natcash)
         CHIPLAPOULA = binding.root.findViewById(R.id.lapula)
         mTokensAdminProvider = TokensAdminProvider()
+        errorchip=binding.root.findViewById(R.id.errorchip)
+        recargar=binding.root.findViewById(R.id.recargar)
         return binding.root
     }
 
@@ -421,13 +426,13 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
 
     private fun calculatetopupestadosunidos() {
 
-        TOTAL?.addTextChangedListener(object : TextWatcher {
+            TOTAL?.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (TOTAL?.text.toString().isNotEmpty()) {
+                    if (TOTAL?.text.toString().isNotEmpty() && chip1== SERVICEGENERAL) {
                         val countvaluetopupestadosunidos: Double =
                             TOTAL?.text.toString().toDouble() / PRICEUS!!
                         SUBTOTAL?.setText(countvaluetopupestadosunidos.roundToInt().toString())
@@ -441,7 +446,6 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
 
             })
 
-
     }
 
     private fun calculatetopupdominicana() {
@@ -452,7 +456,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (TOTAL?.text.toString().isNotEmpty()) {
+                    if (TOTAL?.text.toString().isNotEmpty()&& chip1== SERVICEGENERAL) {
                         val countvaluetopupdominicana: Double =
                             TOTAL?.text.toString().toDouble() / PRICERD!!
                             SUBTOTAL?.setText(countvaluetopupdominicana.roundToInt().toString())
@@ -476,7 +480,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (TOTAL?.text.toString().isNotEmpty()) {
+                    if (TOTAL?.text.toString().isNotEmpty()&& chip1== SERVICEGENERAL) {
 
                         val countvaluetopupbrasil: Double =
                             TOTAL?.text.toString().toDouble() / PRICEBRAZIL!!
@@ -501,7 +505,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (TOTAL?.text.toString().isNotEmpty()) {
+                    if (TOTAL?.text.toString().isNotEmpty()&& chip1== SERVICEGENERAL) {
                         val countvaluetopuppanama: Double =
                             TOTAL?.text.toString().toDouble() / PRICEPANAMA!!
                             SUBTOTAL?.setText(countvaluetopuppanama.roundToInt().toString())
@@ -523,7 +527,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (TOTAL?.text.toString().isNotEmpty()) {
+                    if (TOTAL?.text.toString().isNotEmpty()&& chip1== SERVICEGENERAL) {
                         val countvaluetopupchile: Double =
                             TOTAL?.text.toString().toDouble() / PRICECHILE!!
                             SUBTOTAL?.setText(countvaluetopupchile.roundToInt().toString())
@@ -545,7 +549,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (TOTAL?.text.toString().isNotEmpty()) {
+                    if (TOTAL?.text.toString().isNotEmpty()&& chip1== SERVICEGENERAL) {
                         val countvaluetopupmexico: Double =
                             TOTAL?.text.toString().toDouble() / PRICEMEXICO!!
                             SUBTOTAL?.setText(countvaluetopupmexico.roundToInt().toString())
@@ -566,7 +570,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (TOTAL?.text.toString().isNotEmpty()) {
+                    if (TOTAL?.text.toString().isNotEmpty()&& chip1== SERVICEGENERAL) {
                         val countvaluetopupcuba: Double =
                             TOTAL?.text.toString().toDouble() / PRICECUBA!!
                         SUBTOTAL?.setText(countvaluetopupcuba.roundToInt().toString())
@@ -586,7 +590,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (TOTAL?.text.toString().isNotEmpty()) {
+                    if (TOTAL?.text.toString().isNotEmpty()&& chip1== SERVICEHAITI4) {
                         val countvaluetopup: Double =
                             TOTAL?.text.toString().toDouble() / PRICETOPUPHAITI!!
                         SUBTOTAL?.setText(countvaluetopup.roundToInt().toString())
@@ -606,7 +610,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (TOTAL?.text.toString().isNotEmpty()) {
+                    if (TOTAL?.text.toString().isNotEmpty()&& chip1== SERVICEHAITI1) {
                         val countvaluemoncash: Double =
                             TOTAL?.text.toString()
                                 .toDouble() / PRICEMONCASHHAITI!!
@@ -629,7 +633,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (TOTAL?.text.toString().isNotEmpty()) {
+                    if (TOTAL?.text.toString().isNotEmpty()&& chip1== SERVICEHAITI2) {
                         val countvaluelapoula: Double =
                             TOTAL?.text.toString().toDouble() / PRICEHAITILAPOULA!!
                        SUBTOTAL?.setText(countvaluelapoula.roundToInt().toString())
@@ -651,7 +655,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                 }
 
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (TOTAL?.text.toString().isNotEmpty()) {
+                    if (TOTAL?.text.toString().isNotEmpty()&& chip1== SERVICEHAITI3) {
                         val countvaluenatcash: Double =
                             TOTAL?.text.toString().toDouble() / PRICEHAITINATCASH!!
                         SUBTOTAL?.setText(countvaluenatcash.roundToInt().toString())
@@ -696,6 +700,16 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                     LAYOUTTOTAL?.helperText = ""
                 }
             }
+            when{
+                chip1?.isEmpty()!! ->{
+                    errorchip?.text="Seleccione el tipo de recarga"
+                    errorchip?.isVisible=true
+                return
+                }else->{
+                   errorchip?.text=""
+                errorchip?.isVisible=false
+                }
+            }
             when {
                 DESCRIPTION?.text.toString().isEmpty() -> {
                     LAYOUTDESCRIPTION?.helperText =
@@ -732,18 +746,18 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
     @SuppressLint("SetTextI18n")
     private fun observeDataNatcash() {
         when {
-            chip1 == SERVICEHAITI3 && TOTAL?.text.toString()
-                .toInt() > BALANCENATCASH!! -> {
+             TOTAL?.text.toString().toInt() > BALANCENATCASH!! -> {
                 val view = View.inflate(requireContext(), R.layout.dialognomoney, null)
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setView(view)
                 val dialog = builder.create()
+                 dialog.setCancelable(false)
                 dialog.show()
                 dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 val message = view.findViewById<TextView>(R.id.messagenomoney)
                 val button = view.findViewById<Button>(R.id.confirm)
                 message.text =
-                    getString(R.string.nomoney) + getString(R.string.yourbalance) + " $ " + BALANCENATCASH
+                    getString(R.string.nomoney ) + getString( R.string.yourbalance) + " $ " + BALANCENATCASH
                 button.setOnClickListener {
                     dialog.dismiss()
                     clearfield(typeselected)
@@ -806,18 +820,17 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
     @SuppressLint("SetTextI18n")
     private fun observeDataLapoula() {
         when {
-            chip1 == SERVICEHAITI2 && TOTAL?.text.toString()
-                .toInt() > BALANCELAPOULA!! -> {
+             TOTAL?.text.toString().toInt() > BALANCELAPOULA!! -> {
                 val view = View.inflate(requireContext(), R.layout.dialognomoney, null)
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setView(view)
                 val dialog = builder.create()
+                 dialog.setCancelable(false)
                 dialog.show()
                 dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 val message = view.findViewById<TextView>(R.id.messagenomoney)
                 val button = view.findViewById<Button>(R.id.confirm)
-                message.text =
-                    getString(R.string.nomoney) + getString(R.string.yourbalance) + " $ " + BALANCELAPOULA
+                message.text = getString(R.string.nomoney ) + getString( R.string.yourbalance) + " $ " + BALANCELAPOULA
                 button.setOnClickListener {
                     dialog.dismiss()
                     clearfield(typeselected)
@@ -880,18 +893,17 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
     @SuppressLint("SetTextI18n")
     private fun observeDataMoncash() {
         when {
-            chip1 == SERVICEHAITI1 && TOTAL?.text.toString()
-                .toInt() > BALANCEMONCASH!! -> {
+             TOTAL?.text.toString().toInt() > BALANCEMONCASH!! -> {
                 val view = View.inflate(requireContext(), R.layout.dialognomoney, null)
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setView(view)
                 val dialog = builder.create()
+                 dialog.setCancelable(false)
                 dialog.show()
                 dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 val message = view.findViewById<TextView>(R.id.messagenomoney)
                 val button = view.findViewById<Button>(R.id.confirm)
-                message.text =
-                    getString(R.string.nomoney) + getString(R.string.yourbalance) + " $ " + BALANCEMONCASH
+                message.text = getString(R.string.nomoney ) + getString( R.string.yourbalance) + " $ " + BALANCEMONCASH
                 button.setOnClickListener {
                     dialog.dismiss()
                     clearfield(typeselected)
@@ -961,41 +973,23 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
     @SuppressLint("SimpleDateFormat", "CutPasteId", "SetTextI18n")
     private fun observeData() {
         when {
-            chip1 == SERVICEGENERAL && TOTAL?.text.toString().toInt() > BALANCETOPUP!! -> {
+            TOTAL?.text.toString().toInt() > BALANCETOPUP!! -> {
                 val view = View.inflate(requireContext(), R.layout.dialognomoney, null)
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setView(view)
                 val dialog = builder.create()
+                dialog.setCancelable(false)
                 dialog.show()
                 dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
                 val message = view.findViewById<TextView>(R.id.messagenomoney)
                 val button = view.findViewById<Button>(R.id.confirm)
-                message.text =
-                    getString(R.string.nomoney) + getString(R.string.yourbalance) + " $ " + BALANCETOPUP
+                message.text =getString(R.string.nomoney ) + getString( R.string.yourbalance) + " $ " + BALANCETOPUP
                 button.setOnClickListener {
                     dialog.dismiss()
                     clearfieldTOPUP()
 
                 }
             }
-            chip1 == SERVICEGENERAL && BALANCETOPUP == 0 -> {
-                val view = View.inflate(requireContext(), R.layout.dialognomoney, null)
-                val builder = AlertDialog.Builder(requireContext())
-                builder.setView(view)
-                val dialog = builder.create()
-                dialog.show()
-                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-                val message = view.findViewById<TextView>(R.id.messagenomoney)
-                val button = view.findViewById<Button>(R.id.confirm)
-                message.text =
-                    getString(R.string.nomoney) + getString(R.string.yourbalance) + " $ " + BALANCETOPUP
-                button.setOnClickListener {
-                    dialog.dismiss()
-                    clearfieldTOPUPIgualacero(typeselected)
-
-                }
-            }
-
             else -> {
                 val sales = Sales(
                     mAuthProvider.getId()!!,
@@ -1019,10 +1013,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                         sendEmail()
                         sendNotificationToOtherDevice()
                         saveNotification()
-                        mUserProvider.updateTopup(
-                            mAuthProvider.getId(),
-                            newsaldotopup!!
-                        )?.isSuccessful
+                        mUserProvider.updateTopup(mAuthProvider.getId(), newsaldotopup!!)?.isSuccessful
                         val view = View.inflate(requireContext(), R.layout.dialog_success, null)
                         val builder = AlertDialog.Builder(requireContext())
                         builder.setView(view)

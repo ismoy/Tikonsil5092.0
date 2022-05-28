@@ -9,4 +9,5 @@
     <string name="phone">Phone</string>
     <string name="usernoactive">User does not have access to the system</string>
     <string name="thanks">Thanks for your purchase</string>
+    <string name="finalizar">Finalizar</string>
 </resources>

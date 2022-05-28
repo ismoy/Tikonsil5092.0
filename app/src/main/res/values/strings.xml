@@ -68,8 +68,8 @@
     <string name="pleasewait" translatable="false">Please Wait..</string>
     <string name="sendrequest" translatable="false">Sending Request ...</string>
     <string name="thanks">Thanks for your purchase</string>
-    <string name="nomoney" translatable="false">You do not have enough balance to make this purchase</string>
-    <string name="yourbalance" translatable="false">Your balance is</string>
+    <string name="nomoney" >You do not have enough balance to make this purchase</string>
+    <string name="yourbalance">Your balance is</string>
     <string name="theservice" translatable="false">The service</string>
     <string name="only" translatable="false"> is available only for haiti</string>
 
@@ -119,5 +119,6 @@
     <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="finalizar">Finish</string>
 
 </resources>

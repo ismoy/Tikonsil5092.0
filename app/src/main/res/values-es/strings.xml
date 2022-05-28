@@ -43,4 +43,9 @@
     <string name="total">Monto</string>
     <string name="date">Fecha</string>
     <string name="title_methode_pay" >Seleccione el método de pago para su recarga de saldo</string>
+    <string name="yourbalance">Su saldo es</string>
+    <string name="nomoney" >No tienes saldo suficiente para realizar esta compra</string>
+    <string name="finalizar">Terminar</string>
+
+
 </resources>

@@ -18,7 +18,6 @@ import com.tikonsil.tikonsil509.ui.activity.login.LoginActivity
 class SplashScreenActivity : AppCompatActivity() {
     var mAuthProvider: AuthProvider? = null
     var mUserProvider: UserProvider? = null
-    protected  val mviewmodelstatususer by lazy { ViewModelProvider(this)[StatusUserViewModel::class.java] }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mAuthProvider = AuthProvider()

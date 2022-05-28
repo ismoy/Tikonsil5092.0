@@ -41,11 +41,10 @@ abstract class ValidateLogin<VM:ViewModel,VB:ViewBinding>:Fragment() {
  protected lateinit var binding:VB
  protected lateinit var mConstant: Constant
  protected lateinit var viewmodel: LoginViewModel
-
  protected lateinit var mAuthProvider: AuthProvider
  lateinit var dialog:Dialog
  protected lateinit var navController: NavController
- protected  var whatsapp :FloatingActionButton?=null
+ private var whatsapp :FloatingActionButton?=null
 
  override fun onCreateView(
   inflater: LayoutInflater,
@@ -69,7 +68,6 @@ abstract class ValidateLogin<VM:ViewModel,VB:ViewBinding>:Fragment() {
     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
     }
-
     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
      when{
       findViewById<TextInputEditText>(R.id.emaillogin).text.toString().isEmpty()->{
@@ -177,8 +175,6 @@ abstract class ValidateLogin<VM:ViewModel,VB:ViewBinding>:Fragment() {
 
   }
  }
-
-
  abstract fun getViewModel():Class<VM>
  abstract fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?):VB
 }
