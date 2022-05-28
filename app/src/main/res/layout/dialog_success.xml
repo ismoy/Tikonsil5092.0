@@ -47,12 +47,15 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@drawable/bg_iv"
-        android:src="@drawable/ic_baseline_check_24"
         android:padding="8dp"
+        android:src="@drawable/ic_baseline_check_24"
         app:layout_constraintBottom_toTopOf="@id/linear"
-        app:layout_constraintTop_toTopOf="@id/linear"
+        app:layout_constraintEnd_toEndOf="@id/linear"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@id/linear"
-        app:layout_constraintEnd_toEndOf="@id/linear"/>
+        app:layout_constraintTop_toTopOf="@id/linear"
+        app:layout_constraintVertical_bias="0.566" />
+
     <Button
         android:id="@+id/confirm"
         android:layout_width="0dp"
