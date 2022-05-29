@@ -1186,10 +1186,8 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
         }
         val saveData = SaveNotification(
             mAuthProvider.getId().toString(),
-            TITLENOTIFICATION,
-            "$EL $role  $FIRSTNAME $MESSAGENOTIFICATION $chip1 $MESSAGETOTALNOTIFICATION ${SUBTOTAL?.text.toString()}" +
-                    " $FOR ${selectedcountry?.selectedCountryName} ",
-            currentDate
+            TITLENOTIFICATION, "$EL $role  $FIRSTNAME $MESSAGENOTIFICATION $chip1 $MESSAGETOTALNOTIFICATION ${SUBTOTAL?.text.toString()}" +
+                    " $FOR ${selectedcountry?.selectedCountryName} ", currentDate,PHONES?.text.toString()
         )
         viewmodelsavenotification.saveNotification(saveData)
         viewmodelsavenotification.myResponsesavenotification.observe(

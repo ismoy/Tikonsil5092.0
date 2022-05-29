@@ -5,5 +5,6 @@ data class SaveNotification(
     val iduser:String,
     val title:String,
     val message:String,
-    val date:String
+    val date:String,
+    val phone:String
 )
