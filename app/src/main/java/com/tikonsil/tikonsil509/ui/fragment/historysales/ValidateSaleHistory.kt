@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -21,7 +19,7 @@ import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
 import com.tikonsil.tikonsil509.domain.repository.historysales.HistorySalesRepository
 import com.tikonsil.tikonsil509.presentation.historysales.HistorySalesViewModel
 import com.tikonsil.tikonsil509.presentation.historysales.HistorySalesViewModelProvider
-import com.tikonsil.tikonsil509.utils.Constant
+import com.tikonsil.tikonsil509.utils.constants.Constant
 
 /** * Created by ISMOY BELIZAIRE on 07/05/2022. */
 abstract class ValidateSaleHistory<VB : ViewBinding, VM : ViewModel> : Fragment()  {
@@ -31,7 +29,6 @@ abstract class ValidateSaleHistory<VB : ViewBinding, VM : ViewModel> : Fragment(
  protected lateinit var mConstant: Constant
  protected lateinit var shimmerFrameLayout: ShimmerFrameLayout
  var recycler: RecyclerView?=null
- lateinit var nodata: TextView
  private lateinit var historySalesAdapter: HistorySalesAdapter
  private lateinit var linearLayoutManager: LinearLayoutManager
 
@@ -52,7 +49,6 @@ abstract class ValidateSaleHistory<VB : ViewBinding, VM : ViewModel> : Fragment(
   linearLayoutManager = LinearLayoutManager(requireContext())
   shimmerFrameLayout =binding.root.findViewById(R.id.shimmer_history)
   recycler =binding.root.findViewById(R.id.recyclerviewhistory)
-  nodata =binding.root.findViewById(R.id.nodatahistory)
   return binding.root
  }
 
@@ -62,14 +58,12 @@ abstract class ValidateSaleHistory<VB : ViewBinding, VM : ViewModel> : Fragment(
     shimmerFrameLayout.stopShimmer()
     shimmerFrameLayout.isGone =true
     recycler?.isGone=false
-    nodata.isGone =false
    }else {
     shimmerFrameLayout.stopShimmer()
     shimmerFrameLayout.isGone =true
     recycler?.isGone=false
     historySalesAdapter.setsaleListDataHistory(it)
     setupRecyclerview()
-    nodata.isGone =true
    }
   })
  }

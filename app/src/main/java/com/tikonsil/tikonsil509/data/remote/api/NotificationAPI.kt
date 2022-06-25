@@ -1,8 +1,8 @@
 package com.tikonsil.tikonsil509.data.remote.api
 
 import com.tikonsil.tikonsil509.domain.model.PushNotification
-import com.tikonsil.tikonsil509.utils.Constant.Companion.CONTENT_TYPE
-import com.tikonsil.tikonsil509.utils.Constant.Companion.SERVER_KEY
+import com.tikonsil.tikonsil509.utils.constants.Constant.Companion.CONTENT_TYPE
+import com.tikonsil.tikonsil509.utils.constants.Constant.Companion.SERVER_KEY
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body

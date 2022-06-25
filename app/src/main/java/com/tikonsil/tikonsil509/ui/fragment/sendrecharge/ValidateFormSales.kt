@@ -51,26 +51,26 @@ import com.tikonsil.tikonsil509.presentation.saveusersroom.UsersRoomViewModel
 import com.tikonsil.tikonsil509.presentation.sendrecharge.SendRechargeViewModel
 import com.tikonsil.tikonsil509.presentation.sendrecharge.SendRechargeViewModelProvider
 import com.tikonsil.tikonsil509.ui.activity.invoice.InvoiceActivity
-import com.tikonsil.tikonsil509.utils.Constant
-import com.tikonsil.tikonsil509.utils.Constant.Companion.SUBJECT
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEBRAZIL
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODECHILE
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODECUBA
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEHAITI
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEMEXICO
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEPANAMA
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEREPUBLICANDOMINIK
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEUSA
-import com.tikonsil.tikonsil509.utils.ConstantServiceCountry.SERVICEGENERAL
-import com.tikonsil.tikonsil509.utils.ConstantServiceCountry.SERVICEHAITI1
-import com.tikonsil.tikonsil509.utils.ConstantServiceCountry.SERVICEHAITI2
-import com.tikonsil.tikonsil509.utils.ConstantServiceCountry.SERVICEHAITI3
-import com.tikonsil.tikonsil509.utils.ConstantServiceCountry.SERVICEHAITI4
-import com.tikonsil.tikonsil509.utils.ConstanteMessage.EL
-import com.tikonsil.tikonsil509.utils.ConstanteMessage.FOR
-import com.tikonsil.tikonsil509.utils.ConstanteMessage.MESSAGENOTIFICATION
-import com.tikonsil.tikonsil509.utils.ConstanteMessage.MESSAGETOTALNOTIFICATION
-import com.tikonsil.tikonsil509.utils.ConstanteMessage.TITLENOTIFICATION
+import com.tikonsil.tikonsil509.utils.constants.Constant
+import com.tikonsil.tikonsil509.utils.constants.Constant.Companion.SUBJECT
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEBRAZIL
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODECHILE
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODECUBA
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEHAITI
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEMEXICO
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEPANAMA
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEREPUBLICANDOMINIK
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEUSA
+import com.tikonsil.tikonsil509.utils.constants.ConstantServiceCountry.SERVICEGENERAL
+import com.tikonsil.tikonsil509.utils.constants.ConstantServiceCountry.SERVICEHAITI1
+import com.tikonsil.tikonsil509.utils.constants.ConstantServiceCountry.SERVICEHAITI2
+import com.tikonsil.tikonsil509.utils.constants.ConstantServiceCountry.SERVICEHAITI3
+import com.tikonsil.tikonsil509.utils.constants.ConstantServiceCountry.SERVICEHAITI4
+import com.tikonsil.tikonsil509.utils.constants.ConstanteMessage.EL
+import com.tikonsil.tikonsil509.utils.constants.ConstanteMessage.FOR
+import com.tikonsil.tikonsil509.utils.constants.ConstanteMessage.MESSAGENOTIFICATION
+import com.tikonsil.tikonsil509.utils.constants.ConstanteMessage.MESSAGETOTALNOTIFICATION
+import com.tikonsil.tikonsil509.utils.constants.ConstanteMessage.TITLENOTIFICATION
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -103,7 +103,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
     private var CHIPLAPOULA:Chip?=null
     private lateinit var mUserProvider: UserProvider
     private val roomviewmodel by lazy { ViewModelProvider(this)[UsersRoomViewModel::class.java] }
-    protected val userviewmodel by lazy { ViewModelProvider(requireActivity())[UserViewModel::class.java] }
+    private val userviewmodel by lazy { ViewModelProvider(requireActivity())[UserViewModel::class.java] }
     lateinit var dialog: Dialog
     private lateinit var mTokensAdminProvider: TokensAdminProvider
     private lateinit var viewmodelsavenotification: SaveNotificationViewModel
@@ -1074,24 +1074,25 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
 
     fun getPriceCountry() {
         countrypricesviewmodel.getCountryPrice()
-        countrypricesviewmodel.myResponseGetCountryPrice.observe(viewLifecycleOwner, Observer {
-            if (it.isSuccessful) {
-                PRICERD = it.body()?.priceRD?.toInt()
-                PRICEBRAZIL = it.body()?.pricebrasil?.toInt()
-                PRICECHILE = it.body()?.pricechile?.toInt()
-                PRICECUBA = it.body()?.pricecuba?.toInt()
-                PRICEMEXICO = it.body()?.pricemexico?.toInt()
-                PRICEMONCASHHAITI = it.body()?.pricemoncashhaiti?.toInt()
-                PRICETOPUPHAITI = it.body()?.pricetopuphaiti?.toInt()
-                PRICEUS = it.body()?.priceus?.toInt()
-                PRICEPANAMA = it.body()?.pricepanama?.toInt()
-                PRICEHAITILAPOULA = it.body()?.pricelapoulahaiti?.toInt()
-                PRICEHAITINATCASH = it.body()?.pricenatcashhaiti?.toInt()
+        countrypricesviewmodel.myResponseGetCountryPrice.observe(viewLifecycleOwner) {country->
+            if (country.isSuccessful) {
+                PRICERD = country.body()?.priceRD
+                PRICEBRAZIL = country.body()?.pricebrasil
+                PRICECHILE = country.body()?.pricechile
+                PRICECUBA = country.body()?.pricecuba
+                PRICEMEXICO = country.body()?.pricemexico
+                PRICEMONCASHHAITI = country.body()?.pricemoncashhaiti
+                PRICETOPUPHAITI = country.body()?.pricetopuphaiti
+                PRICEUS = country.body()?.priceus
+                PRICEPANAMA = country.body()?.pricepanama
+                PRICEHAITILAPOULA = country.body()?.pricelapoulahaiti
+                PRICEHAITINATCASH = country.body()?.pricenatcashhaiti
+
 
             } else {
-                Toast.makeText(requireContext(), it.code().toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), country.code().toString(), Toast.LENGTH_SHORT).show()
             }
-        })
+        }
     }
 
     private fun insertDAtaInRoomDataBase() {
@@ -1140,17 +1141,17 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
         var selectedListener: String? = null
         var chip1: String? = null
         var PAIS: String? = null
-        var PRICERD: Int? = null
-        var PRICEBRAZIL: Int? = null
-        var PRICECHILE: Int? = null
-        var PRICECUBA: Int? = null
-        var PRICEMEXICO: Int? = null
-        var PRICEMONCASHHAITI: Int? = null
-        var PRICETOPUPHAITI: Int? = null
-        var PRICEHAITILAPOULA: Int? = null
-        var PRICEHAITINATCASH: Int? = null
-        var PRICEUS: Int? = null
-        var PRICEPANAMA: Int? = null
+        var PRICERD: Float? = null
+        var PRICEBRAZIL: Float? = null
+        var PRICECHILE: Float? = null
+        var PRICECUBA: Float? = null
+        var PRICEMEXICO: Float? = null
+        var PRICEMONCASHHAITI: Float? = null
+        var PRICETOPUPHAITI: Float? =null
+        var PRICEHAITILAPOULA: Float? = null
+        var PRICEHAITINATCASH: Float? = null
+        var PRICEUS: Float? = null
+        var PRICEPANAMA: Float? = null
 
         @SuppressLint("SimpleDateFormat")
         var sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")

@@ -12,8 +12,7 @@ interface TikonsilApi {
  suspend fun registerClient(@Path("uidUser") uidUser:String,@Body param:Users):Response<Users>
 
  @GET("Clients/{uidUser}.json")
- suspend fun getOnlyUser(
-  @Path("uidUser") uidUser:String):Response<Users>
+ suspend fun getOnlyUser(@Path("uidUser") uidUser:String):Response<Users>
 
  @POST("Sales.json")
  suspend fun Sales(@Body sales: Sales):Response<Sales>
@@ -26,16 +25,5 @@ interface TikonsilApi {
 
  @GET("BonusUser.json")
  suspend fun getBounusUser():Response<BonusUser>
-
- @Headers(
-  "Content-Type:application/json",
-  "Authorization:key=${R.string.token_api_server_default}"
- )
- @POST
-  ("fcm/send")
- suspend fun send(@Body body: FCMBody?): Call<FCMResponse?>?
-
- @GET("TokensAdmin.json")
- suspend fun getTokensAdmin():Response<TokensAdmin>
 
 }

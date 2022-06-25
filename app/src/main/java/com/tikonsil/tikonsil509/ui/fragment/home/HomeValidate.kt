@@ -23,7 +23,6 @@ import androidx.viewbinding.ViewBinding
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.tikonsil.tikonsil509.R
 import com.tikonsil.tikonsil509.data.adapter.LastSaleAdapter
-import com.tikonsil.tikonsil509.data.local.savestatus.StatusUser
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
 import com.tikonsil.tikonsil509.data.remote.provider.TokenProvider
 import com.tikonsil.tikonsil509.domain.repository.home.UsersRepository
@@ -34,22 +33,21 @@ import com.tikonsil.tikonsil509.presentation.lastsales.LastSalesViewModel
 import com.tikonsil.tikonsil509.presentation.lastsales.LastSalesViewModelProvider
 import com.tikonsil.tikonsil509.presentation.savestatus.StatusUserViewModel
 import com.tikonsil.tikonsil509.ui.activity.login.LoginActivity
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEBRAZIL
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODECHILE
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODECUBA
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEHAITI
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEMEXICO
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEPANAMA
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEREPUBLICANDOMINIK
-import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYBRAZIL
-import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYCHILE
-import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYCUBA
-import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYHAITI
-import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYMEXICO
-import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYPANAMA
-import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYREPUBLICANDOMINK
-import com.tikonsil.tikonsil509.utils.ConstantCurrencyCountry.CURRENCYUSA
-import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.STATUSUSERS
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEBRAZIL
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODECHILE
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODECUBA
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEHAITI
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEMEXICO
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEPANAMA
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEREPUBLICANDOMINIK
+import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYBRAZIL
+import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYCHILE
+import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYCUBA
+import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYHAITI
+import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYMEXICO
+import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYPANAMA
+import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYREPUBLICANDOMINK
+import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYUSA
 import de.hdodenhof.circleimageview.CircleImageView
 
 /** * Created by ISMOY BELIZAIRE on 26/04/2022. */
@@ -163,6 +161,9 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
     binding.root.findViewById<ScrollView>(R.id.scrollviewcard).isVisible = true
    }else{
     Toast.makeText(requireContext(), response.code(), Toast.LENGTH_SHORT).show()
+    Log.d("ERRORLOGIN",response.code().toString())
+    Log.d("ERRORLOGIN",response.message().toString())
+
    }
   })
  }

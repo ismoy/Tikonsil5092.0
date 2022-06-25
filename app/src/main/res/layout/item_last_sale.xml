@@ -41,8 +41,8 @@
         android:id="@+id/dateform"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
         android:layout_marginTop="27dp"
-        android:layout_toEndOf="@id/saldoform"
-        android:text="12/08/2021" />
+        android:text="12/08/2021"
+        android:layout_marginEnd="40dp"
+        android:layout_alignParentEnd="true"/>
 </RelativeLayout>

@@ -3,8 +3,8 @@ package com.tikonsil.tikonsil509.domain.JavaMailApi
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.AsyncTask
-import com.tikonsil.tikonsil509.utils.CredentialsJavaMailApi.TIKONSILEMAIL
-import com.tikonsil.tikonsil509.utils.CredentialsJavaMailApi.TIKONSILPASSWORD
+import com.tikonsil.tikonsil509.utils.constants.CredentialsJavaMailApi.TIKONSILEMAIL
+import com.tikonsil.tikonsil509.utils.constants.CredentialsJavaMailApi.TIKONSILPASSWORD
 import java.util.*
 import javax.mail.*
 import javax.mail.internet.InternetAddress

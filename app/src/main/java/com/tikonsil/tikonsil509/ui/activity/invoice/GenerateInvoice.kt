@@ -1,35 +1,15 @@
 package com.tikonsil.tikonsil509.ui.activity.invoice
 
-import android.Manifest
-import android.content.ContextWrapper
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Paint
-import android.graphics.Typeface
-import android.graphics.pdf.PdfDocument
 import android.os.Bundle
-import android.os.Environment
-import android.text.TextPaint
-import android.util.Log
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.tikonsil.tikonsil509.R
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
 import com.tikonsil.tikonsil509.presentation.saveusersroom.UsersRoomViewModel
-import com.tikonsil.tikonsil509.ui.activity.home.HomeActivity
-import com.tikonsil.tikonsil509.utils.Constant
-import com.tikonsil.tikonsil509.utils.Constant.Companion.DESCRIPTION
-import com.tikonsil.tikonsil509.utils.Constant.Companion.SLOGAN
-import java.io.File
-import java.io.FileOutputStream
+import com.tikonsil.tikonsil509.utils.constants.Constant.Companion.SLOGAN
 
 
 /** * Created by ISMOY BELIZAIRE on 08/05/2022. */

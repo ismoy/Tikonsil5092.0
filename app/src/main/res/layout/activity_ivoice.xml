@@ -38,7 +38,7 @@
         app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintTop_toBottomOf="@id/cardview">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -56,11 +56,12 @@
                 android:id="@+id/nameuser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentEnd="true"
                 android:text="@string/Firstname" />
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -78,11 +79,12 @@
                 android:id="@+id/lastnameuser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="@string/LastName" />
-        </LinearLayout>
+                android:layout_marginEnd="10dp"
+                android:text="@string/LastName"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -100,11 +102,12 @@
                 android:id="@+id/emailuser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentEnd="true"
                 android:text="@string/defaulemail" />
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -122,11 +125,12 @@
                 android:id="@+id/roleuser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentEnd="true"
                 android:text="@string/master" />
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -144,11 +148,12 @@
                 android:id="@+id/recargatypeuser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentEnd="true"
                 android:text="@string/moncash" />
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -166,11 +171,12 @@
                 android:id="@+id/paisuser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentEnd="true"
                 android:text="@string/haiti" />
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -188,11 +194,12 @@
                 android:id="@+id/subtotaluser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentEnd="true"
                 android:text="710.0" />
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -210,11 +217,12 @@
                 android:id="@+id/dateuser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentEnd="true"
                 android:text="18/05/2022" />
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -232,11 +240,12 @@
                 android:id="@+id/phoneuser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentEnd="true"
                 android:text="@string/numberdefault" />
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -254,9 +263,10 @@
                 android:id="@+id/descripcionuser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="@string/title_methode_pay" />
-        </LinearLayout>
+                android:layout_marginEnd="10dp"
+                android:layout_alignParentEnd="true"
+                tools:ignore="RelativeOverlap" />
+        </RelativeLayout>
     </LinearLayout>
 
 
