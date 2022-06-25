@@ -59,7 +59,7 @@ abstract class BaseActivity<VM : ViewModel, VB : ViewBinding> : AppCompatActivit
                     }
                     if (response.body()?.role==2){
                         binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_saleWithOtherAgentFragment).isEnabled = false
-                        binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_registerReferencesFragment).isEnabled = false
+                        binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_registerReferencesFragment).isEnabled = true
                         binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_policyAndPrivacyFragment).isEnabled = false
 
                     }

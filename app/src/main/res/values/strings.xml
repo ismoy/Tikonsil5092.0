@@ -101,7 +101,6 @@
     <string name="success" translatable="false">Success</string>
     <string name="next" translatable="false">Next</string>
     <string name="error" translatable="false">Error!</string>
-    <string name="no_hay_ventas_registrada">There are no registered sales</string>
     <string name="request_recharge">Request Recharge</string>
     <string name="title_methode_pay">Select the payment method for your balance top-up</string>
     <string name="account_number" translatable="false">Numero de cuenta copiado</string>
@@ -120,5 +119,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="finalizar">Finish</string>
+    <string name="no_hay_ventas_registrada" translatable="false">No Hay ventas registrada</string>
+
 
 </resources>

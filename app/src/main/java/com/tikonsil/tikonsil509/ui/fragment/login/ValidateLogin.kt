@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,17 +23,11 @@ import com.google.android.material.textfield.TextInputLayout
 import com.tikonsil.tikonsil509.R
 import com.tikonsil.tikonsil509.domain.repository.login.LoginRepository
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
-import com.tikonsil.tikonsil509.domain.repository.home.UsersRepository
-import com.tikonsil.tikonsil509.domain.repository.lastsales.LastSalesRepository
-import com.tikonsil.tikonsil509.presentation.home.UserViewModel
-import com.tikonsil.tikonsil509.presentation.home.UserViewModelFactory
-import com.tikonsil.tikonsil509.presentation.lastsales.LastSalesViewModelProvider
 import com.tikonsil.tikonsil509.presentation.login.LoginViewModel
 import com.tikonsil.tikonsil509.presentation.login.LoginViewModelFactory
 import com.tikonsil.tikonsil509.ui.activity.home.HomeActivity
-import com.tikonsil.tikonsil509.utils.Constant
+import com.tikonsil.tikonsil509.utils.constants.Constant
 import com.tikonsil.tikonsil509.utils.service.ConstantGeneral
-import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.STATUSUSERS
 
 /** * Created by ISMOY BELIZAIRE on 23/04/2022. */
 abstract class ValidateLogin<VM:ViewModel,VB:ViewBinding>:Fragment() {

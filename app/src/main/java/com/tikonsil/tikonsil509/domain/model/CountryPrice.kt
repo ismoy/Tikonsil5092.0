@@ -1,17 +1,19 @@
 package com.tikonsil.tikonsil509.domain.model
 
+import com.google.gson.annotations.SerializedName
+
 /** * Created by ISMOY BELIZAIRE on 29/04/2022. */
 data class CountryPrice(
- val pricetopuphaiti:Double,
- val pricemoncashhaiti:Double,
- val pricecuba:Double,
- val pricemexico:Double,
- val pricepanama:Double,
- val priceRD:Double,
- val pricebrasil:Double,
- val pricechile:Double,
- val priceus:Double,
- val pricelapoulahaiti:Double,
- val pricenatcashhaiti:Double
+ @SerializedName("pricetopuphaiti") val pricetopuphaiti: Float? =null,
+ @SerializedName("pricemoncashhaiti") val pricemoncashhaiti:Float,
+ @SerializedName ("pricecuba") val pricecuba:Float,
+ @SerializedName("pricemexico") val pricemexico:Float,
+ @SerializedName("pricepanama") val pricepanama:Float,
+ @SerializedName("priceRD") val priceRD:Float,
+ @SerializedName("pricebrasil") val pricebrasil:Float,
+ @SerializedName("pricechile") val pricechile:Float,
+ @SerializedName("priceus") val priceus:Float,
+ @SerializedName("pricelapoulahaiti") val pricelapoulahaiti:Float,
+ @SerializedName("pricenatcashhaiti") val pricenatcashhaiti:Float
 
 )

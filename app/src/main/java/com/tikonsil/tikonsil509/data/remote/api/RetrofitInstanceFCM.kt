@@ -1,6 +1,6 @@
 package com.tikonsil.tikonsil509.data.remote.api
 
-import com.tikonsil.tikonsil509.utils.Constant
+import com.tikonsil.tikonsil509.utils.constants.Constant
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

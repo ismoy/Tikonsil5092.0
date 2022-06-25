@@ -20,7 +20,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+       <!-- <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/pictureregisteruseragente"
             android:layout_width="70dp"
             android:layout_height="70dp"
@@ -30,7 +30,8 @@
             android:clickable="true"
             android:elevation="3dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/man" />
+            android:src="@drawable/man"
+            android:focusable="true" />-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,12 +40,11 @@
             android:layout_marginEnd="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp">
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="120dp">
+                android:layout_marginTop="10dp">
                 <TextView
                     android:id="@+id/txtf"
                     android:layout_width="wrap_content"
@@ -53,24 +53,26 @@
                     android:text="@string/Firstname"
                     android:textColor="@color/colorboton"
                     android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:ignore="RelativeOverlap" />
 
                 <TextView
                     android:id="@+id/firstnameinvoicesagente"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ismoydefault"
+                    android:layout_alignParentEnd="true"
                     android:textColor="@color/black"
                     android:textSize="15sp"
+                    android:layout_marginEnd="15dp"
                     android:textStyle="bold" />
 
-            </LinearLayout>
-            <LinearLayout
+            </RelativeLayout>
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="120dp">
+                android:layout_marginTop="10dp">
                 <TextView
                     android:id="@+id/txty"
                     android:layout_width="wrap_content"
@@ -88,17 +90,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
                     android:text="Belizaire"
+                    android:layout_alignParentEnd="true"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
-            </LinearLayout>
-            <LinearLayout
+            </RelativeLayout>
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="120dp">
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:id="@+id/txtr"
@@ -116,17 +118,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
                     android:text="Admin"
+                    android:layout_alignParentEnd="true"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
-            </LinearLayout>
-            <LinearLayout
+            </RelativeLayout>
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="90dp">
+                >
 
                 <TextView
                     android:id="@+id/txte"
@@ -146,15 +149,15 @@
                     android:text="Belizairesmoy72@gmail.com"
                     android:textColor="@color/black"
                     android:textSize="15sp"
+                    android:layout_alignParentEnd="true"
                     android:textStyle="bold" />
 
-            </LinearLayout>
-            <LinearLayout
+            </RelativeLayout>
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="120dp">
+                android:layout_marginTop="10dp">
                 <TextView
                     android:id="@+id/txth"
                     android:layout_width="wrap_content"
@@ -173,16 +176,16 @@
                     android:text="+56973030630"
                     android:textColor="@color/black"
                     android:textSize="15sp"
+                    android:layout_alignParentEnd="true"
                     android:textStyle="bold" />
 
 
-            </LinearLayout>
-            <LinearLayout
+            </RelativeLayout>
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="120dp">
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:id="@+id/g"
@@ -202,14 +205,14 @@
                     android:text="26/07/2021"
                     android:textColor="@color/black"
                     android:textSize="15sp"
+                    android:layout_alignParentEnd="true"
                     android:textStyle="bold" />
-            </LinearLayout>
-            <LinearLayout
+            </RelativeLayout>
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="120dp">
+                android:layout_marginTop="10dp">
                 <TextView
                     android:id="@+id/V"
                     android:layout_width="wrap_content"
@@ -229,15 +232,15 @@
                     android:text="TopUp"
                     android:textColor="@color/black"
                     android:textSize="15sp"
+                    android:layout_alignParentEnd="true"
                     android:textStyle="bold" />
 
-            </LinearLayout>
-            <LinearLayout
+            </RelativeLayout>
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="120dp">
+                android:layout_marginTop="10dp">
                 <TextView
                     android:id="@+id/j"
                     android:layout_width="wrap_content"
@@ -255,18 +258,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
                     android:text="Haiti"
+                    android:layout_alignParentEnd="true"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
 
-            </LinearLayout>
-            <LinearLayout
+            </RelativeLayout>
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="120dp">
+                android:layout_marginTop="10dp">
                 <TextView
                     android:id="@+id/S"
                     android:layout_width="wrap_content"
@@ -283,18 +286,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
                     android:text="0"
+                    android:layout_alignParentEnd="true"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
 
-            </LinearLayout>
-            <LinearLayout
+            </RelativeLayout>
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="30dp">
+                android:layout_marginTop="10dp">
 
                 <TextView
                     android:id="@+id/d"
@@ -314,10 +317,11 @@
                     android:text="Gracias por preferirnos"
                     android:textColor="@color/black"
                     android:textSize="15sp"
+                    android:layout_alignParentEnd="true"
                     android:textStyle="bold" />
 
 
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

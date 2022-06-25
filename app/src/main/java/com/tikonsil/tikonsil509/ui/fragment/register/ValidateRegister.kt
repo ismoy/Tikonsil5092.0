@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,14 +32,14 @@ import com.tikonsil.tikonsil509.domain.repository.bonususer.BonusUserRepository
 import com.tikonsil.tikonsil509.domain.repository.register.RegisterRepository
 import com.tikonsil.tikonsil509.presentation.bonususer.BonusUserViewModel
 import com.tikonsil.tikonsil509.presentation.bonususer.BonusUserViewModelProvider
-import com.tikonsil.tikonsil509.utils.Constant
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEBRAZIL
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODECHILE
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODECUBA
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEHAITI
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEMEXICO
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEPANAMA
-import com.tikonsil.tikonsil509.utils.ConstantCodeCountry.CODEREPUBLICANDOMINIK
+import com.tikonsil.tikonsil509.utils.constants.Constant
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEBRAZIL
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODECHILE
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODECUBA
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEHAITI
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEMEXICO
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEPANAMA
+import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEREPUBLICANDOMINIK
 import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSLAPOULABRAZIL
 import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSLAPOULACHILE
 import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSLAPOULACUBA
@@ -91,7 +90,7 @@ import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSTOPUPCASHRD
   savedInstanceState: Bundle?
  ): View? {
   binding = getFragmentBinding(inflater, container)
-  val repository = RegisterRepository(requireActivity().application)
+  val repository = RegisterRepository()
   val factory = RegisterViewModelFactory(repository)
   viewmodel = ViewModelProvider(requireActivity(),factory)[RegisterViewModel::class.java]
   mAuthProvider = AuthProvider()
