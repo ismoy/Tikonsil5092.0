@@ -25,14 +25,17 @@
         </activity>
         <activity
             android:name=".ui.activity.invoice.InvoiceActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/PBarTheme"/>
         <activity
             android:name=".ui.activity.home.HomeActivity"
             android:exported="false"
             android:theme="@style/PBarTheme" />
         <activity
             android:name=".ui.activity.login.LoginActivity"
-            android:exported="true"/>
+            android:exported="true"
+            android:theme="@style/PBarThemeLogin"
+            />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />

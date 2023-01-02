@@ -15,6 +15,9 @@ class ProfileFragment : ProfileInfo<FragmentProfileBinding,ProfileViewModel>() {
         super.onViewCreated(view, savedInstanceState)
         showDataInProfile()
         Logout()
+        imageView.setOnClickListener {
+            openGallery()
+        }
     }
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?) =

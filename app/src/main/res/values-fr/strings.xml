@@ -29,7 +29,7 @@
     <string name="existemail">Vous avez déjà un compte dans notre registre avec cet e-mail</string>
     <string name="profile">Profil</string>
     <string name="SendReload">Envoyer une recharge</string>
-    <string name="history">Historique des ventes</string>
+    <string name="history">Historique des achats</string>
     <string name="sendreload_other_agent">Vendre à d\'autres agents</string>
     <string name="register_reference">Enregistrer les références</string>
     <string name="policy_privacy">Politique de confidentialité</string>
@@ -38,7 +38,7 @@
     <string name="description" >Description</string>
     <string name="total">Montant</string>
     <string name="usernoactive">L\'utilisateur n\'a pas accès au système</string>
-    <string name="thanks">Merci pour votre achat</string>
+    <string name="thanks">Merci pour votre achat. Accédez à l\'option de méthode de paiement pour effectuer le transfert</string>
     <string name="ayudawhatsapp">Salut! Bonjour j\'ai besoin d\'aide s\'il vous plait</string>
     <string name="date">Date</string>
     <string name="title_methode_pay" >Sélectionnez le mode de paiement pour votre recharge de solde</string>

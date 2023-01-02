@@ -29,7 +29,7 @@
     <string name="existemail">Ya tienes una cuenta en nuestro registro con ese correo</string>
     <string name="profile">Perfil</string>
     <string name="SendReload">Enviar recarga</string>
-    <string name="history">Historial de Ventas</string>
+    <string name="history">historial de compras</string>
     <string name="sendreload_other_agent">Vender a Otros Agentes</string>
     <string name="register_reference">Registrar referidos</string>
     <string name="policy_privacy">Política de privacidad</string>
@@ -37,7 +37,7 @@
     <string name="ayuda">Soporte técnico</string>
     <string name="description" >Descripción</string>
     <string name="usernoactive">El usuario no tiene acceso al sistema</string>
-    <string name="thanks">Gracias por su compra</string>
+    <string name="thanks">Gracias por su compra. Ir a la opción de método de pago para realizar la transferencia</string>
     <string name="ayudawhatsapp">Hola buenas tardes necesito ayuda por favor</string>
     <string name="total">Monto</string>
     <string name="date">Fecha</string>

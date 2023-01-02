@@ -10,12 +10,12 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.tikonsil.tikonsil509"
         minSdk 23
-        targetSdk 32
+        targetSdk 33
         versionCode 2
         versionName "1.0.1"
 
@@ -119,4 +119,7 @@ dependencies {
     implementation files('libs/activation.jar')
     implementation files('libs/additionnal.jar')
     implementation files('libs/mail.jar')
+    //libreria para comprimir imagenes
+    implementation 'id.zelory:compressor:2.1.1'
+    implementation 'com.firebaseui:firebase-ui-storage:7.2.0'
 }

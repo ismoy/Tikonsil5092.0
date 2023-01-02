@@ -19,5 +19,7 @@ data class Sales(
     @SerializedName("token") val token: String? = null,
     @SerializedName("status") val status: Int=0,
     @SerializedName("id_product") val idProduct:Int,
-    @SerializedName("salesPrice") val salesPrice:String
+    @SerializedName("salesPrice") val salesPrice:String,
+    @SerializedName("image") val image:String
+
 )

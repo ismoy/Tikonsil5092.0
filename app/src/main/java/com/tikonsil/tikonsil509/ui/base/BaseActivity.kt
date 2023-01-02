@@ -1,6 +1,7 @@
 package com.tikonsil.tikonsil509.ui.base
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.viewbinding.ViewBinding
+import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.tikonsil.tikonsil509.R
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
@@ -19,6 +21,7 @@ import com.tikonsil.tikonsil509.domain.repository.login.LoginRepository
 import com.tikonsil.tikonsil509.presentation.home.UserViewModel
 import com.tikonsil.tikonsil509.presentation.login.LoginViewModelFactory
 import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.PHONENUMBERWHATSAPP
+import de.hdodenhof.circleimageview.CircleImageView
 
 /** * Created by ISMOY BELIZAIRE on 23/04/2022. */
 abstract class BaseActivity<VM : ViewModel, VB : ViewBinding> : AppCompatActivity() {
@@ -50,19 +53,25 @@ abstract class BaseActivity<VM : ViewModel, VB : ViewBinding> : AppCompatActivit
                 binding.root.apply {
                     val headerdrawer = findViewById<NavigationView>(R.id.nav_view)?.getHeaderView(0)
                     val nameheader = headerdrawer?.findViewById<TextView>(R.id.usernamedrawable)
-                    val name = response.body()?.firstname
-                    nameheader?.text = "Hola,\n$name"
-                    if (response.body()?.role==1){
-                        binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_saleWithOtherAgentFragment).isVisible = false
-                        binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_registerReferencesFragment).isVisible = false
-                        binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_policyAndPrivacyFragment).isVisible = false
-                    }
-                    if (response.body()?.role==2){
-                        binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_saleWithOtherAgentFragment).isEnabled = false
-                        binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_registerReferencesFragment).isEnabled = true
-                        binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_policyAndPrivacyFragment).isEnabled = false
+                    val image_drawable = headerdrawer!!.findViewById<CircleImageView>(R.id.image_drawable)
+                    response.body()?.apply {
+                        nameheader?.text = "Hola,\n$firstname"
+                        if (image!=null){
+                            Glide.with(this@BaseActivity).load(image).into(image_drawable)
+                        }
+                        if (role==1){
+                            binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_saleWithOtherAgentFragment).isVisible = false
+                            binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_registerReferencesFragment).isVisible = false
+                            binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_policyAndPrivacyFragment).isVisible = false
+                        }
+                        if (role==2){
+                            binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_saleWithOtherAgentFragment).isEnabled = false
+                            binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_registerReferencesFragment).isEnabled = true
+                            binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_policyAndPrivacyFragment).isEnabled = false
 
+                        }
                     }
+
 
                 }
 
@@ -74,12 +83,15 @@ abstract class BaseActivity<VM : ViewModel, VB : ViewBinding> : AppCompatActivit
     }
 
     open fun sendMesageWhatsapp() {
-        val mensaje =getString(R.string.ayudawhatsapp)
-        val sendIntent = Intent()
-        sendIntent.action = Intent.ACTION_VIEW
-        val uri = "whatsapp://send?phone=$PHONENUMBERWHATSAPP&text=$mensaje"
-        sendIntent.data = Uri.parse(uri)
-        startActivity(sendIntent)
+        try {
+            val mensaje =getString(R.string.ayudawhatsapp)
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse("whatsapp://send?phone=$PHONENUMBERWHATSAPP&text=$mensaje")
+            startActivity(i)
+        } catch (e: ActivityNotFoundException) {
+            // WhatsApp is not installed on the device. Prompt the user to install it.
+            Toast.makeText(this, "WhatsApp no está instalado en este dispositivo", Toast.LENGTH_SHORT).show()
+        }
     }
 
 }

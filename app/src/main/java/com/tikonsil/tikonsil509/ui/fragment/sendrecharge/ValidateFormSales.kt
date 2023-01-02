@@ -799,7 +799,8 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
             tokenuser!!,
             status = 0,
             0,
-            ""
+            "",
+            IMAGE!!
         )
        // val newsaldolanatcash = BALANCENATCASH?.minus(TOTAL?.text.toString().toInt())
         viewmodel.sales(sales)
@@ -924,7 +925,8 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
             tokenuser!!,
             status = 0,
             idProduct = 0,
-            salesPrice = ""
+            salesPrice = "",
+            IMAGE!!
 
         )
         // val newsaldolapoula = BALANCELAPOULA?.minus(TOTAL?.text.toString().toInt())
@@ -1044,7 +1046,8 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
             tokenuser!!,
             status = 0,
             idProduct = 0,
-            salesPrice = ""
+            salesPrice = "",
+            IMAGE!!
         )
         //val newsaldomoncash = BALANCEMONCASH?.minus(TOTAL?.text.toString().toInt())
         viewmodel.sales(sales)
@@ -1175,7 +1178,8 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
             tokenuser!!,
              0,
             idProductSelected!!,
-            salesPriceSelected!!
+            salesPriceSelected!!,
+            IMAGE!!
         )
        // val newsaldotopup = BALANCETOPUP?.minus(TOTAL?.text.toString().toInt())
         viewmodel.sales(sales)
@@ -1300,6 +1304,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                 BALANCEMONCASH = it.body()?.soldmoncash?.toInt()!!
                 BALANCENATCASH = it.body()?.soldnatcash?.toInt()
                 BALANCELAPOULA = it.body()?.soldlapoula?.toInt()
+                IMAGE =it.body()?.image
             } else {
                 Toast.makeText(requireContext(), it.code().toString(), Toast.LENGTH_SHORT).show()
             }
@@ -1372,6 +1377,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
         var LASTSTNAME: String? = null
         var EMAIL: String? = null
         var ROLE: Int? = null
+        var IMAGE: String?=null
         var BALANCETOPUP: Int? = null
         var BALANCEMONCASH: Int? = null
         var BALANCELAPOULA: Int? = null

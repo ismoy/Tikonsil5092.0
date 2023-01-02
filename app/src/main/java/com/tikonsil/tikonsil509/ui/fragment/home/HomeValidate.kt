@@ -20,6 +20,7 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.bumptech.glide.Glide
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.tikonsil.tikonsil509.R
 import com.tikonsil.tikonsil509.data.adapter.LastSaleAdapter
@@ -74,6 +75,7 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
  private var cardviewnatcash:CardView?=null
  private var cardviewlapoula:CardView?=null
  private var balance:TextView?=null
+ private lateinit var image_home:CircleImageView
  protected  val mviewmodelstatususer by lazy { ViewModelProvider(requireActivity())[StatusUserViewModel::class.java] }
  override fun onCreateView(
   inflater: LayoutInflater,
@@ -106,6 +108,7 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
   noDataFound =binding.root.findViewById(R.id.noDataFound)
   mTokenProvider = TokenProvider()
   balance=binding.root.findViewById(R.id.totalbalance)
+  image_home = binding.root.findViewById(R.id.image_home)
   return binding.root
  }
  @SuppressLint("SetTextI18n")
@@ -127,6 +130,9 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
      saldomoncash?.text = soldmoncash.toString()
      saldonatcash?.text =soldnatcash.toString()
      saldolapoula?.text =soldlapoula.toString()
+     if (image!=null){
+      Glide.with(requireActivity()).load(image).into(image_home)
+     }
     }
     response.body()?.countrycode.apply {
      when {
