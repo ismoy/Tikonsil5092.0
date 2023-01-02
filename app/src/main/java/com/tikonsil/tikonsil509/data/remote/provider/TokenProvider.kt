@@ -18,4 +18,8 @@ class TokenProvider {
             }
     }
 
+    fun getToken(idUser: String?): DatabaseReference {
+        return mDatabaseReference!!.child(idUser!!)
+    }
+
 }

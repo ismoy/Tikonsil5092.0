@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -29,6 +30,7 @@ abstract class ValidateSaleHistory<VB : ViewBinding, VM : ViewModel> : Fragment(
  protected lateinit var mConstant: Constant
  protected lateinit var shimmerFrameLayout: ShimmerFrameLayout
  var recycler: RecyclerView?=null
+ var noDataFound:ImageView?=null
  private lateinit var historySalesAdapter: HistorySalesAdapter
  private lateinit var linearLayoutManager: LinearLayoutManager
 
@@ -49,22 +51,29 @@ abstract class ValidateSaleHistory<VB : ViewBinding, VM : ViewModel> : Fragment(
   linearLayoutManager = LinearLayoutManager(requireContext())
   shimmerFrameLayout =binding.root.findViewById(R.id.shimmer_history)
   recycler =binding.root.findViewById(R.id.recyclerviewhistory)
+  noDataFound =binding.root.findViewById(R.id.noDataFound)
   return binding.root
  }
 
  fun observehistorysales(){
-  viewmodel.getHistorySales(mAuthProvider.getId().toString()).observe(viewLifecycleOwner, Observer {
-   if (it.isNullOrEmpty()){
+
+  viewmodel.isExistSnapShot.observe(viewLifecycleOwner, Observer { exist->
+   if (exist){
     shimmerFrameLayout.stopShimmer()
     shimmerFrameLayout.isGone =true
     recycler?.isGone=false
-   }else {
+    noDataFound?.isGone=false
+   }
+  })
+  viewmodel.getHistorySales(mAuthProvider.getId().toString()).observe(viewLifecycleOwner, Observer {
+   if (it.isNotEmpty()){
     shimmerFrameLayout.stopShimmer()
     shimmerFrameLayout.isGone =true
     recycler?.isGone=false
     historySalesAdapter.setsaleListDataHistory(it)
     setupRecyclerview()
    }
+
   })
  }
  private fun setupRecyclerview(){

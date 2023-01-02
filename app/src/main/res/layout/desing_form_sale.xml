@@ -52,10 +52,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="45dp"
             android:layout_marginEnd="32dp"
             android:background="@drawable/bg_spinner_country"
-            app:ccp_autoDetectCountry="true"
+            app:ccp_autoDetectCountry="false"
             app:ccp_autoDetectLanguage="true"
             app:ccp_countryAutoDetectionPref="NETWORK_SIM_LOCALE"
             app:ccp_showFullName="true"
@@ -77,15 +77,6 @@
             app:layout_constraintStart_toStartOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/paises"
             app:singleSelection="true">
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/topup"
-                style="@style/CustomShip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:longClickable="false"
-                android:text="TOPUP" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/moncash"
@@ -125,6 +116,27 @@
             android:visibility="gone"
             android:layout_marginBottom="5dp"
             app:layout_constraintTop_toBottomOf="@id/chipgroup"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layoutdrop"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            app:helperTextTextColor="@color/design_default_color_error"
+            android:layout_marginHorizontal="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chipgroup">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteTextView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Seleccione el topUp"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
         <LinearLayout
             android:id="@+id/layout"
             android:layout_width="match_parent"
@@ -136,7 +148,7 @@
             android:layout_marginTop="15dp"
             app:layout_constraintEnd_toEndOf="@id/guideline2"
             app:layout_constraintStart_toStartOf="@id/guideline"
-            app:layout_constraintTop_toBottomOf="@id/chipgroup">
+            app:layout_constraintTop_toBottomOf="@id/layoutdrop">
 
             <com.hbb20.CountryCodePicker
                 android:id="@+id/codigo"
@@ -177,96 +189,100 @@
 
         </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/total"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/layouttotal"
-            app:layout_constraintStart_toStartOf="@+id/layouttotal" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layouttotal"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/containerTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="32dp"
-            android:hint="@string/default_monto"
-            app:helperTextTextColor="@color/design_default_color_error"
             app:layout_constraintEnd_toEndOf="@id/guideline2"
             app:layout_constraintStart_toStartOf="@id/guideline"
-            app:layout_constraintTop_toBottomOf="@id/layout">
+            app:layout_constraintTop_toBottomOf="@id/layout"
+            android:layout_marginTop="30dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/total"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/layouttotal"
+                app:layout_constraintStart_toStartOf="@+id/layouttotal" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/total"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layouttotal"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:hint="@string/default_monto"
+                android:layout_marginTop="25dp"
+                app:helperTextTextColor="@color/design_default_color_error"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/total"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Subtotal"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/layoutsubtotal"
-            app:layout_constraintStart_toStartOf="@+id/layoutsubtotal" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subtotal"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/layoutsubtotal"
+                app:layout_constraintStart_toStartOf="@+id/layoutsubtotal" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layoutsubtotal"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="32dp"
-            android:hint="SubTotal"
-            app:helperTextTextColor="@color/design_default_color_error"
-            app:layout_constraintEnd_toEndOf="@id/guideline2"
-            app:layout_constraintStart_toStartOf="@id/guideline"
-            app:layout_constraintTop_toBottomOf="@id/layouttotal">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/subtotal"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutsubtotal"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clipToOutline="false"
-                android:focusableInTouchMode="false"
-                android:inputType="number|numberDecimal"
-                tools:ignore="UnusedAttribute" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="32dp"
+                android:hint="SubTotal"
+                app:helperTextTextColor="@color/design_default_color_error"
+                app:layout_constraintTop_toBottomOf="@id/layouttotal">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/description"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/layoutdescription"
-            app:layout_constraintStart_toStartOf="@+id/layoutdescription" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/subtotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToOutline="false"
+                    android:focusableInTouchMode="false"
+                    android:inputType="number|numberDecimal"
+                    tools:ignore="UnusedAttribute" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layoutdescription"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="32dp"
-            android:hint="@string/description"
-            app:helperTextTextColor="@color/design_default_color_error"
-            app:layout_constraintEnd_toEndOf="@id/guideline2"
-            app:layout_constraintStart_toStartOf="@id/guideline"
-            app:layout_constraintTop_toBottomOf="@id/layoutsubtotal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/layoutdescription"
+                app:layout_constraintStart_toStartOf="@+id/layoutdescription" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/description"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/layoutdescription"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="32dp"
+                android:hint="@string/description"
+                app:helperTextTextColor="@color/design_default_color_error"
+                app:layout_constraintTop_toBottomOf="@id/layoutsubtotal">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
             android:id="@+id/recargar"
@@ -284,7 +300,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@id/guideline2"
             app:layout_constraintStart_toStartOf="@id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/layoutdescription"
+            app:layout_constraintTop_toBottomOf="@+id/containerTV"
             app:layout_constraintVertical_bias="0.113" />
 
         <TextView

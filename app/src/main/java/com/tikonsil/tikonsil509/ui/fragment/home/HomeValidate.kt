@@ -60,6 +60,7 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
  private lateinit var lastSaleAdapter: LastSaleAdapter
  private lateinit var linearLayoutManager: LinearLayoutManager
  private var shimmerFrameLayout: ShimmerFrameLayout?=null
+ private var noDataFound:ImageView?=null
  private var shimmerFrameLayoutwelcome: ShimmerFrameLayout?=null
  private var usernamewel:TextView?=null
  private var recycler:RecyclerView?=null
@@ -102,6 +103,7 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
   cardviewmoncash = binding.root.findViewById(R.id.cardViewmoncash)
   cardviewnatcash = binding.root.findViewById(R.id.cardViewnatcash)
   cardviewlapoula = binding.root.findViewById(R.id.cardViewlapoula)
+  noDataFound =binding.root.findViewById(R.id.noDataFound)
   mTokenProvider = TokenProvider()
   balance=binding.root.findViewById(R.id.totalbalance)
   return binding.root
@@ -157,8 +159,8 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
     shimmerFrameLayoutwelcome?.isGone=true
     usernamewel!!.isVisible = true
     binding.root.findViewById<CircleImageView>(R.id.image).isVisible = true
-    binding.root.findViewById<RelativeLayout>(R.id.relativebalance).isGone = false
-    binding.root.findViewById<ScrollView>(R.id.scrollviewcard).isVisible = true
+    binding.root.findViewById<RelativeLayout>(R.id.relativebalance).isGone = true
+    binding.root.findViewById<ScrollView>(R.id.scrollviewcard).isVisible = false
    }else{
     Toast.makeText(requireContext(), response.code(), Toast.LENGTH_SHORT).show()
     Log.d("ERRORLOGIN",response.code().toString())
@@ -182,6 +184,7 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
   }
  }
  fun observeData(){
+
   mviewmodellastsales.getLastSales(mAuthProvider.getId().toString()).observe(requireActivity()) {
    if (it==null){
     shimmerFrameLayout?.stopShimmer()
@@ -197,6 +200,13 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
    }
 
   }
+  mviewmodellastsales.isSnapShotExist.observe(viewLifecycleOwner, Observer { isExist->
+   if (!isExist){
+    shimmerFrameLayout?.stopShimmer()
+    shimmerFrameLayout?.isGone =true
+    noDataFound?.isGone =false
+   }
+  })
  }
  abstract fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?): VB
 

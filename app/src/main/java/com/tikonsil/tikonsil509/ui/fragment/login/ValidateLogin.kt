@@ -10,6 +10,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -21,12 +22,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.tikonsil.tikonsil509.R
+import com.tikonsil.tikonsil509.data.remote.api.TikonsilApi
 import com.tikonsil.tikonsil509.domain.repository.login.LoginRepository
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
 import com.tikonsil.tikonsil509.presentation.login.LoginViewModel
 import com.tikonsil.tikonsil509.presentation.login.LoginViewModelFactory
 import com.tikonsil.tikonsil509.ui.activity.home.HomeActivity
 import com.tikonsil.tikonsil509.utils.constants.Constant
+import com.tikonsil.tikonsil509.utils.constants.Constant.Companion.API_KEY
+import com.tikonsil.tikonsil509.utils.constants.Constant.Companion.ID_PRODUCT
+import com.tikonsil.tikonsil509.utils.constants.Constant.Companion.KEY
+import com.tikonsil.tikonsil509.utils.constants.Constant.Companion.NOTE
 import com.tikonsil.tikonsil509.utils.service.ConstantGeneral
 
 /** * Created by ISMOY BELIZAIRE on 23/04/2022. */
@@ -38,6 +44,7 @@ abstract class ValidateLogin<VM:ViewModel,VB:ViewBinding>:Fragment() {
  lateinit var dialog:Dialog
  protected lateinit var navController: NavController
  private var whatsapp :FloatingActionButton?=null
+ private var testApiInnovit :Button?=null
 
  override fun onCreateView(
   inflater: LayoutInflater,
@@ -52,6 +59,8 @@ abstract class ValidateLogin<VM:ViewModel,VB:ViewBinding>:Fragment() {
   mConstant = Constant()
   dialog = Dialog(requireContext())
   whatsapp =binding.root.findViewById(R.id.whatsapp)
+  testApiInnovit =binding.root.findViewById(R.id.testApi)
+
   return binding.root
  }
 
@@ -166,6 +175,12 @@ abstract class ValidateLogin<VM:ViewModel,VB:ViewBinding>:Fragment() {
     sendIntent.data = Uri.parse(uri)
     startActivity(sendIntent)
 
+  }
+ }
+
+ fun testApiInnovita(){
+  testApiInnovit?.setOnClickListener {
+   viewmodel.sendProduct(API_KEY, ID_PRODUCT,"+13055555555", KEY, NOTE)
   }
  }
  abstract fun getViewModel():Class<VM>

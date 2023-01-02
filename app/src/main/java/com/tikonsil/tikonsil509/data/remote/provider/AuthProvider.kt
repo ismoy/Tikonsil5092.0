@@ -8,7 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 class AuthProvider {
  private var auth:FirebaseAuth = FirebaseAuth.getInstance()
 
- suspend fun register(email:String?,password:String?):Task<AuthResult>{
+  fun register(email:String?,password:String?):Task<AuthResult>{
   return auth.createUserWithEmailAndPassword(email!!,password!!)
  }
   fun getId():String?{
@@ -24,12 +24,12 @@ class AuthProvider {
  fun lenguaje() {
   auth.setLanguageCode("es")
  }
- suspend fun login(email:String, password: String): Task<AuthResult> {
+  fun login(email:String, password: String): Task<AuthResult> {
   return auth.signInWithEmailAndPassword(email, password)
  }
 
  fun existSession(): Boolean {
-  var exist: Boolean = false
+  var exist = false
   if (auth.currentUser != null) {
    exist = true
   }

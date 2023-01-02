@@ -34,7 +34,7 @@ class LastSaleAdapter(val context: Context): RecyclerView.Adapter<LastSaleAdapte
     0
   }
  }
- class MyViewHolder(private val binding:ItemLastSaleBinding) :  RecyclerView.ViewHolder(binding.root) {
+ inner class MyViewHolder(private val binding:ItemLastSaleBinding) :  RecyclerView.ViewHolder(binding.root) {
   @SuppressLint("CheckResult")
   fun bidView(saledata: LastSales, context: Context) {
 
@@ -81,10 +81,18 @@ class LastSaleAdapter(val context: Context): RecyclerView.Adapter<LastSaleAdapte
           saldoform.text =" MXN "+ saledata.subtotal
           dateform.text =saledata.dates
           nameTypeRecharge.text= saledata.typerecharge
-         }else->{
+
+         }
+         saledata.codecountry=="HT" && saledata.typerecharge==""->{
+          saldoform.text =" $ "+ saledata.salePrice
+          Glide.with(context).load(R.drawable.haiti).into(imageViewPlaneta)
+          dateform.text =saledata.dates
+          nameTypeRecharge.text= "TOPUP"
+         }
+         else->{
          saldoform.text =" $ "+ saledata.subtotal
          dateform.text =saledata.dates
-         nameTypeRecharge.text= saledata.typerecharge
+         nameTypeRecharge.text= "TOPUP"
           Glide.with(context).load(R.drawable.planeta).into(imageViewPlaneta)
          }
         }

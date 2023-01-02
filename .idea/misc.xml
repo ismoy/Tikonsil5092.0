@@ -93,6 +93,15 @@
         <entry key="..\:/Users/beliz/Desktop/Tikonsil5092.0/app/src/main/res/layout/nav_drawer.xml" value="0.3697916666666667" />
         <entry key="..\:/Users/beliz/Desktop/Tikonsil5092.0/app/src/main/res/menu/menu.xml" value="0.3697916666666667" />
         <entry key="..\:/Users/beliz/Desktop/Tikonsil5092.0/app/src/main/res/menu/menu_navegation_drawer.xml" value="0.3697916666666667" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.27219202898550726" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.27219202898550726" />
+        <entry key="app/src/main/res/layout/dialog_loading.xml" value="0.27219202898550726" />
+        <entry key="app/src/main/res/layout/dialog_success.xml" value="0.27219202898550726" />
+        <entry key="app/src/main/res/layout/dialoginactiveaccount.xml" value="0.27219202898550726" />
+        <entry key="app/src/main/res/layout/fragment_login.xml" value="0.27219202898550726" />
+        <entry key="app/src/main/res/layout/fragment_register.xml" value="0.22192028985507245" />
+        <entry key="app/src/main/res/menu/menu.xml" value="0.334375" />
+        <entry key="app/src/main/res/menu/menu_navegation_drawer.xml" value="0.334375" />
       </map>
     </option>
   </component>

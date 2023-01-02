@@ -61,7 +61,7 @@
     <string name="estado" translatable="false">Estado</string>
     <string name="action" translatable="false">Actions</string>
     <string name="sale" translatable="false">Sales</string>
-    <string name="lastersale">Latest 10 sales</string>
+    <string name="lastersale">Latest 10 pucharses</string>
     <string name="cannotreload" translatable="false">Cannot reload to that country at the moment</string>
     <string name="agent" translatable="false">Agent</string>
 
@@ -101,7 +101,7 @@
     <string name="success" translatable="false">Success</string>
     <string name="next" translatable="false">Next</string>
     <string name="error" translatable="false">Error!</string>
-    <string name="request_recharge">Request Recharge</string>
+    <string name="request_recharge">Payment method</string>
     <string name="title_methode_pay">Select the payment method for your balance top-up</string>
     <string name="account_number" translatable="false">Numero de cuenta copiado</string>
     <string name="info_transferencia" translatable="false">si vas hacer transferencia bancaria por favor enviarnos el comprobante via email t43031313@gmail.com o whatsapp +56932723367</string>
@@ -120,6 +120,13 @@
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="finalizar">Finish</string>
     <string name="no_hay_ventas_registrada" translatable="false">No Hay ventas registrada</string>
+    <string name="no_rechar_for_country">There is no recharge available for the selected country</string>
+    <string name="pending">Pending</string>
+    <string name="Finalized">Finalized</string>
+    <string name="tipo_recarga">Recharge Type</string>
+    <string name="country">Country</string>
+    <string name="total_recarga">Total Recharge</string>
+    <string name="status">Status</string>
 
 
 </resources>

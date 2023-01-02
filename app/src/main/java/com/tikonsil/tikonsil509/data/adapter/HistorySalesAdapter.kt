@@ -46,6 +46,19 @@ class HistorySalesAdapter(val context: Context): RecyclerView.Adapter<HistorySal
     paisinvoiceagente.text = saledata.country
     subtotalinvoiceagente.text =saledata.subtotal
     descriptioninvoiceagente.text =saledata.description
+    totalRecharge.text =saledata.salesPrice
+     if (saledata.salesPrice == "" && saledata.idProduct==0){
+    changeStatus.text =context.getString(R.string.Finalized)
+    changeStatus.background =context.resources.getDrawable(R.drawable.background_confirmed)
+   }
+    if (saledata.status==0 && saledata.salesPrice!=""){
+     changeStatus.text =context.getString(R.string.pending)
+     changeStatus.background =context.resources.getDrawable(R.drawable.background_pending)
+    }
+    else{
+     changeStatus.text =context.getString(R.string.Finalized)
+     changeStatus.background =context.resources.getDrawable(R.drawable.background_confirmed)
+    }
    }
   }
 

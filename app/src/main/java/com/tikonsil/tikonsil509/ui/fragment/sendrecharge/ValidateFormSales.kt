@@ -10,15 +10,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isNotEmpty
 import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -32,6 +39,7 @@ import com.tikonsil.tikonsil509.R
 import com.tikonsil.tikonsil509.data.local.db.UsersEntity
 import com.tikonsil.tikonsil509.data.remote.api.RetrofitInstanceFCM
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
+import com.tikonsil.tikonsil509.data.remote.provider.TokenProvider
 import com.tikonsil.tikonsil509.data.remote.provider.TokensAdminProvider
 import com.tikonsil.tikonsil509.data.remote.provider.UserProvider
 import com.tikonsil.tikonsil509.domain.JavaMailApi.JavaMailAPI
@@ -50,6 +58,7 @@ import com.tikonsil.tikonsil509.presentation.savenotification.SaveNotificationVi
 import com.tikonsil.tikonsil509.presentation.saveusersroom.UsersRoomViewModel
 import com.tikonsil.tikonsil509.presentation.sendrecharge.SendRechargeViewModel
 import com.tikonsil.tikonsil509.presentation.sendrecharge.SendRechargeViewModelProvider
+import com.tikonsil.tikonsil509.ui.activity.home.HomeActivity
 import com.tikonsil.tikonsil509.ui.activity.invoice.InvoiceActivity
 import com.tikonsil.tikonsil509.utils.constants.Constant
 import com.tikonsil.tikonsil509.utils.constants.Constant.Companion.SUBJECT
@@ -88,6 +97,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
     protected lateinit var mAuthProvider: AuthProvider
     protected lateinit var mConstant: Constant
     protected var selectedcountry: CountryCodePicker? = null
+    private var areaCodeCountry: CountryCodePicker? = null
     private var typeselected: ChipGroup? = null
     protected var TOTAL: TextInputEditText? = null
     protected var PHONES: TextInputEditText? = null
@@ -98,9 +108,10 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
     protected var LAYOUTTOTAL: TextInputLayout? = null
     protected var LAYOUTDESCRIPTION: TextInputLayout? = null
     private var CHIPMONCASH:Chip?=null
-    private var CHIPTOPUP:Chip?=null
+    private var listTopUp:TextInputLayout?=null
     private var CHIPNATCASH:Chip?=null
     private var CHIPLAPOULA:Chip?=null
+    var containerTV:ConstraintLayout?=null
     private lateinit var mUserProvider: UserProvider
     private val roomviewmodel by lazy { ViewModelProvider(this)[UsersRoomViewModel::class.java] }
     private val userviewmodel by lazy { ViewModelProvider(requireActivity())[UserViewModel::class.java] }
@@ -108,7 +119,11 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
     private lateinit var mTokensAdminProvider: TokensAdminProvider
     private lateinit var viewmodelsavenotification: SaveNotificationViewModel
     private var errorchip:TextView?=null
-    protected var recargar:Button?=null
+    private lateinit var userTokenProvider: TokenProvider
+    private var tokenuser:String?=null
+    private var idProductSelected:Int?=null
+    private var salesPriceSelected:String?=null
+    protected lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -153,13 +168,61 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
         LAYOUTTOTAL = binding.root.findViewById(R.id.layouttotal)
         LAYOUTDESCRIPTION = binding.root.findViewById(R.id.layoutdescription)
         CHIPMONCASH =binding.root.findViewById(R.id.moncash)
-        CHIPTOPUP = binding.root.findViewById(R.id.topup)
         CHIPNATCASH =binding.root.findViewById(R.id.natcash)
         CHIPLAPOULA = binding.root.findViewById(R.id.lapula)
         mTokensAdminProvider = TokensAdminProvider()
         errorchip=binding.root.findViewById(R.id.errorchip)
-        recargar=binding.root.findViewById(R.id.recargar)
+        userTokenProvider = TokenProvider()
+        listTopUp=binding.root.findViewById(R.id.layoutdrop)
+        containerTV = binding.root.findViewById(R.id.containerTV)
+        areaCodeCountry =binding.root.findViewById(R.id.codigo)
+        observeViewModel()
+        tokenUser()
         return binding.root
+    }
+
+    private fun observeViewModel() {
+        viewmodel.noExistSnapshot.observe(viewLifecycleOwner, Observer {
+            if (it){
+                listTopUp?.helperText = getString(R.string.no_rechar_for_country)
+                val listClear = mutableListOf<CostInnoverit>()
+                setUpDataInSpinner(listClear)
+            }
+        })
+    }
+
+
+    private fun setUpDataInSpinner(listPrice: List<CostInnoverit>?) {
+        val  adapterItems = ArrayAdapter(requireContext(),R.layout.dropdowm_item,listPrice!!)
+        val idAutoComplete =binding.root.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextView)
+
+        idAutoComplete.setAdapter(adapterItems)
+        idAutoComplete.setOnItemClickListener { adapterView, view, i, l ->
+            val selecteditem = adapterView.getItemAtPosition(i)
+            salesPriceSelected=selecteditem.toString()
+            viewmodel.getIdProductSelected(selecteditem.toString())
+            viewmodel.responseIdProduct.observe(viewLifecycleOwner, Observer {
+               idProductSelected=it.toInt()
+            })
+            containerTV?.isVisible =false
+            typeselected?.isVisible =false
+
+        }
+
+    }
+
+    private fun tokenUser() {
+        userTokenProvider.getToken(mAuthProvider.getId().toString()).addListenerForSingleValueEvent(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    tokenuser=snapshot.child("token").value.toString()
+
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+
+        })
     }
 
     fun validateitemrealtime() {
@@ -176,7 +239,14 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
             } else {
                 BTN_RECARGA?.isEnabled = false
             }
-
+            viewmodel.getAllPriceCost(selectedcountry!!.selectedCountryNameCode.toString())
+            viewmodel.responseGetAllPrice.observe(viewLifecycleOwner, Observer { listPrice->
+                if (listPrice.isNotEmpty()){
+                    listTopUp?.helperText =""
+                    setUpDataInSpinner(listPrice)
+                    Log.d("listPrice",listPrice.toString())
+                }
+            })
         }
         selectedCountryonly()
         PHONES?.addTextChangedListener(object :
@@ -264,29 +334,27 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
     private fun selectedCountryonly() {
         when {
             PAIS == CODEHAITI -> {
-                CHIPTOPUP?.isEnabled = true
                 CHIPMONCASH?.isEnabled = true
                 CHIPMONCASH?.isVisible = true
                 CHIPLAPOULA?.isVisible = true
                 CHIPLAPOULA?.isEnabled = true
                 CHIPNATCASH?.isVisible = true
                 CHIPNATCASH?.isEnabled = true
+                listTopUp?.isVisible = true
 
             }
             PAIS != CODEHAITI -> {
-                CHIPTOPUP?.isEnabled = true
                 CHIPMONCASH?.isVisible = false
                 CHIPLAPOULA?.isVisible = false
                 CHIPNATCASH?.isVisible = false
+
             }
             PAIS == CODEHAITI && BALANCEMONCASH == 0 -> {
-                CHIPTOPUP?.isEnabled = true
                 CHIPMONCASH?.isVisible = false
                 CHIPNATCASH?.isEnabled = true
                 CHIPLAPOULA?.isEnabled = true
             }
             PAIS == CODEHAITI && BALANCETOPUP == 0 -> {
-                CHIPTOPUP?.isVisible = false
                 CHIPMONCASH?.isEnabled = true
                 CHIPNATCASH?.isEnabled = true
                 CHIPLAPOULA?.isEnabled = true
@@ -294,20 +362,18 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
             PAIS == CODEHAITI && BALANCELAPOULA == 0 -> {
                 CHIPLAPOULA?.isVisible = false
                 CHIPMONCASH?.isEnabled = true
-                CHIPTOPUP?.isEnabled = true
                 CHIPNATCASH?.isEnabled = true
             }
             PAIS == CODEHAITI && BALANCENATCASH == 0 -> {
                 CHIPNATCASH?.isVisible = false
                 CHIPMONCASH?.isEnabled = true
-                CHIPTOPUP?.isEnabled = true
                 CHIPLAPOULA?.isEnabled = true
             }
             else -> {
-                CHIPTOPUP?.isEnabled = true
                 CHIPMONCASH?.isVisible = false
                 CHIPLAPOULA?.isVisible = false
                 CHIPNATCASH?.isVisible = false
+                listTopUp?.isVisible = true
             }
         }
 
@@ -316,36 +382,42 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
             when {
                 PAIS == CODEHAITI && chip1 == SERVICEHAITI1 -> {
                     calculatemoncash()
+                    containerTV?.isVisible =true
+                    listTopUp?.isVisible =false
                 }
                 PAIS == CODEHAITI && chip1 == SERVICEHAITI2 -> {
                     calculatelapoula()
+                    containerTV?.isVisible =true
+                    listTopUp?.isVisible =false
                 }
                 PAIS == CODEHAITI && chip1 == SERVICEHAITI3 -> {
                     calculatenatcash()
+                    containerTV?.isVisible =true
+                    listTopUp?.isVisible =false
                 }
                 PAIS == CODEHAITI && chip1 == SERVICEHAITI4 -> {
-                    calculatetopup()
+                   // calculatetopup()
                 }
                 PAIS == CODECUBA && chip1 == SERVICEGENERAL -> {
-                    calculatetopupcuba()
+                   // calculatetopupcuba()
                 }
                 PAIS == CODEMEXICO && chip1 == SERVICEGENERAL -> {
-                    calculatetopupmexico()
+                   // calculatetopupmexico()
                 }
                 PAIS == CODECHILE && chip1 == SERVICEGENERAL -> {
-                    calculatetopupchile()
+                  //  calculatetopupchile()
                 }
                 PAIS == CODEPANAMA && chip1 == SERVICEGENERAL -> {
-                    calculatetopuppanama()
+                   // calculatetopuppanama()
                 }
                 PAIS == CODEBRAZIL && chip1 == SERVICEGENERAL -> {
-                    calculatetopupbrazil()
+                   // calculatetopupbrazil()
                 }
                 PAIS == CODEREPUBLICANDOMINIK && chip1 == SERVICEGENERAL -> {
-                    calculatetopupdominicana()
+                   // calculatetopupdominicana()
                 }
                 PAIS == CODEUSA && chip1 == SERVICEGENERAL -> {
-                    calculatetopupestadosunidos()
+                   // calculatetopupestadosunidos()
                 }
             }
 
@@ -358,17 +430,15 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
     private fun selectedCountry() {
         when {
             selectedListener == CODEHAITI -> {
-                CHIPTOPUP?.isEnabled = true
-                CHIPTOPUP?.isVisible = true
                 CHIPMONCASH?.isEnabled = true
                 CHIPMONCASH?.isVisible = true
                 CHIPLAPOULA?.isEnabled = true
                 CHIPLAPOULA?.isVisible = true
                 CHIPNATCASH?.isEnabled = true
                 CHIPNATCASH?.isVisible = true
+                listTopUp?.isVisible = true
             }
             PAIS != CODEHAITI -> {
-                CHIPTOPUP?.isEnabled = true
                 CHIPMONCASH?.isVisible = false
                 CHIPNATCASH?.isVisible = false
                 CHIPLAPOULA?.isVisible = false
@@ -378,6 +448,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                 CHIPMONCASH?.isVisible = false
                 CHIPLAPOULA?.isVisible = false
                 CHIPNATCASH?.isVisible = false
+                listTopUp?.isVisible = true
             }
         }
         typeselected?.setOnCheckedStateChangeListener { group, checkedId ->
@@ -385,36 +456,42 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
             when {
                 selectedListener == CODEHAITI && chip1 == SERVICEHAITI1 -> {
                     calculatemoncash()
+                    containerTV?.isVisible =true
+                    listTopUp?.isVisible =false
                 }
                 selectedListener == CODEHAITI && chip1 == SERVICEHAITI4 -> {
-                    calculatetopup()
+                   // calculatetopup()
                 }
                 selectedListener == CODECUBA && chip1 == SERVICEGENERAL -> {
-                    calculatetopupcuba()
+                    //calculatetopupcuba()
                 }
                 selectedListener == CODEHAITI && chip1 == SERVICEHAITI2 -> {
                     calculatelapoula()
+                    containerTV?.isVisible =true
+                    listTopUp?.isVisible =false
                 }
                 selectedListener == CODEHAITI && chip1 == SERVICEHAITI3 -> {
                     calculatenatcash()
+                    containerTV?.isVisible =true
+                    listTopUp?.isVisible =false
                 }
                 selectedListener == CODEMEXICO && chip1 == SERVICEGENERAL -> {
-                    calculatetopupmexico()
+                    //calculatetopupmexico()
                 }
                 selectedListener == CODECHILE && chip1 == SERVICEGENERAL -> {
-                    calculatetopupchile()
+                    //calculatetopupchile()
                 }
                 selectedListener == CODEPANAMA && chip1 == SERVICEGENERAL -> {
-                    calculatetopuppanama()
+                   // calculatetopuppanama()
                 }
                 selectedListener == CODEBRAZIL && chip1 == SERVICEGENERAL -> {
-                    calculatetopupbrazil()
+                   // calculatetopupbrazil()
                 }
                 selectedListener == CODEREPUBLICANDOMINIK && chip1 == SERVICEGENERAL -> {
-                    calculatetopupdominicana()
+                   // calculatetopupdominicana()
                 }
                 selectedListener == CODEUSA && chip1 == SERVICEGENERAL-> {
-                    calculatetopupestadosunidos()
+                   // calculatetopupestadosunidos()
                 }
             }
 
@@ -424,7 +501,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
 
     }
 
-    private fun calculatetopupestadosunidos() {
+   /* private fun calculatetopupestadosunidos() {
 
             TOTAL?.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -447,8 +524,8 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
             })
 
     }
-
-    private fun calculatetopupdominicana() {
+*/
+   /* private fun calculatetopupdominicana() {
 
         TOTAL?.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -499,28 +576,17 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
     }
 
     private fun calculatetopuppanama() {
-            TOTAL?.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        TOTAL?.doOnTextChanged { txtTotal, _, _, _ ->
+            if (txtTotal!!.isNotEmpty() && chip1== SERVICEGENERAL) {
+                val countvaluetopuppanama: Double =
+                    TOTAL?.text.toString().toDouble() / PRICEPANAMA!!
+                SUBTOTAL?.setText(countvaluetopuppanama.roundToInt().toString())
+            }
+        }
 
-                }
+    }*/
 
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (TOTAL?.text.toString().isNotEmpty()&& chip1== SERVICEGENERAL) {
-                        val countvaluetopuppanama: Double =
-                            TOTAL?.text.toString().toDouble() / PRICEPANAMA!!
-                            SUBTOTAL?.setText(countvaluetopuppanama.roundToInt().toString())
-                    }
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
-                }
-
-            })
-
-
-    }
-
-    private fun calculatetopupchile() {
+  /*  private fun calculatetopupchile() {
             TOTAL?.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
@@ -602,8 +668,28 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                 }
 
             })
-    }
+    }*/
+    private fun calculatelapoula() {
+        TOTAL?.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
 
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (TOTAL?.text.toString().isNotEmpty()&& chip1== SERVICEHAITI2) {
+                    val countvaluelapoula: Double =
+                        TOTAL?.text.toString().toDouble() / PRICEHAITILAPOULA!!
+                    SUBTOTAL?.setText(countvaluelapoula.roundToInt().toString())
+
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+    }
     private fun calculatemoncash() {
         TOTAL?.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -615,28 +701,6 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                             TOTAL?.text.toString()
                                 .toDouble() / PRICEMONCASHHAITI!!
                           SUBTOTAL?.setText(countvaluemoncash.roundToInt().toString())
-
-                    }
-                }
-
-                override fun afterTextChanged(p0: Editable?) {
-
-                }
-
-            })
-
-    }
-
-    private fun calculatelapoula() {
-        TOTAL?.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    if (TOTAL?.text.toString().isNotEmpty()&& chip1== SERVICEHAITI2) {
-                        val countvaluelapoula: Double =
-                            TOTAL?.text.toString().toDouble() / PRICEHAITILAPOULA!!
-                       SUBTOTAL?.setText(countvaluelapoula.roundToInt().toString())
 
                     }
                 }
@@ -688,37 +752,12 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                 else -> {
                     LAYOUPHONE?.hint = PHONES?.text.toString()
                     LAYOUPHONE?.helperText = ""
-                }
-            }
-            when {
-                TOTAL?.text.toString().isEmpty() -> {
-                    LAYOUTTOTAL?.helperText =
-                        getString(R.string.erroremptyfield)
-                    return
-                }
-                else -> {
-                    LAYOUTTOTAL?.helperText = ""
-                }
-            }
-            when{
-                chip1?.isEmpty()!! ->{
-                    errorchip?.text="Seleccione el tipo de recarga"
-                    errorchip?.isVisible=true
-                return
-                }else->{
-                   errorchip?.text=""
-                errorchip?.isVisible=false
-                }
-            }
-            when {
-                DESCRIPTION?.text.toString().isEmpty() -> {
-                    LAYOUTDESCRIPTION?.helperText =
-                        getString(R.string.erroremptyfield)
-                    return
-                }
-                else -> {
-                    LAYOUTDESCRIPTION?.helperText = ""
-                    saleAgents()
+                    if(idProductSelected!=null && areaCodeCountry!!.isNotEmpty() && salesPriceSelected!=null){
+                        observeData()
+                    }else{
+                        saleAgents()
+                    }
+
                 }
             }
 
@@ -726,10 +765,8 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
 
 
     private fun saleAgents() {
+
         when (chip1) {
-            SERVICEGENERAL -> {
-                observeData()
-            }
             SERVICEHAITI2 -> {
                 observeDataLapoula()
             }
@@ -745,6 +782,58 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
     }
     @SuppressLint("SetTextI18n")
     private fun observeDataNatcash() {
+
+        val sales = Sales(
+            mAuthProvider.getId()!!,
+            FIRSTNAME,
+            LASTSTNAME,
+            EMAIL,
+            ROLE!!,
+            chip1!!,
+            PHONES?.text.toString(),
+            currentDate,
+            selectedcountry!!.selectedCountryName,
+            selectedcountry!!.selectedCountryNameCode,
+            SUBTOTAL?.text.toString(),
+            DESCRIPTION?.text.toString(),
+            tokenuser!!,
+            status = 0,
+            0,
+            ""
+        )
+       // val newsaldolanatcash = BALANCENATCASH?.minus(TOTAL?.text.toString().toInt())
+        viewmodel.sales(sales)
+        viewmodel.myResponseSales.observe(viewLifecycleOwner, Observer { sale ->
+            if (sale.isSuccessful) {
+                insertDAtaInRoomDataBase()
+                sendEmail()
+                sendNotificationToOtherDevice()
+                saveNotification()
+              /*  mUserProvider.updateNatCash(mAuthProvider.getId(), newsaldolanatcash!!)
+                    ?.addOnSuccessListener { }*/
+                val view = View.inflate(requireContext(), R.layout.dialog_success, null)
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setView(view)
+                val dialog = builder.create()
+                dialog.show()
+                dialog.setCancelable(false)
+                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                val message = view.findViewById<TextView>(R.id.messagenomoney)
+                val button = view.findViewById<Button>(R.id.confirm)
+                message.text = getString(R.string.thanks)
+                button.setOnClickListener {
+                    startActivity(Intent(requireContext(), InvoiceActivity::class.java))
+                    dialog.dismiss()
+                    requireActivity().finish()
+
+                }
+
+            } else {
+                Toast.makeText(requireContext(), sale.code().toString(), Toast.LENGTH_SHORT)
+                    .show()
+            }
+        })
+        /*
         when {
              TOTAL?.text.toString().toInt() > BALANCENATCASH!! -> {
                 val view = View.inflate(requireContext(), R.layout.dialognomoney, null)
@@ -781,8 +870,8 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                     DESCRIPTION?.text.toString()
                 )
                 val newsaldolanatcash = BALANCENATCASH?.minus(TOTAL?.text.toString().toInt())
-                viewmodel.Sales(sales)
-                viewmodel.myResponsesales.observe(viewLifecycleOwner, Observer { sale ->
+                viewmodel.sales(sales)
+                viewmodel.myResponseSales.observe(viewLifecycleOwner, Observer { sale ->
                     if (sale.isSuccessful) {
                         insertDAtaInRoomDataBase()
                         sendEmail()
@@ -813,13 +902,60 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                     }
                 })
             }
-        }
+        }*/
 
     }
 
     @SuppressLint("SetTextI18n")
     private fun observeDataLapoula() {
-        when {
+        val sales = Sales(
+            mAuthProvider.getId()!!,
+            FIRSTNAME,
+            LASTSTNAME,
+            EMAIL,
+            ROLE!!,
+            chip1!!,
+            PHONES?.text.toString(),
+            currentDate,
+            selectedcountry!!.selectedCountryName,
+            selectedcountry!!.selectedCountryNameCode,
+            SUBTOTAL?.text.toString(),
+            DESCRIPTION?.text.toString(),
+            tokenuser!!,
+            status = 0,
+            idProduct = 0,
+            salesPrice = ""
+
+        )
+        // val newsaldolapoula = BALANCELAPOULA?.minus(TOTAL?.text.toString().toInt())
+        viewmodel.sales(sales)
+        viewmodel.myResponseSales.observe(viewLifecycleOwner, Observer { sale ->
+            if (sale.isSuccessful) {
+                insertDAtaInRoomDataBase()
+                sendEmail()
+                sendNotificationToOtherDevice()
+                saveNotification()
+                /*mUserProvider.updateLapoula(mAuthProvider.getId(), newsaldolapoula!!)
+                    ?.addOnSuccessListener { }*/
+                val view = View.inflate(requireContext() , R.layout.dialog_success , null)
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setView(view)
+                val dialog = builder.create()
+                dialog.show()
+                dialog.setCancelable(false)
+                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                val message = view.findViewById<TextView>(R.id.messagenomoney)
+                val button = view.findViewById<Button>(R.id.confirm)
+                message.text = getString(R.string.thanks)
+                button.setOnClickListener {
+                    startActivity(Intent(requireContext() , InvoiceActivity::class.java))
+                    dialog.dismiss()
+                    requireActivity().finish()
+
+                }
+            }
+        })
+      /*  when {
              TOTAL?.text.toString().toInt() > BALANCELAPOULA!! -> {
                 val view = View.inflate(requireContext(), R.layout.dialognomoney, null)
                 val builder = AlertDialog.Builder(requireContext())
@@ -853,9 +989,9 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                     SUBTOTAL?.text.toString(),
                     DESCRIPTION?.text.toString()
                 )
-                val newsaldolapoula = BALANCELAPOULA?.minus(TOTAL?.text.toString().toInt())
-                viewmodel.Sales(sales)
-                viewmodel.myResponsesales.observe(viewLifecycleOwner, Observer { sale ->
+               // val newsaldolapoula = BALANCELAPOULA?.minus(TOTAL?.text.toString().toInt())
+                viewmodel.sales(sales)
+                viewmodel.myResponseSales.observe(viewLifecycleOwner, Observer { sale ->
                     if (sale.isSuccessful) {
                         insertDAtaInRoomDataBase()
                         sendEmail()
@@ -886,13 +1022,63 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                     }
                 })
             }
-        }
+        }*/
 
     }
 
     @SuppressLint("SetTextI18n")
     private fun observeDataMoncash() {
-        when {
+        val sales = Sales(
+            mAuthProvider.getId()!!,
+            FIRSTNAME,
+            LASTSTNAME,
+            EMAIL,
+            ROLE!!,
+            chip1,
+            PHONES?.text.toString(),
+            currentDate,
+            selectedcountry!!.selectedCountryName,
+            selectedcountry!!.selectedCountryNameCode,
+            SUBTOTAL?.text.toString(),
+            DESCRIPTION?.text.toString(),
+            tokenuser!!,
+            status = 0,
+            idProduct = 0,
+            salesPrice = ""
+        )
+        //val newsaldomoncash = BALANCEMONCASH?.minus(TOTAL?.text.toString().toInt())
+        viewmodel.sales(sales)
+        viewmodel.myResponseSales.observe(viewLifecycleOwner, Observer { sale ->
+            if (sale.isSuccessful) {
+                insertDAtaInRoomDataBase()
+                sendEmail()
+                sendNotificationToOtherDevice()
+                saveNotification()
+                /*mUserProvider.updateMoncash(mAuthProvider.getId(), newsaldomoncash!!)
+                    ?.addOnSuccessListener { }*/
+                val view = View.inflate(requireContext(), R.layout.dialog_success, null)
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setView(view)
+                val dialog = builder.create()
+                dialog.show()
+                dialog.setCancelable(false)
+                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                val message = view.findViewById<TextView>(R.id.messagenomoney)
+                val button = view.findViewById<Button>(R.id.confirm)
+                message.text = getString(R.string.thanks)
+                button.setOnClickListener {
+                    startActivity(Intent(requireContext(), InvoiceActivity::class.java))
+                    dialog.dismiss()
+                    requireActivity().finish()
+
+                }
+
+            } else {
+                Toast.makeText(requireContext(), sale.code().toString(), Toast.LENGTH_SHORT)
+                    .show()
+            }
+        })
+      /*  when {
              TOTAL?.text.toString().toInt() > BALANCEMONCASH!! -> {
                 val view = View.inflate(requireContext(), R.layout.dialognomoney, null)
                 val builder = AlertDialog.Builder(requireContext())
@@ -959,7 +1145,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                     }
                 })
             }
-        }
+        }*/
 
     }
 
@@ -972,7 +1158,57 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
 
     @SuppressLint("SimpleDateFormat", "CutPasteId", "SetTextI18n")
     private fun observeData() {
-        when {
+
+        val sales = Sales(
+            mAuthProvider.getId()!!,
+            FIRSTNAME,
+            LASTSTNAME,
+            EMAIL,
+            ROLE!!,
+            "",
+            "${areaCodeCountry?.selectedCountryCodeWithPlus}${PHONES?.text.toString()}",
+            currentDate,
+            selectedcountry!!.selectedCountryName,
+            selectedcountry!!.selectedCountryNameCode,
+            "",
+            "",
+            tokenuser!!,
+             0,
+            idProductSelected!!,
+            salesPriceSelected!!
+        )
+       // val newsaldotopup = BALANCETOPUP?.minus(TOTAL?.text.toString().toInt())
+        viewmodel.sales(sales)
+        viewmodel.myResponseSales.observe(viewLifecycleOwner, Observer { sals ->
+            if (sals.isSuccessful) {
+               // insertDAtaInRoomDataBase()
+                sendEmail()
+                sendNotificationToOtherDevice()
+                saveNotification()
+                //mUserProvider.updateTopup(mAuthProvider.getId(), newsaldotopup!!)?.isSuccessful
+                val view = View.inflate(requireContext(), R.layout.dialog_success, null)
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setView(view)
+                val dialog = builder.create()
+                dialog.show()
+                dialog.setCancelable(false)
+                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+                val message = view.findViewById<TextView>(R.id.messagenomoney)
+                val button = view.findViewById<Button>(R.id.confirm)
+                message.text = getString(R.string.thanks)
+                button.setOnClickListener {
+                    val intent =Intent(requireContext(),HomeActivity::class.java)
+                    startActivity(intent)
+                    dialog.dismiss()
+                    requireActivity().finish()
+                }
+
+            } else {
+                Toast.makeText(requireContext(), sals.code().toString(), Toast.LENGTH_SHORT)
+                    .show()
+            }
+        })
+       /* when {
             TOTAL?.text.toString().toInt() > BALANCETOPUP!! -> {
                 val view = View.inflate(requireContext(), R.layout.dialognomoney, null)
                 val builder = AlertDialog.Builder(requireContext())
@@ -1037,7 +1273,7 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                     }
                 })
             }
-        }
+        }*/
 
     }
 
@@ -1049,8 +1285,6 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
     private fun clearfieldTOPUPIgualacero(typeselected: ChipGroup?) {
         PHONES?.setText("")
         TOTAL?.setText("")
-        typeselected?.findViewById<Chip>(R.id.topup)?.isVisible = false
-
     }
 
     @SuppressLint("SimpleDateFormat", "CutPasteId")
@@ -1096,21 +1330,25 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
     }
 
     private fun insertDAtaInRoomDataBase() {
-        val savedata = UsersEntity(
-            0,
-            selectedcountry?.selectedCountryName!!,
-            PAIS!!,
-            FIRSTNAME!!,
-            LASTSTNAME!!,
-            EMAIL!!,
-            PHONES?.text.toString(),
-            ROLE!!,
-            chip1!!,
-            currentDate,
-            SUBTOTAL?.text.toString(),
-            DESCRIPTION?.text.toString()
-        )
-        roomviewmodel.addUsers(savedata)
+        val savedata = chip1?.let {
+            UsersEntity(
+                0,
+                selectedcountry?.selectedCountryName!!,
+                PAIS!!,
+                FIRSTNAME!!,
+                LASTSTNAME!!,
+                EMAIL!!,
+                PHONES?.text.toString(),
+                ROLE!!,
+                it ,
+                currentDate,
+                SUBTOTAL?.text.toString(),
+                DESCRIPTION?.text.toString()
+            )
+        }
+        if (savedata != null) {
+            roomviewmodel.addUsers(savedata)
+        }
     }
 
     private fun sendEmail() {
@@ -1234,7 +1472,6 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
                 }
 
             })

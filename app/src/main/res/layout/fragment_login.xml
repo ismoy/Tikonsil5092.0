@@ -151,6 +151,17 @@
             app:layout_constraintStart_toStartOf="@id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/iralregistro" />
 
+
+        <Button
+            android:visibility="gone"
+            android:id="@+id/testApi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/btn_login"
+            app:layout_constraintStart_toStartOf="@id/guideline"
+            app:layout_constraintEnd_toEndOf="@id/guideline2"
+            android:layout_marginHorizontal="32dp"
+            android:text="testApi"/>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/whatsapp"
             android:layout_width="wrap_content"

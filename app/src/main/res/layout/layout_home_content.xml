@@ -114,7 +114,8 @@
         <ScrollView
             android:id="@+id/scrollviewcard"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -262,9 +263,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="37dp"
-            android:layout_marginTop="260dp"
+            android:layout_marginTop="60dp"
             android:layout_marginEnd="37dp"
-
             android:background="@drawable/bgcardgradient"
             android:text="@string/lastersale"
             android:textAlignment="center"
@@ -276,9 +276,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="20dp"
-            android:paddingTop="229dp"
+            android:paddingTop="29dp"
             android:paddingEnd="20dp">
 
+            <ImageView
+                android:id="@+id/noDataFound"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/nodata"
+                android:visibility="gone"/>
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmer"
                 android:layout_width="match_parent"

@@ -20,18 +20,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-       <!-- <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/pictureregisteruseragente"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="120dp"
-            android:backgroundTint="@color/colorboton"
-            android:clickable="true"
-            android:elevation="3dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/man"
-            android:focusable="true" />-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,7 +48,6 @@
                     android:id="@+id/firstnameinvoicesagente"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ismoydefault"
                     android:layout_alignParentEnd="true"
                     android:textColor="@color/black"
                     android:textSize="15sp"
@@ -89,7 +76,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
-                    android:text="Belizaire"
                     android:layout_alignParentEnd="true"
                     android:textColor="@color/black"
                     android:textSize="15sp"
@@ -100,7 +86,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/txtr"
@@ -146,7 +133,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
-                    android:text="Belizairesmoy72@gmail.com"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:layout_alignParentEnd="true"
@@ -163,7 +149,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
-                    android:text="Telefono"
+                    android:text="@string/phone"
                     android:textColor="@color/colorboton"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -173,7 +159,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
-                    android:text="+56973030630"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:layout_alignParentEnd="true"
@@ -192,7 +177,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
-                    android:text="Fecha"
+                    android:text="@string/date"
                     android:textColor="@color/colorboton"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -202,7 +187,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
-                    android:text="26/07/2021"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:layout_alignParentEnd="true"
@@ -218,7 +202,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
-                    android:text="Tipo Recg"
+                    android:text="@string/tipo_recarga"
                     android:textColor="@color/colorboton"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -229,7 +213,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
-                    android:text="TopUp"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:layout_alignParentEnd="true"
@@ -246,7 +229,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
-                    android:text="Pais"
+                    android:text="@string/country"
                     android:textColor="@color/colorboton"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -257,7 +240,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
-                    android:text="Haiti"
                     android:layout_alignParentEnd="true"
                     android:textColor="@color/black"
                     android:textSize="15sp"
@@ -285,7 +267,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
-                    android:text="0"
                     android:layout_alignParentEnd="true"
                     android:textColor="@color/black"
                     android:textSize="15sp"
@@ -304,7 +285,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
-                    android:text="Descripcion"
+                    android:text="@string/description"
                     android:textColor="@color/colorboton"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -314,13 +295,70 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
-                    android:text="Gracias por preferirnos"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:layout_alignParentEnd="true"
                     android:textStyle="bold" />
 
 
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/topuprecharge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:text="@string/total_recarga"
+                    android:textColor="@color/colorboton"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/totalRecharge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:layout_alignParentEnd="true"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:text="@string/status"
+                    android:textColor="@color/colorboton"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/changeStatus"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:gravity="center"
+                    android:layout_alignParentEnd="true"
+                    android:textStyle="bold" />
             </RelativeLayout>
         </LinearLayout>
 

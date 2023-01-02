@@ -11,6 +11,9 @@ import com.tikonsil.tikonsil509.domain.model.Sales
 /** * Created by ISMOY BELIZAIRE on 16/05/2022. */
 class HistorySalesRepository {
     private val historysalesprovider by lazy { HistorySalesProvider() }
+
+    var isExistSnapShot=MutableLiveData<Boolean>()
+
     suspend fun getHistorySales(idUser:String): LiveData<MutableList<Sales>> {
         val mutableLiveDat = MutableLiveData<MutableList<Sales>>()
         historysalesprovider.getHistorySales(idUser)?.addValueEventListener(object : ValueEventListener {
@@ -28,10 +31,16 @@ class HistorySalesRepository {
                         val date = ds.child("date").value.toString()
                         val codecountry = ds.child("codecountry").value.toString()
                         val typerecharge = ds.child("typerecharge").value.toString()
-                        val listsales = Sales("",firstname,lastname, email,role.toInt(),typerecharge, phone, date,codecountry,codecountry, subtotal, description)
+                        val token = ds.child("token").value.toString()
+                        val status = ds.child("status").value.toString()
+                        val idProduct = ds.child("id_product").value.toString()
+                        val salePrice = ds.child("salesPrice").value.toString()
+                        val listsales = Sales("",firstname,lastname, email,role.toInt(),typerecharge, phone, date,codecountry,codecountry, subtotal, description,token,status.toInt(),idProduct.toInt(),salePrice)
                         listlastdata.add(listsales)
                     }
                     mutableLiveDat.value =listlastdata
+                }else{
+                    isExistSnapShot.value=true
                 }
             }
 

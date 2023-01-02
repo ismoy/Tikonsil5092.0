@@ -20,4 +20,10 @@ class LoginViewModel(private var repository: LoginRepository):ViewModel() {
    responseLoginRepository.value = response
   }
  }
+
+ fun sendProduct(apikey:String,id_product:String,destination:String,key:String,note:String){
+  viewModelScope.launch {
+   repository.sendProduct(apikey, id_product, destination, key, note)
+  }
+ }
 }

@@ -16,17 +16,15 @@ import com.tikonsil.tikonsil509.ui.activity.login.LoginActivity
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
-    var mAuthProvider: AuthProvider? = null
-    var mUserProvider: UserProvider? = null
+    private lateinit var mAuthProvider: AuthProvider
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mAuthProvider = AuthProvider()
-        mUserProvider = UserProvider()
-        checkuserexixt()
+        checkUserExist()
     }
 
-    private fun checkuserexixt() {
-      if (mAuthProvider?.existSession() == true){
+    private fun checkUserExist() {
+      if (mAuthProvider.existSession()){
          startTimerHome()
       }else{
           startTimer()

@@ -38,7 +38,6 @@
         </LinearLayout>
         <TextView
             android:id="@+id/firstname_item"
-            android:text="@string/default_first_name"
             android:textStyle="bold"
             android:textColor="@color/black"
             android:textSize="18sp"

@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Tikonsil509</string>
     <string name="Wellcome">Bienvenido(a):</string>
-    <string name="lastersale">Últimas 10 ventas</string>
+    <string name="lastersale">Últimas 10 compras</string>
     <string name="total_balance">Balance Total </string>
     <string name="singin">Iniciar sesión</string>
     <string name="email">Correo electrónico</string>
@@ -33,7 +33,7 @@
     <string name="sendreload_other_agent">Vender a Otros Agentes</string>
     <string name="register_reference">Registrar referidos</string>
     <string name="policy_privacy">Política de privacidad</string>
-    <string name="request_recharge">Solicitar recarga</string>
+    <string name="request_recharge">Método de pago</string>
     <string name="ayuda">Soporte técnico</string>
     <string name="description" >Descripción</string>
     <string name="usernoactive">El usuario no tiene acceso al sistema</string>
@@ -45,6 +45,13 @@
     <string name="yourbalance">Su saldo es</string>
     <string name="nomoney" >No tienes saldo suficiente para realizar esta compra</string>
     <string name="finalizar">Terminar</string>
+    <string name="no_rechar_for_country">No hay recarga disponible para el país seleccionado</string>
+    <string name="pending">Pendiente</string>
+    <string name="Finalized">Finalizado</string>
+    <string name="tipo_recarga">Tipo Recarga</string>
+    <string name="country">País</string>
+    <string name="total_recarga">Total Recarga</string>
+    <string name="status">Estado</string>
 
 
 </resources>

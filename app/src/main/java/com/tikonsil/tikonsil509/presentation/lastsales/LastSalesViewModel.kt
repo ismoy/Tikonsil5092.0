@@ -10,6 +10,10 @@ import kotlinx.coroutines.launch
 
 /** * Created by ISMOY BELIZAIRE on 16/05/2022. */
 class LastSalesViewModel(private val repository: LastSalesRepository):ViewModel() {
+    var isSnapShotExist =MutableLiveData<Boolean>()
+    init {
+        isSnapShotExist =repository.isSnapShotExist
+    }
     fun getLastSales(idUser:String): LiveData<MutableList<LastSales>> {
         val mutabledata = MutableLiveData<MutableList<LastSales>>()
         viewModelScope.launch {

@@ -2,7 +2,6 @@ package com.tikonsil.tikonsil509.utils.service
 
 import android.content.Context
 import android.content.Intent
-import androidx.core.content.getSystemService
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.tikonsil.tikonsil509.ui.activity.home.HomeActivity

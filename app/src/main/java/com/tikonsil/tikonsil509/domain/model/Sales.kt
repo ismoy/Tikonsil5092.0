@@ -15,5 +15,9 @@ data class Sales(
     @SerializedName("country") val country: String? = null,
     @SerializedName("codecountry") val codecountry:String?=null,
     @SerializedName("subtotal") val subtotal: String? = null,
-    @SerializedName("description") val description: String? = null
+    @SerializedName("description") val description: String? = null,
+    @SerializedName("token") val token: String? = null,
+    @SerializedName("status") val status: Int=0,
+    @SerializedName("id_product") val idProduct:Int,
+    @SerializedName("salesPrice") val salesPrice:String
 )

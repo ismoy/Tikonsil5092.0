@@ -7,13 +7,18 @@
     tools:context=".ui.fragment.historysales.HistorySalesFragment"
     android:layout_marginBottom="90dp">
 
+    <ImageView
+        android:id="@+id/noDataFound"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/nodata"
+        android:visibility="gone"/>
 
         <com.facebook.shimmer.ShimmerFrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/shimmer_history"
-            app:shimmer_duration="20"
-            >
+            app:shimmer_auto_start="true">
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -10,4 +10,5 @@
     <string name="usernoactive">User does not have access to the system</string>
     <string name="thanks">Thanks for your purchase</string>
     <string name="finalizar">Finalizar</string>
+    <string name="no_rechar_for_country">There is no recharge available for the selected country</string>
 </resources>

@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Tikonsil509</string>
     <string name="Wellcome">Bienvenue(a):</string>
-    <string name="lastersale">10 dernières ventes</string>
+    <string name="lastersale">10 dernières achats</string>
     <string name="total_balance">Solde total </string>
     <string name="singin">Commencer la session</string>
     <string name="email">Courrier électronique</string>
@@ -16,7 +16,7 @@
     <string name="register">Enregistrement</string>
     <string name="Firstname">Prénom</string>
     <string name="default_first_name">Jean</string>
-    <string name="LastName">Le nom</string>
+    <string name="LastName">Nom de famille</string>
     <string name="default_last_name">Francois</string>
     <string name="defaulemail">jeanFrancois@gmail.com</string>
     <string name="phone">Téléphone</string>
@@ -33,9 +33,9 @@
     <string name="sendreload_other_agent">Vendre à d\'autres agents</string>
     <string name="register_reference">Enregistrer les références</string>
     <string name="policy_privacy">Politique de confidentialité</string>
-    <string name="request_recharge">Demander une recharge</string>
+    <string name="request_recharge">Procédé de paiement</string>
     <string name="ayuda">Support technique</string>
-    <string name="description" >La description</string>
+    <string name="description" >Description</string>
     <string name="total">Montant</string>
     <string name="usernoactive">L\'utilisateur n\'a pas accès au système</string>
     <string name="thanks">Merci pour votre achat</string>
@@ -45,4 +45,11 @@
     <string name="yourbalance">Votre solde est</string>
     <string name="nomoney" >Vous n\'avez pas assez de solde pour effectuer cet achat</string>
     <string name="finalizar">Finir</string>
+    <string name="no_rechar_for_country">Il n\'y a pas de recharge disponible pour le pays sélectionné</string>
+    <string name="pending">En attendant</string>
+    <string name="Finalized">Finalisé</string>
+    <string name="tipo_recarga">Type de recharge</string>
+    <string name="country">Pays</string>
+    <string name="total_recarga">Recharge totale</string>
+    <string name="status">Statut</string>
 </resources>

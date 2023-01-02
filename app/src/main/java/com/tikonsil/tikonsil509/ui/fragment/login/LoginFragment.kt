@@ -23,6 +23,7 @@ class LoginFragment : ValidateLogin<LoginViewModel, FragmentLoginBinding>() {
             validateOnclickButton()
         }
         clickwhatsapp()
+        testApiInnovita()
     }
     override fun getViewModel()= LoginViewModel::class.java
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?)= FragmentLoginBinding.inflate(inflater,container,false)
