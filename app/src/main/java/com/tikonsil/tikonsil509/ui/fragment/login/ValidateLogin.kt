@@ -1,6 +1,7 @@
 package com.tikonsil.tikonsil509.ui.fragment.login
 
 import android.app.Dialog
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -199,12 +200,15 @@ abstract class ValidateLogin<VM:ViewModel,VB:ViewBinding>:Fragment() {
  }
  fun clickwhatsapp(){
   whatsapp?.setOnClickListener {
+   try {
     val mensaje =getString(R.string.ayudawhatsapp)
-    val sendIntent = Intent()
-    sendIntent.action = Intent.ACTION_VIEW
-    val uri = "whatsapp://send?phone=${ConstantGeneral.PHONENUMBERWHATSAPP}&text=$mensaje"
-    sendIntent.data = Uri.parse(uri)
-    startActivity(sendIntent)
+    val i = Intent(Intent.ACTION_VIEW)
+    i.data = Uri.parse("whatsapp://send?phone=${ConstantGeneral.PHONENUMBERWHATSAPP}&text=$mensaje")
+    startActivity(i)
+   } catch (e: ActivityNotFoundException) {
+    // WhatsApp is not installed on the device. Prompt the user to install it.
+    Toast.makeText(requireActivity(), "WhatsApp no está instalado en este dispositivo", Toast.LENGTH_SHORT).show()
+   }
 
   }
  }

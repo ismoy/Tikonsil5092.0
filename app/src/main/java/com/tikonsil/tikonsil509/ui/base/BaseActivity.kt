@@ -82,7 +82,7 @@ abstract class BaseActivity<VM : ViewModel, VB : ViewBinding> : AppCompatActivit
         })
     }
 
-    open fun sendMesageWhatsapp() {
+     fun sendMesageWhatsapp() {
         try {
             val mensaje =getString(R.string.ayudawhatsapp)
             val i = Intent(Intent.ACTION_VIEW)
