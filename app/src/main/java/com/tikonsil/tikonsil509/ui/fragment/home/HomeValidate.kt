@@ -76,6 +76,7 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
  private var cardviewlapoula:CardView?=null
  private var balance:TextView?=null
  private lateinit var image_home:CircleImageView
+ private  var relativebalance:RelativeLayout?=null
  protected  val mviewmodelstatususer by lazy { ViewModelProvider(requireActivity())[StatusUserViewModel::class.java] }
  override fun onCreateView(
   inflater: LayoutInflater,
@@ -106,6 +107,7 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
   cardviewnatcash = binding.root.findViewById(R.id.cardViewnatcash)
   cardviewlapoula = binding.root.findViewById(R.id.cardViewlapoula)
   noDataFound =binding.root.findViewById(R.id.noDataFound)
+  relativebalance =binding.root.findViewById(R.id.relativebalance)
   mTokenProvider = TokenProvider()
   balance=binding.root.findViewById(R.id.totalbalance)
   image_home = binding.root.findViewById(R.id.image_home)
@@ -133,8 +135,12 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
      if (image!=null){
       Glide.with(requireActivity()).load(image).into(image_home)
      }
+     if (role==2){
+      relativebalance?.visibility =View.GONE
+      balance?.text = "$$topUpsold"
+     }
     }
-    response.body()?.countrycode.apply {
+   /* response.body()?.countrycode.apply {
      when {
       equals(CODECHILE) -> {
        balance?.text = "$CURRENCYCHILE $totalbalance"
@@ -160,12 +166,11 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
        balance?.text="$CURRENCYUSA $totalbalance"
       }
      }
-    }
+    }*/
     shimmerFrameLayoutwelcome?.stopShimmer()
     shimmerFrameLayoutwelcome?.isGone=true
     usernamewel!!.isVisible = true
     binding.root.findViewById<CircleImageView>(R.id.image).isVisible = true
-    binding.root.findViewById<RelativeLayout>(R.id.relativebalance).isGone = true
     binding.root.findViewById<ScrollView>(R.id.scrollviewcard).isVisible = false
    }else{
     Toast.makeText(requireContext(), response.code(), Toast.LENGTH_SHORT).show()
@@ -242,5 +247,6 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
    navController.navigate(R.id.action_homeFragment_to_sendRechargeFragment)
   }
  }
+
 
 }

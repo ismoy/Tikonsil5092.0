@@ -230,15 +230,6 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
 
         selectedcountry?.setOnCountryChangeListener {
             selectedListener = selectedcountry!!.selectedCountryNameCode.toString()
-            if (selectedListener == CODEHAITI || selectedListener == CODECHILE || selectedListener == CODEREPUBLICANDOMINIK || selectedListener == CODEUSA ||
-                selectedListener == CODEPANAMA || selectedListener == CODECUBA || selectedListener == CODEBRAZIL || selectedListener == CODEMEXICO
-            ) {
-                selectedCountry()
-                BTN_RECARGA?.isEnabled = true
-
-            } else {
-                BTN_RECARGA?.isEnabled = false
-            }
             viewmodel.getAllPriceCost(selectedcountry!!.selectedCountryNameCode.toString())
             viewmodel.responseGetAllPrice.observe(viewLifecycleOwner, Observer { listPrice->
                 if (listPrice.isNotEmpty()){
@@ -1181,11 +1172,11 @@ abstract class ValidateFormSales<VB : ViewBinding, VM : ViewModel> : Fragment() 
             salesPriceSelected!!,
             IMAGE!!
         )
-       // val newsaldotopup = BALANCETOPUP?.minus(TOTAL?.text.toString().toInt())
+       // val newsaldotopup = BALANCETOPUP?.minus(salesPriceSelected!!.toInt())
         viewmodel.sales(sales)
         viewmodel.myResponseSales.observe(viewLifecycleOwner, Observer { sals ->
             if (sals.isSuccessful) {
-               // insertDAtaInRoomDataBase()
+                insertDAtaInRoomDataBase()
                 sendEmail()
                 sendNotificationToOtherDevice()
                 saveNotification()

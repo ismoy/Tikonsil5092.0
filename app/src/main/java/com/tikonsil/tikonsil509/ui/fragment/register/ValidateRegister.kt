@@ -579,7 +579,7 @@ import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSTOPUPCASHRD
   })
  }
 
- suspend fun clicktoregister(email: String?, password: String?){
+  fun clicktoregister(email: String?, password: String?){
   mAuthProvider.register(email, password).addOnCompleteListener { task->
    if (task.isSuccessful){
     validateonclickbutton()

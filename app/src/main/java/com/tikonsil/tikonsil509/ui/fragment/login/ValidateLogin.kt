@@ -26,7 +26,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.tikonsil.tikonsil509.R
-import com.tikonsil.tikonsil509.data.remote.api.TikonsilApi
 import com.tikonsil.tikonsil509.domain.repository.login.LoginRepository
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
 import com.tikonsil.tikonsil509.data.remote.provider.UserProvider
@@ -34,10 +33,6 @@ import com.tikonsil.tikonsil509.presentation.login.LoginViewModel
 import com.tikonsil.tikonsil509.presentation.login.LoginViewModelFactory
 import com.tikonsil.tikonsil509.ui.activity.home.HomeActivity
 import com.tikonsil.tikonsil509.utils.constants.Constant
-import com.tikonsil.tikonsil509.utils.constants.Constant.Companion.API_KEY
-import com.tikonsil.tikonsil509.utils.constants.Constant.Companion.ID_PRODUCT
-import com.tikonsil.tikonsil509.utils.constants.Constant.Companion.KEY
-import com.tikonsil.tikonsil509.utils.constants.Constant.Companion.NOTE
 import com.tikonsil.tikonsil509.utils.service.ConstantGeneral
 
 /** * Created by ISMOY BELIZAIRE on 23/04/2022. */
@@ -210,12 +205,6 @@ abstract class ValidateLogin<VM:ViewModel,VB:ViewBinding>:Fragment() {
     Toast.makeText(requireActivity(), "WhatsApp no está instalado en este dispositivo", Toast.LENGTH_SHORT).show()
    }
 
-  }
- }
-
- fun testApiInnovita(){
-  testApiInnovit?.setOnClickListener {
-   viewmodel.sendProduct(API_KEY, ID_PRODUCT,"+13055555555", KEY, NOTE)
   }
  }
  abstract fun getViewModel():Class<VM>

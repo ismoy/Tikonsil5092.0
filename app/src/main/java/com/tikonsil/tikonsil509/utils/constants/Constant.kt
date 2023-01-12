@@ -24,7 +24,6 @@ class Constant {
   var DATE_CREATE =""
   var EMAIL_ =""
   var SUBJECT ="Nueva ventas"
-  const val API_KEY ="094b06cc00fe60ade96b109d2cd771e9"
   const val KEY ="create"
   const val NOTE ="false"
   const val ID_PRODUCT ="22050786"
@@ -41,7 +40,7 @@ class Constant {
  }
  //validate number phone
  fun validatelenghnumberphone(numbers:String):Boolean{
-  return numbers.length <= 12
+  return numbers.length <= 9
  }
  //validate longitude password
  fun validatelongitudepassword(numbers: String):Boolean{

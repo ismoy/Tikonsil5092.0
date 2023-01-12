@@ -10,7 +10,7 @@ object ConstantGeneral {
     const val BANRESERVAS ="BANRESERVAS"
     const val GOOGLEPAY ="GOOGLE PAY"
     const val MERCADOPAGO="MERCADO PAGO"
-    const val PHONENUMBERWHATSAPP ="+56932723367"
+    const val PHONENUMBERWHATSAPP ="+56935707687"
     var BONUSLAPOULAHAITI: Float? =null
     var BONUSNATCASHHAITI: Float? =null
     var BONUSMONCASHCASHHAITI: Float? =null
