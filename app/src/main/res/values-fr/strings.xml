@@ -38,7 +38,8 @@
     <string name="description" >Description</string>
     <string name="total">Montant</string>
     <string name="usernoactive">L\'utilisateur n\'a pas accès au système</string>
-    <string name="thanks">Merci pour votre achat. Accédez à l\'option de méthode de paiement pour effectuer le transfert</string>
+    <string name="thanks">Merci pour votre achat. Envoyez-nous un WhatsApp au numéro suivant pour confirmer votre achat plus rapidement</string>
+    <string name="success">Votre recharge a été envoyée avec succès merci d\'avoir choisi Tikonsil509</string>
     <string name="ayudawhatsapp">Salut! Bonjour j\'ai besoin d\'aide s\'il vous plait</string>
     <string name="date">Date</string>
     <string name="title_methode_pay" >Sélectionnez le mode de paiement pour votre recharge de solde</string>
@@ -52,4 +53,5 @@
     <string name="country">Pays</string>
     <string name="total_recarga">Recharge totale</string>
     <string name="status">Statut</string>
+    <string name="titlesuccess">Succès</string>
 </resources>

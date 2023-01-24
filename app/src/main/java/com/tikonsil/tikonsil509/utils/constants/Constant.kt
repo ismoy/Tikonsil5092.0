@@ -1,13 +1,16 @@
 package com.tikonsil.tikonsil509.utils.constants
 
+import android.annotation.SuppressLint
 import android.util.Patterns
+import java.text.SimpleDateFormat
+import java.util.*
 
 /** * Created by ISMOY BELIZAIRE on 23/04/2022. */
 class Constant {
  companion object{
   const val BASE_URL = "https://tikonsil509-ea2cc-default-rtdb.firebaseio.com/"
-  const val BASE_URL_INNOVIT = "https://www.innoverit.com/api/v2/"
   const val BASE_URL_FCM ="https://fcm.googleapis.com/"
+  const val BASE_URL_TIKONSIL509 = "https://tikonsil509.com/"
   const val SERVER_KEY ="AAAAj812wm0:APA91bGryDQHRsHZQQqKNkA6gdpeeEBl1w7prud_cFILDbgDwZoEkpYlO8GjkKfZKzzL_GyBxsjKGkjD4BDZ6Zwrfm793aRL-d3EYwTzvLkXeojUQemb5b0XsehoI5oFGYy5yzvY7hw-"
   const val CONTENT_TYPE ="application/json"
   const val MATCHES ="^[ a-zA-Z\\u00F1\\u00D1]+\$"
@@ -27,6 +30,9 @@ class Constant {
   const val KEY ="create"
   const val NOTE ="false"
   const val ID_PRODUCT ="22050786"
+  @SuppressLint("SimpleDateFormat")
+  var sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+  val currentDate = sdf.format(Date())
  }
  //validate email
  fun validateEmail(email:String?): Boolean? {
@@ -46,4 +52,5 @@ class Constant {
  fun validatelongitudepassword(numbers: String):Boolean{
   return numbers.length>=8
  }
+
 }

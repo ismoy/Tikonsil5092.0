@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tikonsil.tikonsil509.domain.model.CostInnoverit
 import com.tikonsil.tikonsil509.domain.model.Sales
+import com.tikonsil.tikonsil509.domain.model.SendRecharge
 import com.tikonsil.tikonsil509.domain.repository.sendrecharge.SendRechargeRepository
 import kotlinx.coroutines.launch
+import retrofit2.Call
 import retrofit2.Response
 
 /** * Created by ISMOY BELIZAIRE on 16/05/2022. */
@@ -19,7 +21,10 @@ class SendRechargeViewModel(private val repository: SendRechargeRepository) :Vie
 
     var noExistSnapshot = MutableLiveData<Boolean>()
 
-    val responseIdProduct:MutableLiveData<String> by lazy { MutableLiveData() }
+    val responseIdProduct:MutableLiveData<List<CostInnoverit>> by lazy { MutableLiveData() }
+
+    val responseInnoVit:MutableLiveData<Call<SendRecharge>> by lazy { MutableLiveData() }
+
     init {
         noExistSnapshot =repository.noExistSnapshot
     }
@@ -31,20 +36,17 @@ class SendRechargeViewModel(private val repository: SendRechargeRepository) :Vie
         }
     }
 
-    fun getAllPriceCost(country:String):LiveData<List<CostInnoverit>>{
-
+    fun sendRechargeViaInnoVit(idProduct:String,destination:String){
         viewModelScope.launch {
-            repository.getAllPrice(country).observeForever {
-                responseGetAllPrice.value = it
-            }
+            val response = repository.sendRechargeViaInnoVit(idProduct, destination)
+            responseInnoVit.value = response
         }
-        return responseGetAllPrice
     }
 
-    fun getIdProductSelected(priceSales:String){
+    fun getIdProductSelected(countryCode:String){
 
         viewModelScope.launch {
-            repository.getIdProductSelected(priceSales).observeForever {
+            repository.getIdProductSelected(countryCode).observeForever {
                 responseIdProduct.value =it
             }
         }

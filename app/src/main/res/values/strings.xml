@@ -67,7 +67,7 @@
 
     <string name="pleasewait" translatable="false">Please Wait..</string>
     <string name="sendrequest" translatable="false">Sending Request ...</string>
-    <string name="thanks">Thanks for your purchase. Go to method payment option to make the transfer</string>
+    <string name="thanks">Thanks for your purchase. Send us a WhatsApp at the following number to confirm your purchase faster</string>
     <string name="nomoney" >You do not have enough balance to make this purchase</string>
     <string name="yourbalance">Your balance is</string>
     <string name="theservice" translatable="false">The service</string>
@@ -98,7 +98,7 @@
     <string name="register_reference">Register Referrals</string>
     <string name="policy_privacy">Privacy Policy</string>
     <string name="default_monto" translatable="false">5000</string>
-    <string name="success" translatable="false">Success</string>
+    <string name="success">Your TopUp has been sent successfully thank you for choosing Tikonsil509</string>
     <string name="next" translatable="false">Next</string>
     <string name="error" translatable="false">Error!</string>
     <string name="request_recharge">Payment method</string>
@@ -127,6 +127,8 @@
     <string name="country">Country</string>
     <string name="total_recarga">Total Recharge</string>
     <string name="status">Status</string>
+    <string name="titlesuccess">Success</string>
+    <string name="extract_whatsapp" translatable="false">Hello, I have sent a recharge request, can you help me please, here are the details phone number</string>
 
 
 </resources>

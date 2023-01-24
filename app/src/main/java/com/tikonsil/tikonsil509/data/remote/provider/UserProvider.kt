@@ -10,7 +10,7 @@ import java.util.HashMap
 class UserProvider {
  var mDatabase:DatabaseReference?=FirebaseDatabase.getInstance().reference.child("Clients")
 
- fun updateTopup(idUser: String?, saldotopup: Int): Task<Void?>? {
+ fun updateTopup(idUser: String? , saldotopup: Float): Task<Void?>? {
   val map: MutableMap<String?, Any?> = HashMap()
   map["soldtopup"] = saldotopup
   return idUser?.let { mDatabase?.child(it)?.updateChildren(map) }

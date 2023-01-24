@@ -1,8 +1,11 @@
 package com.tikonsil.tikonsil509.domain.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 /** * Created by ISMOY BELIZAIRE on 27/04/2022. */
+@Parcelize
 data class Sales(
     @SerializedName("idUser") val idUser: String? = null,
     @SerializedName("firstname") val firstname: String? = null,
@@ -22,4 +25,4 @@ data class Sales(
     @SerializedName("salesPrice") val salesPrice:String,
     @SerializedName("image") val image:String
 
-)
+):Parcelable

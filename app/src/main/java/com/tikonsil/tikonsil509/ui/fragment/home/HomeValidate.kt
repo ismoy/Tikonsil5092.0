@@ -50,6 +50,7 @@ import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCY
 import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYREPUBLICANDOMINK
 import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYUSA
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlin.math.roundToInt
 
 /** * Created by ISMOY BELIZAIRE on 26/04/2022. */
 abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
@@ -136,37 +137,10 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
       Glide.with(requireActivity()).load(image).into(image_home)
      }
      if (role==2){
-      relativebalance?.visibility =View.GONE
-      balance?.text = "$$topUpsold"
+      relativebalance?.visibility =View.VISIBLE
+      balance?.text = (topUpsold!!).toString()
      }
     }
-   /* response.body()?.countrycode.apply {
-     when {
-      equals(CODECHILE) -> {
-       balance?.text = "$CURRENCYCHILE $totalbalance"
-      }
-      equals(CODEHAITI) -> {
-       balance?.text = "$CURRENCYHAITI $totalbalance"
-      }
-      equals(CODEREPUBLICANDOMINIK) -> {
-       balance?.text = "$CURRENCYREPUBLICANDOMINK $totalbalance"
-      }
-      equals(CODEPANAMA) -> {
-       balance?.text = "$CURRENCYPANAMA $totalbalance"
-      }
-      equals(CODEMEXICO) -> {
-       balance?.text = "$CURRENCYMEXICO $totalbalance"
-      }
-      equals(CODEBRAZIL) -> {
-       balance?.text = "$CURRENCYBRAZIL $totalbalance"
-      }
-      equals(CODECUBA)->{
-       balance?.text ="$CURRENCYCUBA $totalbalance"
-      }else->{
-       balance?.text="$CURRENCYUSA $totalbalance"
-      }
-     }
-    }*/
     shimmerFrameLayoutwelcome?.stopShimmer()
     shimmerFrameLayoutwelcome?.isGone=true
     usernamewel!!.isVisible = true
