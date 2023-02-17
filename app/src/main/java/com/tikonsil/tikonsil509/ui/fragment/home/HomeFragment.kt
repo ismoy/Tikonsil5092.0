@@ -8,8 +8,12 @@ import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.tikonsil.tikonsil509.databinding.FragmentHomeBinding
 import com.tikonsil.tikonsil509.presentation.home.UserViewModel
+import com.tikonsil.tikonsil509.utils.constants.UtilsView
 
 class HomeFragment :HomeValidate<FragmentHomeBinding,UserViewModel>() {
 
@@ -23,8 +27,9 @@ class HomeFragment :HomeValidate<FragmentHomeBinding,UserViewModel>() {
         gotosendrecharge2()
         gotosendrecharge3()
         gotosendrecharge4()
-
+         getTokenUser()
     }
+
 
     private fun generateToken() {
         mTokenProvider.createToken(mAuthProvider.getId().toString())

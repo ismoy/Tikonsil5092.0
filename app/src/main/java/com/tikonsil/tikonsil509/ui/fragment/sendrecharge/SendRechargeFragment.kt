@@ -1,8 +1,10 @@
 package com.tikonsil.tikonsil509.ui.fragment.sendrecharge
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -24,7 +26,6 @@ import com.google.firebase.database.ValueEventListener
 import com.tikonsil.tikonsil509.R
 import com.tikonsil.tikonsil509.data.remote.api.RetrofitInstanceFCM
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
-import com.tikonsil.tikonsil509.data.remote.provider.TokenProvider
 import com.tikonsil.tikonsil509.data.remote.provider.TokensAdminProvider
 import com.tikonsil.tikonsil509.data.remote.provider.UserProvider
 import com.tikonsil.tikonsil509.databinding.FragmentSendRechargeBinding
@@ -36,7 +37,6 @@ import com.tikonsil.tikonsil509.presentation.savenotification.SaveNotificationVi
 import com.tikonsil.tikonsil509.presentation.savenotification.SaveNotificationViewModelProvider
 import com.tikonsil.tikonsil509.presentation.sendrecharge.SendRechargeViewModel
 import com.tikonsil.tikonsil509.presentation.sendrecharge.SendRechargeViewModelProvider
-import com.tikonsil.tikonsil509.ui.activity.home.HomeActivity
 import com.tikonsil.tikonsil509.ui.activity.invoice.InvoiceActivity
 import com.tikonsil.tikonsil509.utils.constants.Constant
 import com.tikonsil.tikonsil509.utils.constants.Constant.Companion.currentDate
@@ -70,9 +70,8 @@ class SendRechargeFragment : Fragment() {
     private var topUpSelected:Float?=null
     private var idProductSelected:String?=null
     private lateinit var mAuthProvider:AuthProvider
-    private lateinit var userTokenProvider:TokenProvider
     private var totalBalanceTopUpUser:Float =0F
-    private var tokenUser:String?=null
+    private  var tokenUser:String?=null
     private var imageUser:String?=null
     private var priceMonCash:Float=0F
     private var priceNatCash:Float=0F
@@ -81,6 +80,7 @@ class SendRechargeFragment : Fragment() {
     private lateinit var mUserProvider: UserProvider
     private lateinit var mTokensAdminProvider:TokensAdminProvider
     private lateinit var viewmodelsavenotification: SaveNotificationViewModel
+    private lateinit var dialog:Dialog
     override fun onCreateView(
         inflater: LayoutInflater ,
         container: ViewGroup? ,
@@ -95,8 +95,8 @@ class SendRechargeFragment : Fragment() {
         val repository = SendRechargeRepository()
         val factory = SendRechargeViewModelProvider(repository)
         mAuthProvider = AuthProvider()
-        userTokenProvider = TokenProvider()
         mUserProvider = UserProvider()
+        dialog = Dialog(requireContext())
         mTokensAdminProvider = TokensAdminProvider()
         sendRechargeViewModel = ViewModelProvider(
             requireActivity(),
@@ -108,12 +108,13 @@ class SendRechargeFragment : Fragment() {
             requireActivity(),
             factorysavenotification
         )[SaveNotificationViewModel::class.java]
+
         setCountryListener()
         manageChipGroup()
         viewModelObserver()
-        getTokenUser()
         initializeComponent()
         sendTopUPRecharge()
+
     }
 
     private fun calculateMonCash(chipSelected: String) {
@@ -339,11 +340,16 @@ class SendRechargeFragment : Fragment() {
             createDialogNoMoney()
         }else{
             createProcessToPay(salesData)
-            sendRechargeViewModel.sales(salesData)
         }
     }
 
     private fun createProcessToPay(salesData: Sales) {
+        dialog.setContentView(R.layout.dialog_loading)
+        dialog.setCancelable(false)
+        if (dialog.window!=null){
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
+        }
+        dialog.show()
         sendRechargeViewModel.sendRechargeViaInnoVit(idProductSelected!!,"${binding.codigo.selectedCountryCodeWithPlus}${binding.phone.text.toString()}")
         sendRechargeViewModel.responseInnoVit.observe(viewLifecycleOwner){call->
             call.enqueue(object :Callback<SendRecharge>{
@@ -357,19 +363,24 @@ class SendRechargeFragment : Fragment() {
                                sendDataInFirebase(salesData , 11)
                                createDialogSuccess(salesData)
                                updateSoldTopUpUser()
+                               dialog.dismiss()
                            }else{
                                Toast.makeText(requireContext() , "No fue posible realizar la recarga pon en contacto con su proveedor ${response.body()?.status}" , Toast.LENGTH_SHORT).show()
                                Log.d("responseApi",response.body().toString())
+                               dialog.dismiss()
                            }
                        }catch (ex: IOException){
                            Toast.makeText(requireContext() , "No fue posible realizar la recarga pon en contacto con su proveedor $ex" , Toast.LENGTH_SHORT).show()
+                           dialog.dismiss()
                        }
                    }else{
                        Toast.makeText(requireContext() , "No fue posible realizar la recarga pon en contacto con su proveedor ${response.body()?.status}" , Toast.LENGTH_SHORT).show()
+                       dialog.dismiss()
                    }
                 }
 
                 override fun onFailure(call: Call<SendRecharge> , t: Throwable) {
+                    dialog.dismiss()
                     Toast.makeText(requireContext() , "No fue posible realizar la recarga pon en contacto con su proveedor $t" , Toast.LENGTH_SHORT).show()
 
                 }
@@ -491,20 +502,6 @@ class SendRechargeFragment : Fragment() {
     }
 
 
-    private fun getTokenUser() {
-        userTokenProvider.getToken(mAuthProvider.getId().toString()).addListenerForSingleValueEvent(object :
-            ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()){
-                    tokenUser=snapshot.child("token").value.toString()
-
-                }
-            }
-            override fun onCancelled(error: DatabaseError) {
-            }
-
-        })
-    }
     private fun sendNotificationToOtherDevice() {
         mTokensAdminProvider.getToken()
             ?.addListenerForSingleValueEvent(object : ValueEventListener {
@@ -579,4 +576,8 @@ class SendRechargeFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+       tokenUser = UtilsView.getValueSharedPreferences(requireActivity(),"tokenUsers")
+    }
 }

@@ -22,6 +22,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.tikonsil.tikonsil509.R
 import com.tikonsil.tikonsil509.data.adapter.LastSaleAdapter
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
@@ -49,6 +52,7 @@ import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCY
 import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYPANAMA
 import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYREPUBLICANDOMINK
 import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYUSA
+import com.tikonsil.tikonsil509.utils.constants.UtilsView
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlin.math.roundToInt
 
@@ -78,6 +82,7 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
  private var balance:TextView?=null
  private lateinit var image_home:CircleImageView
  private  var relativebalance:RelativeLayout?=null
+ private lateinit var userTokenProvider:TokenProvider
  protected  val mviewmodelstatususer by lazy { ViewModelProvider(requireActivity())[StatusUserViewModel::class.java] }
  override fun onCreateView(
   inflater: LayoutInflater,
@@ -93,6 +98,7 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
   val factorylastsales = LastSalesViewModelProvider(repositorylastsales)
   mviewmodellastsales = ViewModelProvider(requireActivity(),factorylastsales)[LastSalesViewModel::class.java]
   mAuthProvider = AuthProvider()
+  userTokenProvider = TokenProvider()
   lastSaleAdapter = LastSaleAdapter(requireContext())
   linearLayoutManager = LinearLayoutManager(requireContext())
   recycler =binding.root.findViewById(R.id.recyclerviewultimaventa)
@@ -222,5 +228,20 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
   }
  }
 
+  fun getTokenUser() {
+  userTokenProvider.getToken(mAuthProvider.getId().toString()).addListenerForSingleValueEvent(object :
+   ValueEventListener {
+   override fun onDataChange(snapshot: DataSnapshot) {
+    if (snapshot.exists()){
+     val token=snapshot.child("token").value.toString()
+     UtilsView.setValueSharedPreferences(requireActivity(),"tokenUsers",token)
+
+    }
+   }
+   override fun onCancelled(error: DatabaseError) {
+   }
+
+  })
+ }
 
 }

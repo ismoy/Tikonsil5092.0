@@ -1,6 +1,8 @@
 package com.tikonsil.tikonsil509.utils.constants
 
+import android.app.Activity
 import android.content.Context
+import android.content.SharedPreferences
 import android.widget.Button
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.textfield.TextInputEditText
@@ -65,5 +67,18 @@ object UtilsView {
             }
         }
 
+    }
+    fun getValueSharedPreferences(activity: Activity , value: String): String {
+        val sharedPreferences: SharedPreferences =
+            activity.getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE)
+        return sharedPreferences.getString(value, "").toString()
+    }
+
+    fun setValueSharedPreferences(activity: Activity , key: String , value: String) {
+        val sharedPreferences: SharedPreferences =
+            activity.getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE)
+        sharedPreferences.edit()
+            .putString(key, value)
+            .apply()
     }
 }

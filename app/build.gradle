@@ -17,15 +17,21 @@ android {
         applicationId "com.tikonsil.tikonsil509"
         minSdk 23
         targetSdk 33
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 6
+        versionName "1.0.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    buildTypes {
+        debug {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -62,8 +68,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx:20.0.5'
     implementation 'com.google.firebase:firebase-storage-ktx:20.0.1'
     //firebase crashlytics
-    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.11'
-    implementation 'com.google.firebase:firebase-analytics-ktx:21.0.0'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.3.3'
+    implementation 'com.google.firebase:firebase-analytics-ktx:21.2.0'
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
     implementation platform('com.google.firebase:firebase-bom:29.3.1')
