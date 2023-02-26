@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import com.tikonsil.tikonsil509.data.local.db.UsersDatabase
-import com.tikonsil.tikonsil509.data.local.db.UsersEntity
+import com.tikonsil.tikonsil509.data.local.entity.UsersEntity
 import com.tikonsil.tikonsil509.domain.repository.saveusersroom.UsersRoomRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

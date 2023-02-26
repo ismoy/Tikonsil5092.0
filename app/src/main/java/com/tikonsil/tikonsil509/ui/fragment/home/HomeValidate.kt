@@ -29,6 +29,7 @@ import com.tikonsil.tikonsil509.R
 import com.tikonsil.tikonsil509.data.adapter.LastSaleAdapter
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
 import com.tikonsil.tikonsil509.data.remote.provider.TokenProvider
+import com.tikonsil.tikonsil509.data.remote.provider.TokensAdminProvider
 import com.tikonsil.tikonsil509.domain.repository.home.UsersRepository
 import com.tikonsil.tikonsil509.domain.repository.lastsales.LastSalesRepository
 import com.tikonsil.tikonsil509.presentation.home.UserViewModel
@@ -70,7 +71,6 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
  private var shimmerFrameLayoutwelcome: ShimmerFrameLayout?=null
  private var usernamewel:TextView?=null
  private var recycler:RecyclerView?=null
- protected lateinit var mTokenProvider: TokenProvider
  private var saldotopup:TextView?=null
  private var saldomoncash:TextView?=null
  private var saldonatcash:TextView?=null
@@ -82,7 +82,8 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
  private var balance:TextView?=null
  private lateinit var image_home:CircleImageView
  private  var relativebalance:RelativeLayout?=null
- private lateinit var userTokenProvider:TokenProvider
+ protected lateinit var userTokenProvider:TokenProvider
+ private lateinit var mTokensAdminProvider: TokensAdminProvider
  protected  val mviewmodelstatususer by lazy { ViewModelProvider(requireActivity())[StatusUserViewModel::class.java] }
  override fun onCreateView(
   inflater: LayoutInflater,
@@ -99,6 +100,7 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
   mviewmodellastsales = ViewModelProvider(requireActivity(),factorylastsales)[LastSalesViewModel::class.java]
   mAuthProvider = AuthProvider()
   userTokenProvider = TokenProvider()
+  mTokensAdminProvider = TokensAdminProvider()
   lastSaleAdapter = LastSaleAdapter(requireContext())
   linearLayoutManager = LinearLayoutManager(requireContext())
   recycler =binding.root.findViewById(R.id.recyclerviewultimaventa)
@@ -115,7 +117,6 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
   cardviewlapoula = binding.root.findViewById(R.id.cardViewlapoula)
   noDataFound =binding.root.findViewById(R.id.noDataFound)
   relativebalance =binding.root.findViewById(R.id.relativebalance)
-  mTokenProvider = TokenProvider()
   balance=binding.root.findViewById(R.id.totalbalance)
   image_home = binding.root.findViewById(R.id.image_home)
   return binding.root
@@ -144,7 +145,9 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
      }
      if (role==2){
       relativebalance?.visibility =View.VISIBLE
-      balance?.text = (topUpsold!!).toString()
+      val balanceNumber = (topUpsold?.toDouble()?.times(100.0))?.roundToInt()?.div(100.0)
+      balance?.text = (balanceNumber.toString())
+      UtilsView.setValueSharedPreferences(requireActivity(),"totalBalance",balanceNumber.toString())
      }
     }
     shimmerFrameLayoutwelcome?.stopShimmer()
@@ -152,11 +155,6 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
     usernamewel!!.isVisible = true
     binding.root.findViewById<CircleImageView>(R.id.image).isVisible = true
     binding.root.findViewById<ScrollView>(R.id.scrollviewcard).isVisible = false
-   }else{
-    Toast.makeText(requireContext(), response.code(), Toast.LENGTH_SHORT).show()
-    Log.d("ERRORLOGIN",response.code().toString())
-    Log.d("ERRORLOGIN",response.message().toString())
-
    }
   })
  }
@@ -238,6 +236,24 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
 
     }
    }
+   override fun onCancelled(error: DatabaseError) {
+   }
+
+  })
+ }
+
+ fun getTokenAdmin(){
+  mTokensAdminProvider.getToken()?.addListenerForSingleValueEvent(object :ValueEventListener{
+   override fun onDataChange(snapshot: DataSnapshot) {
+   if (snapshot.exists()){
+    for (ds in snapshot.children){
+     val tokenAdmin =ds.child("token").value.toString()
+     UtilsView.setValueSharedPreferences(requireActivity(),"tokenAdmin",tokenAdmin)
+    }
+
+   }
+   }
+
    override fun onCancelled(error: DatabaseError) {
    }
 

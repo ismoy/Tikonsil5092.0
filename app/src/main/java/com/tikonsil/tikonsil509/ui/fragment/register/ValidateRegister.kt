@@ -28,10 +28,7 @@ import com.tikonsil.tikonsil509.domain.model.Users
 import com.tikonsil.tikonsil509.presentation.register.RegisterViewModel
 import com.tikonsil.tikonsil509.presentation.register.RegisterViewModelFactory
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
-import com.tikonsil.tikonsil509.domain.repository.bonususer.BonusUserRepository
 import com.tikonsil.tikonsil509.domain.repository.register.RegisterRepository
-import com.tikonsil.tikonsil509.presentation.bonususer.BonusUserViewModel
-import com.tikonsil.tikonsil509.presentation.bonususer.BonusUserViewModelProvider
 import com.tikonsil.tikonsil509.utils.constants.Constant
 import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEBRAZIL
 import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODECHILE
@@ -82,7 +79,6 @@ import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSTOPUPCASHRD
  lateinit var dialog:Dialog
  private lateinit var auth: FirebaseAuth
  protected lateinit var navController: NavController
- private lateinit var viewmodelbonususer:BonusUserViewModel
 
  override fun onCreateView(
   inflater: LayoutInflater,
@@ -97,9 +93,6 @@ import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSTOPUPCASHRD
   mConstant = Constant()
   dialog = Dialog(requireContext())
   auth = FirebaseAuth.getInstance()
-  val repositorybonususer =BonusUserRepository()
-  val factorybonususer =BonusUserViewModelProvider(repositorybonususer)
-  viewmodelbonususer =ViewModelProvider(requireActivity(),factorybonususer)[BonusUserViewModel::class.java]
   return binding.root
  }
 
@@ -600,45 +593,6 @@ import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSTOPUPCASHRD
   }
  }
 
- fun observedatabonususer(){
-  viewmodelbonususer.getBonusUser()
-  viewmodelbonususer.myResponseGetUserBonus.observe(viewLifecycleOwner, Observer { bonususer->
-   if (bonususer.isSuccessful){
-    BONUSLAPOULAHAITI =bonususer.body()?.bounuslapoulahaiti
-    BONUSNATCASHHAITI = bonususer.body()?.bounusnatcashhaiti
-    BONUSMONCASHCASHHAITI =bonususer.body()?.bounusmoncashhaiti
-    BONUSTOPUPCASHHAITI = bonususer.body()?.bounustopuphaiti
-    BONUSLAPOULACHILE = bonususer.body()?.bounuslapoulachile
-    BONUSNATCASHCHILE = bonususer.body()?.bounusnatcashchile
-    BONUSMONCASHCASHCHILE = bonususer.body()?.bounusmoncashchile
-    BONUSTOPUPCASHCHILE = bonususer.body()?.bounustopupchile
-    BONUSLAPOULACUBA = bonususer.body()?.bounuslapoulacuba
-    BONUSNATCASHCUBA =bonususer.body()?.bounusnatcashcuba
-    BONUSMONCASHCASHCUBA =bonususer.body()?.bounusmoncashcuba
-    BONUSTOPUPCASHCUBA = bonususer.body()?.bounustopupcuba
-    BONUSLAPOULAPANAMA = bonususer.body()?.bounuslapoulapanama
-    BONUSNATCASHPANAMA = bonususer.body()?.bounusnatcashpanama
-    BONUSMONCASHCASHPANAMA = bonususer.body()?.bounusmoncashpanama
-    BONUSTOPUPCASHPANAMA = bonususer.body()?.bounustopuppanama
-    BONUSLAPOULARD = bonususer.body()?.bounuslapoulard
-    BONUSNATCASHRD = bonususer.body()?.bounusnatcashrd
-    BONUSMONCASHCASHRD = bonususer.body()?.bounusmoncashrd
-    BONUSTOPUPCASHRD = bonususer.body()?.bounustopuprd
-    BONUSLAPOULABRAZIL = bonususer.body()?.bounuslapoulabrazil
-    BONUSNATCASHBRAZIL = bonususer.body()?.bounusnatcashbrazil
-    BONUSMONCASHCASHBRAZIL = bonususer.body()?.bounusmoncashbrazil
-    BONUSTOPUPCASHBRAZIL = bonususer.body()?.bounustopupbrazil
-    BONUSLAPOULAMEXICO = bonususer.body()?.bounuslapoulamexico
-    BONUSNATCASHMEXICO = bonususer.body()?.bounusnatcashmexico
-    BONUSMONCASHCASHMEXICO = bonususer.body()?.bounusmoncashmexico
-    BONUSTOPUPCASHMEXICO = bonususer.body()?.bounustopupmexico
-    BONUSLAPOULAOTHERCOUNTRY  = bonususer.body()?.bounuslapoulaothercountry
-    BONUSNATCASHOTHERCOUNTRY = bonususer.body()?.bounusnatcashothercountry
-    BONUSMONCASHCASHOTHERCOUNTRY = bonususer.body()?.bounusmoncashothercountry
-    BONUSTOPUPCASHOTHERCOUNTRY = bonususer.body()?.bounustopupothercountry
-   }
-  })
- }
  abstract fun getViewModel():Class<VM>
  abstract fun getFragmentBinding(inflater: LayoutInflater,container: ViewGroup?):V
 

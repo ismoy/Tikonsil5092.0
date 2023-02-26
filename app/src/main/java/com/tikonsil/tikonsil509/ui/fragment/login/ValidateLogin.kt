@@ -132,7 +132,7 @@ abstract class ValidateLogin<VM:ViewModel,VB:ViewBinding>:Fragment() {
      findViewById<TextInputLayout>(R.id.layoutpasswordlogin).helperText =getString(R.string.error_longitudepassword)
     }else->{
     findViewById<TextInputLayout>(R.id.layoutpasswordlogin).helperText=""
-     getUser()
+    Login(findViewById<TextInputEditText>(R.id.emaillogin).text.toString(),findViewById<TextInputEditText>(R.id.passwordlogin).text.toString())
    }
    }
   }
@@ -201,7 +201,7 @@ abstract class ValidateLogin<VM:ViewModel,VB:ViewBinding>:Fragment() {
     i.data = Uri.parse("whatsapp://send?phone=${ConstantGeneral.PHONENUMBERWHATSAPP}&text=$mensaje")
     startActivity(i)
    } catch (e: ActivityNotFoundException) {
-    // WhatsApp is not installed on the device. Prompt the user to install it.
+    // WhatsApp is not installed on the device. Prompt the entity to install it.
     Toast.makeText(requireActivity(), "WhatsApp no está instalado en este dispositivo", Toast.LENGTH_SHORT).show()
    }
 

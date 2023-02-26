@@ -27,7 +27,6 @@ class RegisterFragment: ValidateRegister<RegisterViewModel, FragmentRegisterBind
         binding.arrowbackregister.setOnClickListener {
             navController.navigate(R.id.action_registerFragment_to_loginFragment)
         }
-        observedatabonususer()
     }
 
 

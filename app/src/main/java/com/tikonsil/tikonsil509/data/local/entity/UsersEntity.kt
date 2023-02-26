@@ -1,4 +1,4 @@
-package com.tikonsil.tikonsil509.data.local.db
+package com.tikonsil.tikonsil509.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

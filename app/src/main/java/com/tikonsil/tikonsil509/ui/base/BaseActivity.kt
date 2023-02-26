@@ -60,15 +60,16 @@ abstract class BaseActivity<VM : ViewModel, VB : ViewBinding> : AppCompatActivit
                             Glide.with(this@BaseActivity).load(image).into(image_drawable)
                         }
                         if (role==1){
+                            binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.
+                            nav_saleWithOtherAgentFragment).isVisible = false
+                            binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_registerReferencesFragment).isVisible = false
+                            binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_policyAndPrivacyFragment).isVisible = false
+                            binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_requestRechargeFragment).isVisible = false
+                        }
+                        if (role==2){
                             binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_saleWithOtherAgentFragment).isVisible = false
                             binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_registerReferencesFragment).isVisible = false
                             binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_policyAndPrivacyFragment).isVisible = false
-                        }
-                        if (role==2){
-                            binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_saleWithOtherAgentFragment).isEnabled = false
-                            binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_registerReferencesFragment).isEnabled = true
-                            binding.root.findViewById<NavigationView>(R.id.nav_view).menu.findItem(R.id.nav_policyAndPrivacyFragment).isEnabled = false
-
                         }
                     }
 
@@ -77,7 +78,7 @@ abstract class BaseActivity<VM : ViewModel, VB : ViewBinding> : AppCompatActivit
 
 
             } else {
-                Toast.makeText(this, response.code(), Toast.LENGTH_SHORT).show()
+             //   Toast.makeText(this, response.code(), Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -89,7 +90,7 @@ abstract class BaseActivity<VM : ViewModel, VB : ViewBinding> : AppCompatActivit
             i.data = Uri.parse("whatsapp://send?phone=$PHONENUMBERWHATSAPP&text=$mensaje")
             startActivity(i)
         } catch (e: ActivityNotFoundException) {
-            // WhatsApp is not installed on the device. Prompt the user to install it.
+            // WhatsApp is not installed on the device. Prompt the entity to install it.
             Toast.makeText(this, "WhatsApp no está instalado en este dispositivo", Toast.LENGTH_SHORT).show()
         }
     }

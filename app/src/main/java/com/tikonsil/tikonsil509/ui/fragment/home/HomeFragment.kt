@@ -28,11 +28,12 @@ class HomeFragment :HomeValidate<FragmentHomeBinding,UserViewModel>() {
         gotosendrecharge3()
         gotosendrecharge4()
          getTokenUser()
+        getTokenAdmin()
     }
 
 
     private fun generateToken() {
-        mTokenProvider.createToken(mAuthProvider.getId().toString())
+        userTokenProvider.createToken(mAuthProvider.getId().toString())
     }
 
     override fun getFragmentBinding(inflater: LayoutInflater, container: ViewGroup?) =FragmentHomeBinding.inflate(inflater,container,false)

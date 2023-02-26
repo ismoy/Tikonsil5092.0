@@ -54,6 +54,13 @@
     <string name="total_recarga">Total Recarga</string>
     <string name="status">Estado</string>
     <string name="titlesuccess">Éxito</string>
+    <string name="topup_balance">Recarga tu cuenta</string>
+    <string name="pay">Pagar</string>
+    <string name="aproved">Éxitoso</string>
+    <string name="titleamount">Ingrese la cantidad que desea depositar en su cuenta</string>
+    <string name="successrecarcheaccount">Su cuenta ha sido recargada con éxito</string>
+    <string name="errorpaymenymercadopago">¡¡ups!! no podemos hacer el pago por favor inténtalo de nuevo</string>
+    <string name="errorsendtopupinnoverit">Gracias por su compra recibirás su TopUp enseguida</string>
 
 
 </resources>

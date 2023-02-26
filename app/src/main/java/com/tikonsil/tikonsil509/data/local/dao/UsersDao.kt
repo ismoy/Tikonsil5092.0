@@ -1,8 +1,8 @@
-package com.tikonsil.tikonsil509.data.local.db
+package com.tikonsil.tikonsil509.data.local.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.tikonsil.tikonsil509.domain.model.Users
+import com.tikonsil.tikonsil509.data.local.entity.UsersEntity
 
 /** * Created by ISMOY BELIZAIRE on 30/04/2022. */
 /**

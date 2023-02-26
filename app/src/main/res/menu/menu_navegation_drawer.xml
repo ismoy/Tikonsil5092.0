@@ -25,8 +25,8 @@
         android:icon="@drawable/ic_baseline_security_24"/>
     <item
         android:id="@+id/nav_requestRechargeFragment"
-        android:title="@string/request_recharge"
-        android:icon="@drawable/ic_baseline_send_24"/>
+        android:title="@string/topup_balance"
+        android:icon="@drawable/ic_baseline_attach_money_24"/>
     <item
         android:id="@+id/nav_whatsapp"
         android:title="@string/ayuda"

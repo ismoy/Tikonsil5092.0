@@ -1,13 +1,28 @@
 package com.tikonsil.tikonsil509.utils.constants
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
+import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.view.isGone
 import androidx.core.widget.doOnTextChanged
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.tikonsil.tikonsil509.R
+import com.tikonsil.tikonsil509.domain.model.Sales
+import com.tikonsil.tikonsil509.ui.activity.home.HomeActivity
+import com.tikonsil.tikonsil509.ui.activity.invoice.InvoiceActivity
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral
 import kotlin.math.roundToInt
 
 object UtilsView {
@@ -80,5 +95,157 @@ object UtilsView {
         sharedPreferences.edit()
             .putString(key, value)
             .apply()
+    }
+    @SuppressLint("StringFormatInvalid")
+    fun sendWhatsapp(salesData: Sales , activity: Activity) = try {
+        val mensaje =activity.getString(R.string.extract_whatsapp, "${salesData.phone} Name: ${salesData.firstname}"  + " Total TopUp ${salesData.subtotal} Country: ${salesData.country}")
+        val i = Intent(Intent.ACTION_VIEW)
+        i.data = Uri.parse("whatsapp://send?phone=${ConstantGeneral.PHONENUMBERWHATSAPP}&text=$mensaje")
+        activity.startActivity(i)
+    } catch (e: ActivityNotFoundException) {
+        // WhatsApp is not installed on the device. Prompt the entity to install it.
+        Toast.makeText(activity, "WhatsApp no está instalado en este dispositivo", Toast.LENGTH_SHORT).show()
+    }
+
+    @SuppressLint("SetTextI18n")
+     fun createDialogNoMoney(context: Context , totalBalanceTopUpUser:Float) {
+        val view = View.inflate(context , R.layout.dialognomoney , null)
+        val builder = AlertDialog.Builder(context)
+        builder.setView(view)
+        val dialog = builder.create()
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        val message = view.findViewById<TextView>(R.id.messagenomoney)
+        val button = view.findViewById<Button>(R.id.confirm)
+        message.text = context.getString(R.string.nomoney) + context.getString(R.string.yourbalance ) + " $ " + totalBalanceTopUpUser
+        button.setOnClickListener {
+            dialog.dismiss()
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun createDialogErrorPayWithMercadoPago(activity: Activity) {
+        val view = View.inflate(activity , R.layout.dialognomoney , null)
+        val builder = AlertDialog.Builder(activity)
+        builder.setView(view)
+        val dialog = builder.create()
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        val message = view.findViewById<TextView>(R.id.messagenomoney)
+        val button = view.findViewById<Button>(R.id.confirm)
+        message.text = activity.getString(R.string.errorpaymenymercadopago)
+        button.text ="Ok"
+        button.setOnClickListener {
+            activity.startActivity(Intent(activity,HomeActivity::class.java))
+            dialog.dismiss()
+        }
+    }
+
+     fun createDialogSuccess(salesData: Sales,activity: Activity) {
+        val view = View.inflate(activity , R.layout.dialog_success , null)
+        val builder = AlertDialog.Builder(activity)
+        builder.setView(view)
+        val dialog = builder.create()
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        val message = view.findViewById<TextView>(R.id.messagehasmoney)
+        val button = view.findViewById<Button>(R.id.confirm)
+        message.text = activity.getString(R.string.success)
+        button.setOnClickListener {
+            val intent = Intent(activity, InvoiceActivity::class.java)
+            intent.putExtra("saleData",salesData)
+            activity.startActivity(intent)
+            activity.finish()
+            dialog.dismiss()
+        }
+    }
+
+    fun createDialogSuccessForAgent(activity: Activity) {
+        val view = View.inflate(activity , R.layout.dialog_success , null)
+        val builder = AlertDialog.Builder(activity)
+        builder.setView(view)
+        val dialog = builder.create()
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        val message = view.findViewById<TextView>(R.id.messagehasmoney)
+        val button = view.findViewById<Button>(R.id.confirm)
+        message.text = activity.getString(R.string.success)
+        button.setOnClickListener {
+            val intent = Intent(activity, HomeActivity::class.java)
+            activity.startActivity(intent)
+            activity.finish()
+            dialog.dismiss()
+        }
+    }
+
+    fun createDialogSuccessRechargeAccountMaster(activity: Activity) {
+        val view = View.inflate(activity , R.layout.dialog_success , null)
+        val builder = AlertDialog.Builder(activity)
+        builder.setView(view)
+        val dialog = builder.create()
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        val message = view.findViewById<TextView>(R.id.messagehasmoney)
+        val button = view.findViewById<Button>(R.id.confirm)
+        message.text = activity.getString(R.string.successrecarcheaccount)
+        button.setOnClickListener {
+            val intent = Intent(activity, HomeActivity::class.java)
+            activity.startActivity(intent)
+            activity.finish()
+            dialog.dismiss()
+        }
+    }
+
+    fun createDialogErrorForAgent(activity: Activity) {
+        val view = View.inflate(activity , R.layout.dialog_success , null)
+        val builder = AlertDialog.Builder(activity)
+        builder.setView(view)
+        val dialog = builder.create()
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        val message = view.findViewById<TextView>(R.id.messagehasmoney)
+        val button = view.findViewById<Button>(R.id.confirm)
+        message.text = activity.getString(R.string.errorsendtopupinnoverit)
+        button.setOnClickListener {
+            val intent = Intent(activity, HomeActivity::class.java)
+            activity.startActivity(intent)
+            activity.finish()
+            dialog.dismiss()
+        }
+    }
+     @SuppressLint("SetTextI18n")
+     fun createDialogSuccessManually(salesData: Sales , activity: Activity) {
+        val view = View.inflate(activity, R.layout.dialog_success, null)
+        val builder = androidx.appcompat.app.AlertDialog.Builder(activity)
+        builder.setView(view)
+        val dialog = builder.create()
+        dialog.show()
+        dialog.setCancelable(false)
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        val message = view.findViewById<TextView>(R.id.messagehasmoney)
+        val button = view.findViewById<Button>(R.id.confirm)
+        message.text = activity.getString( R.string.thanks ) + ConstantGeneral.PHONENUMBERWHATSAPP
+        button.setOnClickListener {
+            sendWhatsapp(salesData,activity)
+            dialog.dismiss()
+        }
+    }
+
+     fun extractNumberSubTotal(input: String): Float {
+        val regex = "([\\d.]+)".toRegex()
+        val match = regex.find(input)
+        return match?.value?.toFloat() ?:0.0F
+    }
+
+    fun showProgress(materialButton: MaterialButton,progressBar: ProgressBar){
+        materialButton.isEnabled = false
+        materialButton.text = ""
+        progressBar.isGone = false
+    }
+
+    fun hideProgress(materialButton: MaterialButton,progressBar: ProgressBar,text:String){
+        materialButton.isEnabled = true
+        materialButton.text = text
+        progressBar.isGone = true
     }
 }

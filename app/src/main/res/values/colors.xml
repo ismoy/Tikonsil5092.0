@@ -14,4 +14,5 @@
     <color name="colorerror">@android:color/holo_red_light</color>
     <color name="blue_btn_bg_color">#AEDEF4</color>
     <color name="shimmer_color">#BFBDBD</color>
+    <color name="colorAccent">#4CAF50</color>
 </resources>

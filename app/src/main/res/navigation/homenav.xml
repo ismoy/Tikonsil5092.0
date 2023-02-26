@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_sendRechargeFragment_to_historySalesFragment"
             app:destination="@id/historySalesFragment" />
+        <action
+            android:id="@+id/action_sendRechargeFragment_to_takeCredentialsCardFormFragment"
+            app:destination="@id/takeCredentialsCardFormFragment" />
     </fragment>
     <fragment
         android:id="@+id/historySalesFragment"
@@ -99,6 +102,30 @@
         tools:layout="@layout/fragment_request_recharge" >
         <action
             android:id="@+id/action_requestRechargeFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_requestRechargeFragment_to_takeCredentialsCardFormFragment"
+            app:destination="@id/takeCredentialsCardFormFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/takeCredentialsCardFormFragment"
+        android:name="com.tikonsil.tikonsil509.ui.fragment.mercadoPago.TakeCredentialsCardFormFragment"
+        android:label=""
+        tools:layout="@layout/fragment_take_credentials_card_form" >
+        <action
+            android:id="@+id/action_takeCredentialsCardFormFragment_to_sendRechargeFragment"
+            app:destination="@id/sendRechargeFragment" />
+        <action
+            android:id="@+id/action_takeCredentialsCardFormFragment_to_installmentFragment"
+            app:destination="@id/installmentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/installmentFragment"
+        android:name="com.tikonsil.tikonsil509.ui.fragment.mercadoPago.InstallmentFragment"
+        android:label=""
+        tools:layout="@layout/fragment_installment" >
+        <action
+            android:id="@+id/action_installmentFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 

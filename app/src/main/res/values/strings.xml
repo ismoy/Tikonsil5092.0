@@ -68,7 +68,7 @@
     <string name="pleasewait" translatable="false">Please Wait..</string>
     <string name="sendrequest" translatable="false">Sending Request ...</string>
     <string name="thanks">Thanks for your purchase. Send us a WhatsApp at the following number to confirm your purchase faster</string>
-    <string name="nomoney" >You do not have enough balance to make this purchase</string>
+    <string name="nomoney">You do not have enough balance to make this purchase</string>
     <string name="yourbalance">Your balance is</string>
     <string name="theservice" translatable="false">The service</string>
     <string name="only" translatable="false"> is available only for haiti</string>
@@ -129,6 +129,13 @@
     <string name="status">Status</string>
     <string name="titlesuccess">Success</string>
     <string name="extract_whatsapp" translatable="false">Hello, I have sent a recharge request, can you help me please, here are the details phone number</string>
+    <string name="topup_balance">Recharge your account</string>
+    <string name="pay">Pay</string>
+    <string name="aproved">Successful</string>
+    <string name="titleamount">Enter the amount you want to deposit into your account</string>
+    <string name="successrecarcheaccount">Your account has been successfully recharged</string>
+    <string name="errorpaymenymercadopago">oops!! we can\'t make the payment please try again</string>
+    <string name="errorsendtopupinnoverit">Thank you for your purchase you will receive your TopUp immediately</string>
 
 
 </resources>

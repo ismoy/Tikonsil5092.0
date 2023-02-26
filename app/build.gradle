@@ -25,7 +25,6 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -44,6 +43,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        dataBinding true
     }
 
 }
@@ -60,6 +60,7 @@ dependencies {
     def ext_nav_version = "2.4.2"
     def library_country_version= "2.5.4"
     def dagger_version ="2.38.1"
+    def rxJavaVersion = '2.1.1'
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.6.0'
@@ -88,6 +89,12 @@ dependencies {
     //Retrofit2
     implementation "com.squareup.retrofit2:retrofit:$retrofit2_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit2_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit2_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.7"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit2_version"
+    //javarX
+    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxJavaVersion"
     //Navigation Component
     implementation "androidx.navigation:navigation-fragment-ktx:$ext_nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$ext_nav_version"
@@ -129,4 +136,6 @@ dependencies {
     //libreria para comprimir imagenes
     implementation 'id.zelory:compressor:2.1.1'
     implementation 'com.firebaseui:firebase-ui-storage:7.2.0'
+    //libraries card
+    implementation 'com.braintreepayments:card-form:5.2.0'
 }

@@ -6,15 +6,16 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.tikonsil.tikonsil509.data.remote.api.RetrofitInstance
-import com.tikonsil.tikonsil509.data.remote.api.RetrofitInstanceApiRechargeTikonsil509
 import com.tikonsil.tikonsil509.data.remote.provider.IdProductProvider
-import com.tikonsil.tikonsil509.data.remote.provider.PriceCostProvider
+import com.tikonsil.tikonsil509.data.remote.provider.firebaseApi.FirebaseApi
+import com.tikonsil.tikonsil509.data.remote.retrofitInstance.Headers
+import com.tikonsil.tikonsil509.data.remote.retrofitInstance.RetrofitInstance
 import com.tikonsil.tikonsil509.domain.model.CostInnoverit
 import com.tikonsil.tikonsil509.domain.model.Sales
-import com.tikonsil.tikonsil509.domain.model.SendRecharge
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.tikonsil.tikonsil509.domain.model.SendRechargeProduct
+import com.tikonsil.tikonsil509.domain.model.SendRechargeResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Response
 
@@ -23,25 +24,26 @@ class SendRechargeRepository {
 
     private val getIdProduct by lazy { IdProductProvider() }
     var noExistSnapshot =MutableLiveData<Boolean>()
-    var headersKey =HashMap<String,String>()
 
     suspend fun Sales(sales: Sales): Response<Sales> {
-        return RetrofitInstance.tikonsilApi.Sales(sales)
+        val _tikonsilApi= RetrofitInstance(FirebaseApi.getFSApis().base_url_firebase_instance).tikonsilApi
+        return _tikonsilApi.Sales(FirebaseApi.getFSApis().end_point_save_sales,sales)
     }
 
-    init {
-        GlobalScope.launch {
-            val  apikey = RetrofitInstance.tikonsilApi.getKeyAuthorization()
-             if (apikey.isSuccessful){
-                 val headers = HashMap<String,String>()
-                 headers["Authorization"] = apikey.body()!!.key
-                 headersKey = headers
-             }
+    suspend fun salesWithErrorInnoverit(sales: Sales): Response<Sales> {
+        val _tikonsilApi= RetrofitInstance(FirebaseApi.getFSApis().base_url_firebase_instance).tikonsilApi
+        return _tikonsilApi.salesWithErrorInnoverit(FirebaseApi.getFSApis().end_point_save_sales_error_innoverit,sales)
+    }
+
+    suspend fun sendRechargeViaInnoVit(sendRechargeProduct: SendRechargeProduct): Result<Call<SendRechargeResponse>> {
+        return runCatching {
+            val _tikonsilApi = RetrofitInstance(FirebaseApi.getFSApis().base_url_tikonsil).tikonsilApi
+            val response = withContext(Dispatchers.IO){
+                _tikonsilApi.sendProduct(Headers.getHeaderTikonsil509(),FirebaseApi.getFSApis().end_point_send_product,
+                sendRechargeProduct)
+            }
+            response
         }
-    }
-
-    suspend fun sendRechargeViaInnoVit(idProduct:String,destination:String): Call<SendRecharge> {
-        return RetrofitInstanceApiRechargeTikonsil509.tikonsilApi.sendProduct(idProduct,destination,headersKey)
     }
 
     fun getIdProductSelected(countryCode:String):LiveData<List<CostInnoverit>>{
