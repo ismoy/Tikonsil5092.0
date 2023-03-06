@@ -171,7 +171,7 @@ class InstallmentFragment : Fragment() {
             ConstantServiceCountry.SERVICEHAITI4,product.phoneNumber,product.date,product.countryName,"",
             product.subTotal,"",product.tokenUser,0,product.idProduct,product.soldTopUp.toString(),
             product.imageUrl)
-        sendRechargeViewModel.sales(salesData)
+        sendRechargeViewModel.sales("${mAuthProvider.getId()}${product.idProduct}",salesData)
     }
 
     private fun sendDataInFirebase() {
@@ -180,7 +180,7 @@ class InstallmentFragment : Fragment() {
             ConstantServiceCountry.SERVICEHAITI4,product.phoneNumber,product.date,product.countryName,"",
         product.subTotal,"",product.tokenUser,1,product.idProduct,product.soldTopUp.toString(),
         product.imageUrl)
-        sendRechargeViewModel.sales(salesData)
+        sendRechargeViewModel.sales("${mAuthProvider.getId()}${product.idProduct}",salesData)
     }
 
     private fun sendTopUpByInnoverit() {

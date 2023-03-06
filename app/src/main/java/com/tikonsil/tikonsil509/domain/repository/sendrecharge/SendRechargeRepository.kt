@@ -25,9 +25,9 @@ class SendRechargeRepository {
     private val getIdProduct by lazy { IdProductProvider() }
     var noExistSnapshot =MutableLiveData<Boolean>()
 
-    suspend fun Sales(sales: Sales): Response<Sales> {
+    suspend fun sales(uidUserCodeProduct:String,sales: Sales): Response<Sales> {
         val _tikonsilApi= RetrofitInstance(FirebaseApi.getFSApis().base_url_firebase_instance).tikonsilApi
-        return _tikonsilApi.Sales(FirebaseApi.getFSApis().end_point_save_sales,sales)
+        return _tikonsilApi.sales(uidUserCodeProduct,sales)
     }
 
     suspend fun salesWithErrorInnoverit(sales: Sales): Response<Sales> {

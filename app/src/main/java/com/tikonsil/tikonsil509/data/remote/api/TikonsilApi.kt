@@ -25,9 +25,9 @@ interface TikonsilApi {
         @Path("uidUser") uidUser: String
     ): Response<Users>
 
-    @POST
-    suspend fun Sales(
-        @Url url: String ,
+    @PATCH("Sales/{uidUserCodeProduct}.json")
+    suspend fun sales(
+        @Path("uidUserCodeProduct")uidUserCodeProduct:String,
         @Body sales: Sales
     ): Response<Sales>
 
@@ -74,7 +74,6 @@ interface TikonsilApi {
         @Query("bin") bin: String ,
         @Query("amount") amount: String
     ): Response<JsonArray>
-
     @POST
     suspend fun createPayWithMercadoPago(
         @HeaderMap authorization: Map<String, String>,

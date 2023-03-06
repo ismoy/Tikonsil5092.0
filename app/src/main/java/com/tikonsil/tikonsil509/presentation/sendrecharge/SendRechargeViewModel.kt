@@ -31,9 +31,9 @@ class SendRechargeViewModel(private val repository: SendRechargeRepository) :Vie
         noExistSnapshot =repository.noExistSnapshot
     }
 
-    fun sales(sales: Sales) {
+    fun sales(uidUserCodeProduct:String,sales: Sales) {
         viewModelScope.launch {
-            val response = repository.Sales(sales)
+            val response = repository.sales(uidUserCodeProduct, sales)
             myResponseSales.value = response
         }
     }

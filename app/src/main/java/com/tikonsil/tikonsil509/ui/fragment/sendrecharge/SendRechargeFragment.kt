@@ -310,14 +310,14 @@ class SendRechargeFragment : Fragment() {
                 "${binding.codigo.text}${binding.phone.text.toString()}",
                 subTotalSelected.toString(),idProductSelected!!.toInt(),mAuthProvider.getId().toString(),
                 firstNameUser!!,lastNameUser!!,roleUser!!.toInt(),tokenUser!!,tokenAdmin!!, currentDate,0,countrySelected!!,imageUser!!,
-                totalBalanceTopUpUser,subTotalSelected.toString())
+                totalBalanceTopUpUser,subTotalSelected.toString(),)
             viewModel.insertProduct(product)
             navController.navigate(R.id.action_sendRechargeFragment_to_takeCredentialsCardFormFragment)
 
     }
     private fun sendDataInFirebase(salesData: Sales) {
         showProgress(binding.recargar,binding.progressBar)
-        sendRechargeViewModel.sales(salesData)
+        sendRechargeViewModel.sales("${mAuthProvider.getId()}${idProductSelected}",salesData)
         sendRechargeViewModel.myResponseSales.observe(viewLifecycleOwner){
             if (it.isSuccessful){
                 hideProgress(binding.recargar,binding.progressBar,getString(R.string.SendReload))
