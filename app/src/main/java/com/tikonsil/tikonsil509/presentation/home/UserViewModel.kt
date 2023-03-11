@@ -9,7 +9,8 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 
 /** * Created by ISMOY BELIZAIRE on 27/04/2022. */
-class UserViewModel(val repository: UsersRepository):ViewModel() {
+class UserViewModel :ViewModel() {
+ private val repository:UsersRepository =UsersRepository()
  val ResposeUsers:MutableLiveData<Response<Users>> = MutableLiveData()
 
  fun getOnlyUser(uidUser:String){

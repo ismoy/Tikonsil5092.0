@@ -61,6 +61,9 @@
     <string name="successrecarcheaccount">Su cuenta ha sido recargada con éxito</string>
     <string name="errorpaymenymercadopago">¡¡ups!! no podemos hacer el pago por favor inténtalo de nuevo</string>
     <string name="errorsendtopupinnoverit">Gracias por su compra recibirás su TopUp enseguida</string>
+    <string name="forgetpassword">¿Has olvidado tu contraseña?</string>
+    <string name="recover_password">Recuperar contraseña</string>
+    <string name="lang_email">es</string>
 
 
 </resources>

@@ -3,7 +3,6 @@ package com.tikonsil.tikonsil509.ui.fragment.home
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,29 +29,12 @@ import com.tikonsil.tikonsil509.data.adapter.LastSaleAdapter
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
 import com.tikonsil.tikonsil509.data.remote.provider.TokenProvider
 import com.tikonsil.tikonsil509.data.remote.provider.TokensAdminProvider
-import com.tikonsil.tikonsil509.domain.repository.home.UsersRepository
 import com.tikonsil.tikonsil509.domain.repository.lastsales.LastSalesRepository
 import com.tikonsil.tikonsil509.presentation.home.UserViewModel
-import com.tikonsil.tikonsil509.presentation.home.UserViewModelFactory
 import com.tikonsil.tikonsil509.presentation.lastsales.LastSalesViewModel
 import com.tikonsil.tikonsil509.presentation.lastsales.LastSalesViewModelProvider
 import com.tikonsil.tikonsil509.presentation.savestatus.StatusUserViewModel
 import com.tikonsil.tikonsil509.ui.activity.login.LoginActivity
-import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEBRAZIL
-import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODECHILE
-import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODECUBA
-import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEHAITI
-import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEMEXICO
-import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEPANAMA
-import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEREPUBLICANDOMINIK
-import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYBRAZIL
-import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYCHILE
-import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYCUBA
-import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYHAITI
-import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYMEXICO
-import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYPANAMA
-import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYREPUBLICANDOMINK
-import com.tikonsil.tikonsil509.utils.constants.ConstantCurrencyCountry.CURRENCYUSA
 import com.tikonsil.tikonsil509.utils.constants.UtilsView
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlin.math.roundToInt
@@ -60,7 +42,6 @@ import kotlin.math.roundToInt
 /** * Created by ISMOY BELIZAIRE on 26/04/2022. */
 abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
  protected lateinit var binding:VB
- protected lateinit var viewmodel: UserViewModel
  protected lateinit var mAuthProvider: AuthProvider
  protected lateinit var navController: NavController
  private  lateinit var mviewmodellastsales:LastSalesViewModel
@@ -85,15 +66,13 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
  protected lateinit var userTokenProvider:TokenProvider
  private lateinit var mTokensAdminProvider: TokensAdminProvider
  protected  val mviewmodelstatususer by lazy { ViewModelProvider(requireActivity())[StatusUserViewModel::class.java] }
+ private val viewmodel by  lazy { ViewModelProvider(this)[UserViewModel::class.java]}
  override fun onCreateView(
   inflater: LayoutInflater,
   container: ViewGroup?,
   savedInstanceState: Bundle?
  ): View? {
   binding = getFragmentBinding(inflater, container)
-  val repository = UsersRepository()
-  val factory = UserViewModelFactory(repository)
-  viewmodel = ViewModelProvider(requireActivity(),factory)[UserViewModel::class.java]
 
   val repositorylastsales = LastSalesRepository()
   val factorylastsales = LastSalesViewModelProvider(repositorylastsales)
@@ -109,12 +88,7 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
   usernamewel = binding.root.findViewById(R.id.usernamewel)
   saldotopup =binding.root.findViewById(R.id.saldotopup)
   saldomoncash = binding.root.findViewById(R.id.saldomoncash)
-  saldonatcash = binding.root.findViewById(R.id.saldonatcash)
-  saldolapoula = binding.root.findViewById(R.id.saldolapoula)
-  cardviewtopup = binding.root.findViewById(R.id.cardViewtopup)
-  cardviewmoncash = binding.root.findViewById(R.id.cardViewmoncash)
-  cardviewnatcash = binding.root.findViewById(R.id.cardViewnatcash)
-  cardviewlapoula = binding.root.findViewById(R.id.cardViewlapoula)
+
   noDataFound =binding.root.findViewById(R.id.noDataFound)
   relativebalance =binding.root.findViewById(R.id.relativebalance)
   balance=binding.root.findViewById(R.id.totalbalance)
@@ -154,7 +128,6 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
     shimmerFrameLayoutwelcome?.isGone=true
     usernamewel!!.isVisible = true
     binding.root.findViewById<CircleImageView>(R.id.image).isVisible = true
-    binding.root.findViewById<ScrollView>(R.id.scrollviewcard).isVisible = false
    }
   })
  }

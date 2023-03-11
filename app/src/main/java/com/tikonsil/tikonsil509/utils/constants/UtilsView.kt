@@ -13,9 +13,11 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.isGone
 import androidx.core.widget.doOnTextChanged
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.tikonsil.tikonsil509.R
@@ -27,32 +29,83 @@ import kotlin.math.roundToInt
 
 object UtilsView {
 
-    fun inputValidator(phone:TextInputEditText,phoneLayout:TextInputLayout,total:TextInputEditText,totalLayout:TextInputLayout,bntRecharge:Button,context: Context){
-        phone.doOnTextChanged { valuePhone, _, _, _ ->
-            if (valuePhone!!.toString().isEmpty()){
+    fun inputValidator(
+        phone: TextInputEditText ,
+        phoneLayout: TextInputLayout ,
+        total: TextInputEditText ,
+        totalLayout: TextInputLayout ,
+        bntRecharge: Button ,
+        context: Context
+    ) {
+        phone.doOnTextChanged { valuePhone , _ , _ , _ ->
+            if (valuePhone!!.toString().isEmpty()) {
                 phoneLayout.helperText = context.getString(R.string.erroremptyfield)
                 bntRecharge.isEnabled = false
                 return@doOnTextChanged
-            }else{
+            } else {
                 phoneLayout.helperText = ""
                 bntRecharge.isEnabled = true
             }
         }
 
-        total.doOnTextChanged { valueTotal, _, _, _ ->
-            if (valueTotal!!.toString().isEmpty()){
+        total.doOnTextChanged { valueTotal , _ , _ , _ ->
+            if (valueTotal!!.toString().isEmpty()) {
                 totalLayout.helperText = context.getString(R.string.erroremptyfield)
                 bntRecharge.isEnabled = false
                 return@doOnTextChanged
-            }else{
+            } else {
                 totalLayout.helperText = ""
                 bntRecharge.isEnabled = true
             }
         }
     }
 
-    fun calculatePriceServiceHaitiMonCash(total: TextInputEditText,chipSelected:String,priceMonCash:Float,subtotal:TextInputEditText){
-        total.doOnTextChanged { valueInput, _, _, _ ->
+    fun loginValidator(
+        textInputLayoutEmail: TextInputLayout ,
+        email: TextInputEditText ,
+        textInputLayoutPassword: TextInputLayout ,
+        password:TextInputEditText,
+        context: Context,
+        mConstant: Constant
+    ) {
+     email.doOnTextChanged { txtEmail, _, _, _ ->
+         when {
+             txtEmail!!.toString().isEmpty() -> {
+                 textInputLayoutEmail.helperText =context.getText(R.string.erroremptyfield)
+                 return@doOnTextChanged
+             }
+             !mConstant.validateEmail(txtEmail.toString())!! -> {
+                 textInputLayoutEmail.helperText = context.getString(R.string.error_email_invalid)
+             }
+             else -> {
+                 textInputLayoutEmail.helperText = ""
+             }
+         }
+     }
+
+        password.doOnTextChanged { txtPassword, _, _, _ ->
+            when {
+                txtPassword!!.toString().isEmpty() -> {
+                    textInputLayoutPassword.helperText =context.getText(R.string.erroremptyfield)
+                    return@doOnTextChanged
+                }
+                !mConstant.validatelongitudepassword(txtPassword.toString()) -> {
+                    textInputLayoutPassword.helperText = context.getString(R.string.error_longitudepassword)
+                }
+                else -> {
+                    textInputLayoutPassword.helperText = ""
+                }
+            }
+        }
+    }
+
+    fun calculatePriceServiceHaitiMonCash(
+        total: TextInputEditText ,
+        chipSelected: String ,
+        priceMonCash: Float ,
+        subtotal: TextInputEditText
+    ) {
+        total.doOnTextChanged { valueInput , _ , _ , _ ->
             if (valueInput!!.isNotEmpty() && chipSelected == ConstantServiceCountry.SERVICEHAITI1) {
                 val countvaluemoncash: Double = valueInput.toString().toDouble() / priceMonCash
                 subtotal.setText(countvaluemoncash.roundToInt().toString())
@@ -62,8 +115,13 @@ object UtilsView {
 
     }
 
-    fun calculatePriceServiceHaitiNatCash(total: TextInputEditText,chipSelected:String,priceNatCash:Float,subtotal:TextInputEditText){
-        total.doOnTextChanged { valueInput, _, _, _ ->
+    fun calculatePriceServiceHaitiNatCash(
+        total: TextInputEditText ,
+        chipSelected: String ,
+        priceNatCash: Float ,
+        subtotal: TextInputEditText
+    ) {
+        total.doOnTextChanged { valueInput , _ , _ , _ ->
             if (valueInput!!.isNotEmpty() && chipSelected == ConstantServiceCountry.SERVICEHAITI2) {
                 val countvaluemoncash: Double = valueInput.toString().toDouble() / priceNatCash
                 subtotal.setText(countvaluemoncash.roundToInt().toString())
@@ -73,8 +131,13 @@ object UtilsView {
 
     }
 
-    fun calculatePriceServiceHaitiLapouLa(total: TextInputEditText,chipSelected:String,priceLapouLa:Float,subtotal:TextInputEditText){
-        total.doOnTextChanged { valueInput, _, _, _ ->
+    fun calculatePriceServiceHaitiLapouLa(
+        total: TextInputEditText ,
+        chipSelected: String ,
+        priceLapouLa: Float ,
+        subtotal: TextInputEditText
+    ) {
+        total.doOnTextChanged { valueInput , _ , _ , _ ->
             if (valueInput!!.isNotEmpty() && chipSelected == ConstantServiceCountry.SERVICEHAITI3) {
                 val countvaluemoncash: Double = valueInput.toString().toDouble() / priceLapouLa
                 subtotal.setText(countvaluemoncash.roundToInt().toString())
@@ -83,32 +146,56 @@ object UtilsView {
         }
 
     }
+
     fun getValueSharedPreferences(activity: Activity , value: String): String {
         val sharedPreferences: SharedPreferences =
-            activity.getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE)
-        return sharedPreferences.getString(value, "").toString()
+            activity.getSharedPreferences("sharedPreferences" , Context.MODE_PRIVATE)
+        return sharedPreferences.getString(value , "").toString()
     }
 
     fun setValueSharedPreferences(activity: Activity , key: String , value: String) {
         val sharedPreferences: SharedPreferences =
-            activity.getSharedPreferences("sharedPreferences", Context.MODE_PRIVATE)
+            activity.getSharedPreferences("sharedPreferences" , Context.MODE_PRIVATE)
         sharedPreferences.edit()
-            .putString(key, value)
+            .putString(key , value)
             .apply()
     }
+
     @SuppressLint("StringFormatInvalid")
     fun sendWhatsapp(salesData: Sales , activity: Activity) = try {
-        val mensaje =activity.getString(R.string.extract_whatsapp, "${salesData.phone} Name: ${salesData.firstname}"  + " Total TopUp ${salesData.subtotal} Country: ${salesData.country}")
+        val mensaje = activity.getString(
+            R.string.extract_whatsapp ,
+            "${salesData.phone} Name: ${salesData.firstname}" + " Total TopUp ${salesData.subtotal} Country: ${salesData.country}"
+        )
         val i = Intent(Intent.ACTION_VIEW)
-        i.data = Uri.parse("whatsapp://send?phone=${ConstantGeneral.PHONENUMBERWHATSAPP}&text=$mensaje")
+        i.data =
+            Uri.parse("whatsapp://send?phone=${ConstantGeneral.PHONENUMBERWHATSAPP}&text=$mensaje")
         activity.startActivity(i)
     } catch (e: ActivityNotFoundException) {
         // WhatsApp is not installed on the device. Prompt the entity to install it.
-        Toast.makeText(activity, "WhatsApp no está instalado en este dispositivo", Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            activity ,
+            "WhatsApp no está instalado en este dispositivo" ,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
+    fun supportWhatsapp(whatsapp: FloatingActionButton,activity: Activity){
+        whatsapp.setOnClickListener {
+            try {
+                val mensaje =activity.getString(R.string.ayudawhatsapp)
+                val i = Intent(Intent.ACTION_VIEW)
+                i.data = Uri.parse("whatsapp://send?phone=${ConstantGeneral.PHONENUMBERWHATSAPP}&text=$mensaje")
+                activity.startActivity(i)
+            } catch (e: ActivityNotFoundException) {
+                // WhatsApp is not installed on the device. Prompt the entity to install it.
+                Toast.makeText(activity, "WhatsApp no está instalado en este dispositivo", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+    }
     @SuppressLint("SetTextI18n")
-     fun createDialogNoMoney(context: Context , totalBalanceTopUpUser:Float) {
+    fun createDialogNoMoney(context: Context , totalBalanceTopUpUser: Float) {
         val view = View.inflate(context , R.layout.dialognomoney , null)
         val builder = AlertDialog.Builder(context)
         builder.setView(view)
@@ -117,7 +204,8 @@ object UtilsView {
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         val message = view.findViewById<TextView>(R.id.messagenomoney)
         val button = view.findViewById<Button>(R.id.confirm)
-        message.text = context.getString(R.string.nomoney) + context.getString(R.string.yourbalance ) + " $ " + totalBalanceTopUpUser
+        message.text =
+            context.getString(R.string.nomoney) + context.getString(R.string.yourbalance) + " $ " + totalBalanceTopUpUser
         button.setOnClickListener {
             dialog.dismiss()
         }
@@ -134,14 +222,14 @@ object UtilsView {
         val message = view.findViewById<TextView>(R.id.messagenomoney)
         val button = view.findViewById<Button>(R.id.confirm)
         message.text = activity.getString(R.string.errorpaymenymercadopago)
-        button.text ="Ok"
+        button.text = "Ok"
         button.setOnClickListener {
-            activity.startActivity(Intent(activity,HomeActivity::class.java))
+            activity.startActivity(Intent(activity , HomeActivity::class.java))
             dialog.dismiss()
         }
     }
 
-     fun createDialogSuccess(salesData: Sales,activity: Activity) {
+    fun createDialogSuccess(salesData: Sales , activity: Activity) {
         val view = View.inflate(activity , R.layout.dialog_success , null)
         val builder = AlertDialog.Builder(activity)
         builder.setView(view)
@@ -152,8 +240,8 @@ object UtilsView {
         val button = view.findViewById<Button>(R.id.confirm)
         message.text = activity.getString(R.string.success)
         button.setOnClickListener {
-            val intent = Intent(activity, InvoiceActivity::class.java)
-            intent.putExtra("saleData",salesData)
+            val intent = Intent(activity , InvoiceActivity::class.java)
+            intent.putExtra("saleData" , salesData)
             activity.startActivity(intent)
             activity.finish()
             dialog.dismiss()
@@ -171,7 +259,7 @@ object UtilsView {
         val button = view.findViewById<Button>(R.id.confirm)
         message.text = activity.getString(R.string.success)
         button.setOnClickListener {
-            val intent = Intent(activity, HomeActivity::class.java)
+            val intent = Intent(activity , HomeActivity::class.java)
             activity.startActivity(intent)
             activity.finish()
             dialog.dismiss()
@@ -189,7 +277,7 @@ object UtilsView {
         val button = view.findViewById<Button>(R.id.confirm)
         message.text = activity.getString(R.string.successrecarcheaccount)
         button.setOnClickListener {
-            val intent = Intent(activity, HomeActivity::class.java)
+            val intent = Intent(activity , HomeActivity::class.java)
             activity.startActivity(intent)
             activity.finish()
             dialog.dismiss()
@@ -207,15 +295,16 @@ object UtilsView {
         val button = view.findViewById<Button>(R.id.confirm)
         message.text = activity.getString(R.string.errorsendtopupinnoverit)
         button.setOnClickListener {
-            val intent = Intent(activity, HomeActivity::class.java)
+            val intent = Intent(activity , HomeActivity::class.java)
             activity.startActivity(intent)
             activity.finish()
             dialog.dismiss()
         }
     }
-     @SuppressLint("SetTextI18n")
-     fun createDialogSuccessManually(salesData: Sales , activity: Activity) {
-        val view = View.inflate(activity, R.layout.dialog_success, null)
+
+    @SuppressLint("SetTextI18n")
+    fun createDialogSuccessManually(salesData: Sales , activity: Activity) {
+        val view = View.inflate(activity , R.layout.dialog_success , null)
         val builder = androidx.appcompat.app.AlertDialog.Builder(activity)
         builder.setView(view)
         val dialog = builder.create()
@@ -224,26 +313,26 @@ object UtilsView {
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         val message = view.findViewById<TextView>(R.id.messagehasmoney)
         val button = view.findViewById<Button>(R.id.confirm)
-        message.text = activity.getString( R.string.thanks ) + ConstantGeneral.PHONENUMBERWHATSAPP
+        message.text = activity.getString(R.string.thanks) + ConstantGeneral.PHONENUMBERWHATSAPP
         button.setOnClickListener {
-            sendWhatsapp(salesData,activity)
+            sendWhatsapp(salesData , activity)
             dialog.dismiss()
         }
     }
 
-     fun extractNumberSubTotal(input: String): Float {
+    fun extractNumberSubTotal(input: String): Float {
         val regex = "([\\d.]+)".toRegex()
         val match = regex.find(input)
-        return match?.value?.toFloat() ?:0.0F
+        return match?.value?.toFloat() ?: 0.0F
     }
 
-    fun showProgress(materialButton: MaterialButton,progressBar: ProgressBar){
+    fun showProgress(materialButton: MaterialButton , progressBar: ProgressBar) {
         materialButton.isEnabled = false
         materialButton.text = ""
         progressBar.isGone = false
     }
 
-    fun hideProgress(materialButton: MaterialButton,progressBar: ProgressBar,text:String){
+    fun hideProgress(materialButton: MaterialButton , progressBar: ProgressBar , text: String) {
         materialButton.isEnabled = true
         materialButton.text = text
         progressBar.isGone = true

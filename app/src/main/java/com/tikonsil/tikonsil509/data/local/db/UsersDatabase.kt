@@ -47,6 +47,10 @@ abstract class UsersDatabase: RoomDatabase() {
             }
 
         }
+        suspend fun clearLocalStorage() {
+            INSTANCE!!.productDao().deleteAll()
+
+        }
     }
     abstract fun mercadoPagoCredentialsDao(): MercadoPagoCredencialsDao
     abstract fun productDao(): ProductDao

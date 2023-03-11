@@ -14,11 +14,13 @@ import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.chip.Chip
 import com.tikonsil.tikonsil509.R
+import com.tikonsil.tikonsil509.data.local.db.UsersDatabase
 import com.tikonsil.tikonsil509.data.local.entity.Product
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
 import com.tikonsil.tikonsil509.data.remote.provider.TokensAdminProvider
@@ -47,6 +49,7 @@ import com.tikonsil.tikonsil509.utils.constants.UtilsView.createDialogSuccess
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.createDialogSuccessManually
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.hideProgress
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.showProgress
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -434,5 +437,9 @@ class SendRechargeFragment : Fragment() {
         super.onResume()
        tokenUser = UtilsView.getValueSharedPreferences(requireActivity(),"tokenUsers")
         tokenAdmin = UtilsView.getValueSharedPreferences(requireActivity(),"tokenAdmin")
+        lifecycleScope.launch {
+            UsersDatabase.getDatabase(requireContext()).productDao().deleteAll()
+        }
+
     }
 }

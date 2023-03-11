@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.historysales.HistorySalesFragment"
-    android:layout_marginBottom="90dp">
+   >
 
     <ImageView
         android:id="@+id/noDataFound"

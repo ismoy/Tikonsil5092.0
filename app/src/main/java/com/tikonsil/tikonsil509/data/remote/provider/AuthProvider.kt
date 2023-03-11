@@ -1,8 +1,10 @@
 package com.tikonsil.tikonsil509.data.remote.provider
 
+import android.content.Context
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.tikonsil.tikonsil509.R
 
 /** * Created by ISMOY BELIZAIRE on 23/04/2022. */
 class AuthProvider {
@@ -21,11 +23,16 @@ class AuthProvider {
   auth.signOut()
  }
 
- fun lenguaje() {
-  auth.setLanguageCode("es")
+  fun language(context: Context) {
+  auth.setLanguageCode(context.getString(R.string.lang_email))
  }
   fun login(email:String, password: String): Task<AuthResult> {
   return auth.signInWithEmailAndPassword(email, password)
+ }
+
+ fun resetPassword(email: String,context: Context): Task<Void> {
+  language(context)
+  return auth.sendPasswordResetEmail(email)
  }
 
  fun existSession(): Boolean {

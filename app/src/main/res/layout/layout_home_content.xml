@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorboton">
+    android:background="@color/colorboton"
+   >
 
 
     <com.facebook.shimmer.ShimmerFrameLayout
@@ -23,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="25dp"
-        android:paddingTop="30dp"
+        android:paddingTop="10dp"
         android:paddingEnd="25dp"
         app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintStart_toStartOf="@id/guideline"
@@ -43,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10sp"
-            android:layout_toRightOf="@+id/wel"
+            android:layout_toEndOf="@+id/wel"
             android:letterSpacing="0.05"
             android:textColor="@color/white"
             android:textSize="15sp"
@@ -66,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/image"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/bgcardgradient"
             android:fitsSystemWindows="true"
             android:visibility="gone"
@@ -75,15 +76,15 @@
             tools:ignore="NotSibling">
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/titleBalance"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="40dp"
-                android:paddingEnd="50dp"
                 android:text="@string/total_balance"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold"
+                android:layout_centerInParent="true"
 
                 />
 
@@ -91,14 +92,13 @@
                 android:id="@+id/totalbalance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:paddingStart="40dp"
-                android:paddingEnd="50dp"
                 android:text="0"
-                android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="15sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:layout_below="@id/titleBalance"
+                android:layout_marginTop="30dp"/>
         </RelativeLayout>
 
     </RelativeLayout>
@@ -107,165 +107,17 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="150dp"
         android:background="@drawable/bgdashboard"
         android:fitsSystemWindows="true"
         app:layout_constraintStart_toStartOf="@id/guideline"
         app:layout_constraintEnd_toEndOf="@id/guideline2">
-
-        <ScrollView
-            android:id="@+id/scrollviewcard"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:padding="16dp"
-                android:layout_gravity="center_vertical">
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardViewmoncash"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginTop="0dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="20dp"
-                    app:cardBackgroundColor="@android:color/holo_orange_light"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="10dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="@string/moncash"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/saldomoncash"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="30dp"
-                        android:text="0"
-                        android:textColor="@color/white"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardViewtopup"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_alignParentStart="true"
-                    app:cardBackgroundColor="@android:color/holo_red_light"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="10dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="@string/topup"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/saldotopup"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="30dp"
-                        android:text="0"
-                        android:textColor="@color/white"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardViewlapoula"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_below="@id/cardViewmoncash"
-                    android:layout_alignParentEnd="true"
-                    app:cardBackgroundColor="@android:color/holo_red_light"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="10dp"
-                    android:layout_marginBottom="10dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="@string/lapoula"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/saldolapoula"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="30dp"
-                        android:text="0"
-                        android:textColor="@color/white"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-                </androidx.cardview.widget.CardView>
-
-                <androidx.cardview.widget.CardView
-                    android:id="@+id/cardViewnatcash"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_alignParentStart="true"
-                    app:cardBackgroundColor="@android:color/holo_orange_light"
-                    app:cardCornerRadius="10dp"
-                    app:cardElevation="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_below="@id/cardViewtopup">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="@string/natcash"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/saldonatcash"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="30dp"
-                        android:text="0"
-                        android:textColor="@color/white"
-                        android:textSize="15sp"
-                        android:textStyle="bold" />
-                </androidx.cardview.widget.CardView>
-            </RelativeLayout>
-        </ScrollView>
-
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="37dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="37dp"
             android:background="@drawable/bgcardgradient"
             android:text="@string/lastersale"
@@ -275,7 +127,7 @@
 
         <RelativeLayout
             android:id="@+id/relativeLayout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="20dp"
             android:paddingTop="29dp"
@@ -283,7 +135,7 @@
 
             <ImageView
                 android:id="@+id/noDataFound"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:src="@drawable/nodata"
                 android:visibility="gone"/>
@@ -291,7 +143,7 @@
                 android:id="@+id/shimmer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="10dp"
                 app:shimmer_auto_start="true">
 
                 <LinearLayout
@@ -314,7 +166,7 @@
                 android:id="@+id/recyclerviewultimaventa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="10dp"
                 android:visibility="gone" />
 
 

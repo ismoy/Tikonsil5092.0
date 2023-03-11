@@ -1,4 +1,4 @@
-package com.tikonsil.tikonsil509.domain.requestRecharge
+package com.tikonsil.tikonsil509.domain.repository.requestRecharge
 
 import com.tikonsil.tikonsil509.data.local.dao.PriceRechargeAccountMasterDao
 import com.tikonsil.tikonsil509.data.local.entity.PriceRechargeAccountMaster

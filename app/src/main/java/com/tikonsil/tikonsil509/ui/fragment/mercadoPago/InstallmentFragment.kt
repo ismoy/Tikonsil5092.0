@@ -1,6 +1,7 @@
 package com.tikonsil.tikonsil509.ui.fragment.mercadoPago
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -132,10 +133,14 @@ class InstallmentFragment : Fragment() {
                                 createDialogSuccessForAgent(requireActivity())
                                 sendDataInFirebase()
                                 hideProgress(binding.btnNext,binding.progressBar,getString(R.string.aproved))
+                                viewModel.deleteAll()
+                                viewModel.deleteProduct()
                             } else {
                                 createDialogErrorForAgent(requireActivity())
                                 sendDataInFirebaseWhenError(response.body()!!.message)
                                 sendDataInFirebaseWhenErrorAgent()
+                                viewModel.deleteAll()
+                                viewModel.deleteProduct()
                             }
                         }
 
@@ -158,7 +163,9 @@ class InstallmentFragment : Fragment() {
     }
     private fun sendDataInFirebaseWhenError(message: String) {
         val product = listProduct.last()
-        val salesData = Sales(mAuthProvider.getId()!!,product.firstName,product.lastName,product.email,product.role,
+        val inputString = "${mAuthProvider.getId()}${product.idProduct}${product.date}"
+        val outputString = inputString.replace(Regex("[/\\s]"), "")
+        val salesData = Sales(outputString,product.firstName,product.lastName,product.email,product.role,
             ConstantServiceCountry.SERVICEHAITI4,product.phoneNumber,product.date,product.countryName,"",
             product.subTotal,message,product.tokenUser,0,product.idProduct,product.soldTopUp.toString(),
             product.imageUrl)
@@ -167,20 +174,25 @@ class InstallmentFragment : Fragment() {
 
     private fun sendDataInFirebaseWhenErrorAgent() {
         val product = listProduct.last()
+        val inputString = "${mAuthProvider.getId()}${product.idProduct}${product.date}"
+        val outputString = inputString.replace(Regex("[/\\s]"), "")
         val salesData = Sales(mAuthProvider.getId()!!,product.firstName,product.lastName,product.email,product.role,
-            ConstantServiceCountry.SERVICEHAITI4,product.phoneNumber,product.date,product.countryName,"",
+            ConstantServiceCountry.SERVICEHAITI4,product.phoneNumber,product.date,product.countryName,product.countryName,
             product.subTotal,"",product.tokenUser,0,product.idProduct,product.soldTopUp.toString(),
             product.imageUrl)
-        sendRechargeViewModel.sales("${mAuthProvider.getId()}${product.idProduct}",salesData)
+        sendRechargeViewModel.sales(outputString,salesData)
     }
 
     private fun sendDataInFirebase() {
         val product = listProduct.last()
         val salesData = Sales(mAuthProvider.getId()!!,product.firstName,product.lastName,product.email,product.role,
-            ConstantServiceCountry.SERVICEHAITI4,product.phoneNumber,product.date,product.countryName,"",
+            ConstantServiceCountry.SERVICEHAITI4,product.phoneNumber,product.date,product.countryName,product.countryName,
         product.subTotal,"",product.tokenUser,1,product.idProduct,product.soldTopUp.toString(),
         product.imageUrl)
-        sendRechargeViewModel.sales("${mAuthProvider.getId()}${product.idProduct}",salesData)
+        val inputString = "${mAuthProvider.getId()}${product.idProduct}${product.date}"
+        val outputString = inputString.replace(Regex("[/\\s]"), "")
+        sendRechargeViewModel.sales(outputString,salesData)
+
     }
 
     private fun sendTopUpByInnoverit() {

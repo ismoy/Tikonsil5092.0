@@ -50,7 +50,7 @@ class NotificationHelper(base: Context?) : ContextWrapper(base){
             .setContentText(body)
             .setAutoCancel(true)
             .setColor(Color.GRAY)
-            .setSmallIcon(R.drawable.logo)
+            .setSmallIcon(R.drawable.tikonsillogo)
             .setStyle(NotificationCompat.BigTextStyle().bigText(body).setBigContentTitle(title))
 
     }
