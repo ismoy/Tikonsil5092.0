@@ -64,4 +64,9 @@
     <string name="forgetpassword">Mot de passe oublié?</string>
     <string name="recover_password">Récupérer le mot de passe</string>
     <string name="lang_email">fr</string>
+    <string name="product">Produit:</string>
+    <string name="operator">Opérateur:</string>
+    <string name="phone_card">Téléphone:</string>
+    <string name="quantity_to_send">Quantité à envoyer:</string>
+    <string name="fee">Fee:</string>
 </resources>

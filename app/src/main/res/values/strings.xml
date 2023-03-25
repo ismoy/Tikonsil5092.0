@@ -138,6 +138,11 @@
     <string name="errorsendtopupinnoverit">Thank you for your purchase you will receive your TopUp immediately</string>
     <string name="recover_password">Recover password</string>
     <string name="lang_email">en</string>
+    <string name="product">Product:</string>
+    <string name="operator">Operator:</string>
+    <string name="phone_card">Phone:</string>
+    <string name="quantity_to_send">Quantity to send:</string>
+    <string name="fee">Fee:</string>
 
 
 </resources>

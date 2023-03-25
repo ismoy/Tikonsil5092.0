@@ -292,8 +292,11 @@ class SendRechargeFragment : Fragment() {
             }
             sendRechargeViewModel.getIdProductSelected(countrySelected!!)
             sendRechargeViewModel.responseIdProduct.observe(viewLifecycleOwner) {
+                binding.layoutdrop.isEnabled = false
+                binding.progressBarDrop.isGone = false
                 if (it.isNotEmpty()){
                     binding.layoutdrop.isEnabled = true
+                    binding.progressBarDrop.isGone = true
                     setUpListTopUpInSpinner(it)
                     binding.layoutdrop.helperText = ""
                 }

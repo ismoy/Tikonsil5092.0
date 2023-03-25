@@ -146,6 +146,22 @@
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <ProgressBar
+            android:id="@+id/progressBarDrop"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="8dp"
+            android:elevation="100dp"
+            android:indeterminateDrawable="@drawable/circular_progress_bar"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/layoutdrop"
+            app:layout_constraintEnd_toEndOf="@+id/layoutdrop"
+            app:layout_constraintStart_toStartOf="@+id/layoutdrop"
+            app:layout_constraintTop_toTopOf="@+id/layoutdrop" />
+
+
+
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout"

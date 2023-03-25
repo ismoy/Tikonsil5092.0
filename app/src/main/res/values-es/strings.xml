@@ -64,6 +64,11 @@
     <string name="forgetpassword">¿Has olvidado tu contraseña?</string>
     <string name="recover_password">Recuperar contraseña</string>
     <string name="lang_email">es</string>
+    <string name="product">Producto:</string>
+    <string name="operator">Operador:</string>
+    <string name="phone_card">Teléfono:</string>
+    <string name="quantity_to_send">Cantidad a enviar:</string>
+    <string name="fee">Tarifa:</string>
 
 
 </resources>

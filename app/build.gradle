@@ -137,4 +137,7 @@ dependencies {
     implementation 'com.firebaseui:firebase-ui-storage:7.2.0'
     //libraries card
     implementation 'com.braintreepayments:card-form:5.2.0'
+    //stripe Payment
+    implementation "com.stripe:stripeterminal:2.18.0"
+    implementation 'com.stripe:stripe-android:17.2.0'
 }
