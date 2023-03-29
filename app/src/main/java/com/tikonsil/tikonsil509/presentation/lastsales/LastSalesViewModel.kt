@@ -11,8 +11,10 @@ import kotlinx.coroutines.launch
 /** * Created by ISMOY BELIZAIRE on 16/05/2022. */
 class LastSalesViewModel(private val repository: LastSalesRepository):ViewModel() {
     var isSnapShotExist =MutableLiveData<Boolean>()
+    var lastIdSales=MutableLiveData<String>()
     init {
         isSnapShotExist =repository.isSnapShotExist
+        lastIdSales = repository.lastIdSales
     }
     fun getLastSales(idUser:String): LiveData<MutableList<LastSales>> {
         val mutabledata = MutableLiveData<MutableList<LastSales>>()
@@ -23,5 +25,4 @@ class LastSalesViewModel(private val repository: LastSalesRepository):ViewModel(
         }
         return mutabledata
     }
-
 }

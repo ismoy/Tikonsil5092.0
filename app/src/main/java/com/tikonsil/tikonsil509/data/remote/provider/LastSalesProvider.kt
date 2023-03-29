@@ -8,10 +8,14 @@ import com.tikonsil.tikonsil509.domain.model.Sales
 
 /** * Created by ISMOY BELIZAIRE on 01/05/2022. */
 class LastSalesProvider {
- var mDatabase:DatabaseReference?= FirebaseDatabase.getInstance().reference.child("Sales")
+ private var mDatabase:DatabaseReference?= FirebaseDatabase.getInstance().reference.child("Sales")
 
- suspend fun getLastSales(idUser:String): Query? {
+ fun getLastSales(idUser:String): Query? {
   val query: Query? =mDatabase?.orderByChild("idUser")?.equalTo(idUser)
   return query?.limitToLast(11)
+ }
+
+ fun getLastIdSales(): DatabaseReference? {
+  return mDatabase
  }
 }

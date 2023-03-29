@@ -27,6 +27,7 @@ import com.tikonsil.tikonsil509.data.remote.provider.TokensAdminProvider
 import com.tikonsil.tikonsil509.data.remote.provider.UserProvider
 import com.tikonsil.tikonsil509.databinding.FragmentSendRechargeBinding
 import com.tikonsil.tikonsil509.domain.model.*
+import com.tikonsil.tikonsil509.domain.model.sendReceipt.SendReceipt
 import com.tikonsil.tikonsil509.domain.repository.savenotification.SaveNotificationRepository
 import com.tikonsil.tikonsil509.domain.repository.sendrecharge.SendRechargeRepository
 import com.tikonsil.tikonsil509.presentation.fcm.SendNotificationViewModel
@@ -34,6 +35,7 @@ import com.tikonsil.tikonsil509.presentation.home.UserViewModel
 import com.tikonsil.tikonsil509.presentation.mercadoPago.MercadoPagoViewModel
 import com.tikonsil.tikonsil509.presentation.savenotification.SaveNotificationViewModel
 import com.tikonsil.tikonsil509.presentation.savenotification.SaveNotificationViewModelProvider
+import com.tikonsil.tikonsil509.presentation.sendReceipt.SendReceiptViewModel
 import com.tikonsil.tikonsil509.presentation.sendrecharge.SendRechargeViewModel
 import com.tikonsil.tikonsil509.presentation.sendrecharge.SendRechargeViewModelProvider
 import com.tikonsil.tikonsil509.ui.activity.home.HomeActivity
@@ -84,6 +86,8 @@ class SendRechargeFragment : Fragment() {
     private lateinit var viewmodelsavenotification: SaveNotificationViewModel
     private lateinit var dialog:Dialog
     private lateinit var navController: NavController
+    private val sendReceiptViewModel by lazy { ViewModelProvider(this)[SendReceiptViewModel::class.java] }
+
     override fun onCreateView(
         inflater: LayoutInflater ,
         container: ViewGroup? ,
@@ -186,7 +190,9 @@ class SendRechargeFragment : Fragment() {
             status = 0,
             idProduct = 0,
             salesPrice = "",
-            imageUser!!
+            imageUser!!,
+            binding.subtotal.text.toString(),
+           salesPriceFee = "0"
         )
         sendDataInFirebase(salesData)
     }
@@ -209,7 +215,8 @@ class SendRechargeFragment : Fragment() {
             status = 0,
             idProduct = 0,
             salesPrice = "",
-            imageUser!!
+            imageUser!!,binding.subtotal.text.toString(),
+            salesPriceFee = "0"
         )
         sendDataInFirebase(salesData)
     }
@@ -232,7 +239,8 @@ class SendRechargeFragment : Fragment() {
             status = 0,
             idProduct = 0,
             salesPrice = "",
-            imageUser!!
+            imageUser!!,binding.subtotal.text.toString(),
+            salesPriceFee = "0"
         )
         sendDataInFirebase(salesData)
     }
@@ -326,6 +334,8 @@ class SendRechargeFragment : Fragment() {
         sendRechargeViewModel.sales("${mAuthProvider.getId()}${idProductSelected}",salesData)
         sendRechargeViewModel.myResponseSales.observe(viewLifecycleOwner){
             if (it.isSuccessful){
+               val  sendReceipt = SendReceipt("${mAuthProvider.getId()}${idProductSelected}")
+                sendReceiptViewModel.sendReceipt(sendReceipt)
                 hideProgress(binding.recargar,binding.progressBar,getString(R.string.SendReload))
                 if (roleUser!=2){
                     createDialogSuccessManually(salesData,requireActivity())
@@ -372,7 +382,8 @@ class SendRechargeFragment : Fragment() {
         val salesDataAuto = Sales(mAuthProvider.getId()!!,firstNameUser,lastNameUser,emailUser,roleUser!!,SERVICEHAITI4,
             "${binding.codigo.text}${binding.phone.text.toString()}",
             currentDate,binding.paises.selectedCountryName,countrySelected,subTotalSelected.toString(),
-            binding.description.text.toString(),tokenUser, 1,idProductSelected!!.toInt(),topUpSelected.toString(),imageUser!!)
+            binding.description.text.toString(),tokenUser, 1,idProductSelected!!.toInt(),topUpSelected.toString(),imageUser!!,topUpSelected.toString(),
+            salesPriceFee = "0")
 
         val sendRechargeProduct = SendRechargeProduct(idProductSelected!!.toInt(),"${binding.codigo.text}${binding.phone.text.toString()}",emailUser!!)
         dialog.setContentView(R.layout.dialog_loading)

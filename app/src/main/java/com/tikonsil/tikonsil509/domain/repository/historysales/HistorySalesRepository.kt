@@ -37,7 +37,9 @@ class HistorySalesRepository {
                         val salePrice = ds.child("salesPrice").value.toString()
                         val imageView = ds.child("image").value.toString()
                         val idUser = ds.child("idUser").value.toString()
-                        val listsales = Sales(idUser,firstname,lastname, email,role.toInt(),typerecharge, phone, date,codecountry,codecountry, subtotal, description,token,status.toInt(),idProduct.toInt(),salePrice,imageView)
+                        val salesPriceSubtotal = ds.child("salesPriceSubtotal").value.toString()
+                        val salesPriceFee = ds.child("salesPriceFee").value.toString()
+                        val listsales = Sales(idUser,firstname,lastname, email,role.toInt(),typerecharge, phone, date,codecountry,codecountry, subtotal, description,token,status.toInt(),idProduct.toInt(),salePrice,imageView,salesPriceSubtotal, salesPriceFee)
                         listlastdata.add(listsales)
                     }
                     mutableLiveDat.value =listlastdata

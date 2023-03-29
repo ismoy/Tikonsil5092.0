@@ -25,9 +25,14 @@ import com.tikonsil.tikonsil509.domain.model.SendRechargeProduct
 import com.tikonsil.tikonsil509.domain.model.SendRechargeResponse
 import com.tikonsil.tikonsil509.domain.model.mercadoPago.MercadoPagoInstallments
 import com.tikonsil.tikonsil509.domain.model.mercadoPago.Payment
+import com.tikonsil.tikonsil509.domain.model.sendReceipt.SendReceipt
 import com.tikonsil.tikonsil509.domain.model.stripePayment.StripePayment
+import com.tikonsil.tikonsil509.domain.repository.lastsales.LastSalesRepository
 import com.tikonsil.tikonsil509.domain.repository.sendrecharge.SendRechargeRepository
+import com.tikonsil.tikonsil509.presentation.lastsales.LastSalesViewModel
+import com.tikonsil.tikonsil509.presentation.lastsales.LastSalesViewModelProvider
 import com.tikonsil.tikonsil509.presentation.mercadoPago.MercadoPagoViewModel
+import com.tikonsil.tikonsil509.presentation.sendReceipt.SendReceiptViewModel
 import com.tikonsil.tikonsil509.presentation.sendrecharge.SendRechargeViewModel
 import com.tikonsil.tikonsil509.presentation.sendrecharge.SendRechargeViewModelProvider
 import com.tikonsil.tikonsil509.presentation.stripePayment.StripePaymentViewModel
@@ -45,6 +50,7 @@ import retrofit2.Response
 import kotlin.math.roundToInt
 
 
+@Suppress("IMPLICIT_CAST_TO_ANY")
 class InstallmentFragment : Fragment() {
 
     private lateinit var binding:FragmentInstallmentBinding
@@ -58,6 +64,10 @@ class InstallmentFragment : Fragment() {
     private lateinit var credentialCard:CredentialCard
     private val stripePaymentViewModel by lazy { ViewModelProvider(this)[StripePaymentViewModel::class.java] }
     private var valueFees:Float?=0F
+    private  lateinit var mviewmodellastsales:LastSalesViewModel
+    private val sendReceiptViewModel by lazy { ViewModelProvider(this)[SendReceiptViewModel::class.java] }
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,6 +104,9 @@ class InstallmentFragment : Fragment() {
         fetchProductData()
         binding.btnNext.setOnClickListener(createPayment())
         viewModelObserver()
+        val repositorylastsales = LastSalesRepository()
+        val factorylastsales = LastSalesViewModelProvider(repositorylastsales)
+        mviewmodellastsales = ViewModelProvider(requireActivity(),factorylastsales)[LastSalesViewModel::class.java]
 
     }
 
@@ -123,7 +136,7 @@ class InstallmentFragment : Fragment() {
         if (resultListener == "RechargeAccountMaster"){
             binding.containerPayAgent.isGone = true
             binding.containerMaster.isGone = false
-            binding.valueTotalMaster.text = "${UtilsView.getValueSharedPreferences(requireActivity(),"amountRecharge")} USD"
+            "${UtilsView.getValueSharedPreferences(requireActivity(),"amountRecharge")} USD".also { binding.valueTotalMaster.text = it }
         }else{
             binding.containerPayAgent.isGone = false
             binding.containerMaster.isGone = true
@@ -188,6 +201,21 @@ class InstallmentFragment : Fragment() {
 
         }
 
+        sendRechargeViewModel.myResponseSales.observe(viewLifecycleOwner){
+            val product = listProduct.last()
+            val inputString = "${mAuthProvider.getId()}${product.idProduct}${product.date}"
+            val outputString = inputString.replace("/", "").replace(" ", "").replace(":", "")
+           if (it.isSuccessful){
+               val sendReceipt = SendReceipt(outputString)
+                sendReceiptViewModel.sendReceipt(sendReceipt)
+               sendReceiptViewModel.responseSendReceipt.observe(viewLifecycleOwner){receipt->
+                   Log.e("respuesta",receipt?.body()?.status!!)
+               }
+           }
+        }
+
+
+
     }
 
     private fun updateSoldTopUpUser() {
@@ -203,7 +231,7 @@ class InstallmentFragment : Fragment() {
         val salesData = Sales(outputString,product.firstName,product.lastName,product.email,product.role,
             ConstantServiceCountry.SERVICEHAITI4,product.phoneNumber,product.date,product.countryName,"",
             product.subTotal,message,product.tokenUser,0,product.idProduct,product.soldTopUp.toString(),
-            product.imageUrl)
+            product.imageUrl,product.soldTopUp.toString(),valueFees.toString())
         sendRechargeViewModel.salesWithErrorInnoverit(salesData)
     }
 
@@ -214,7 +242,7 @@ class InstallmentFragment : Fragment() {
         val salesData = Sales(mAuthProvider.getId()!!,product.firstName,product.lastName,product.email,product.role,
             ConstantServiceCountry.SERVICEHAITI4,product.phoneNumber,product.date,product.countryName,product.countryName,
             product.subTotal,"",product.tokenUser,0,product.idProduct,product.soldTopUp.toString(),
-            product.imageUrl)
+            product.imageUrl,product.soldTopUp.toString(),valueFees.toString())
         sendRechargeViewModel.sales(outputString,salesData)
     }
 
@@ -222,12 +250,11 @@ class InstallmentFragment : Fragment() {
         val product = listProduct.last()
         val salesData = Sales(mAuthProvider.getId()!!,product.firstName,product.lastName,product.email,product.role,
             ConstantServiceCountry.SERVICEHAITI4,product.phoneNumber,product.date,product.countryName,product.countryName,
-        product.subTotal,"",product.tokenUser,1,product.idProduct,product.soldTopUp.toString(),
-        product.imageUrl)
+        product.subTotal,"",product.tokenUser,1,product.idProduct,"${product.amount.toFloat().plus("%.2f".format(valueFees).toFloat())}" ,
+        product.imageUrl,product.amount,"${"%.2f".format(valueFees).toFloat()}")
         val inputString = "${mAuthProvider.getId()}${product.idProduct}${product.date}"
         val outputString = inputString.replace("/", "").replace(" ", "").replace(":", "")
         sendRechargeViewModel.sales(outputString,salesData)
-
     }
 
     private fun sendTopUpByInnoverit() {

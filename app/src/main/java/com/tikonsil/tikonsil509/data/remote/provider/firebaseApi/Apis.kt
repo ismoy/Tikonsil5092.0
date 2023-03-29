@@ -19,7 +19,8 @@ data class Apis(
     val end_point_list_price_recharge_account_master:String="",
     val end_point_mercado_pago_payment:String ="",
     val end_point_save_sales_error_innoverit:String = "",
-    val end_point_payment_stripe:String =""
+    val end_point_payment_stripe:String ="",
+    val endPoint_send_receipt:String =""
 )
 
 data class FCM(
