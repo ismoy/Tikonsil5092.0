@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
         android:id="@+id/image_view_planeta"
@@ -11,9 +12,6 @@
         android:layout_margin="20dp"
         android:src="@drawable/planeta"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/name_type_recharge"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,11 +24,10 @@
         android:gravity="center"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="15sp"
         android:textStyle="bold"
+        android:textSize="12sp"
+        tools:text="TOPUP"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/saldoform"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/image_view_planeta"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,9 +38,9 @@
         android:layout_marginStart="10dp"
         android:layout_toEndOf="@id/name_type_recharge"
         android:maxLength="14"
+        tools:text="HTG 6695.34"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/dateform"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/name_type_recharge"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,11 +48,10 @@
         android:id="@+id/dateform"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/saldoform"
+        android:layout_marginStart="10dp"
+        tools:text="16/03/2023 12:00:30"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/saldoform"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -585,7 +585,7 @@ import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.BONUSTOPUPCASHRD
     }?.addOnFailureListener { e:Exception->
 
     }
-    mAuthProvider.lenguaje()
+    mAuthProvider.language(requireContext())
    }else{
     val inputemail =binding.root.findViewById<TextInputLayout>(R.id.layoutemail)
     inputemail.helperText = getString(R.string.existemail)

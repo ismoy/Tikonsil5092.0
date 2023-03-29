@@ -23,6 +23,8 @@ data class Sales(
     @SerializedName("status") val status: Int=0,
     @SerializedName("id_product") val idProduct:Int,
     @SerializedName("salesPrice") val salesPrice:String,
-    @SerializedName("image") val image:String
+    @SerializedName("image") val image:String,
+    @SerializedName("salesPriceSubtotal") val salesPriceSubtotal:String,
+    @SerializedName("salesPriceFee") val salesPriceFee:String
 
 ):Parcelable

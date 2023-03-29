@@ -6,7 +6,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="repeatpassword">Confirm Password</string>
-    <string name="forgetpassword" translatable="false">Forget Password?</string>
+    <string name="forgetpassword">Forgot password?</string>
     <string name="Newhere">New here ? Create an account!</string>
     <string name="singup" translatable="false">Sign up</string>
     <string name="singin">Log in</string>
@@ -136,6 +136,13 @@
     <string name="successrecarcheaccount">Your account has been successfully recharged</string>
     <string name="errorpaymenymercadopago">oops!! we can\'t make the payment please try again</string>
     <string name="errorsendtopupinnoverit">Thank you for your purchase you will receive your TopUp immediately</string>
+    <string name="recover_password">Recover password</string>
+    <string name="lang_email">en</string>
+    <string name="product">Product:</string>
+    <string name="operator">Operator:</string>
+    <string name="phone_card">Phone:</string>
+    <string name="quantity_to_send">Quantity to send:</string>
+    <string name="fee">Fee:</string>
 
 
 </resources>

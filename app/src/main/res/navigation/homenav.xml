@@ -118,6 +118,10 @@
         <action
             android:id="@+id/action_takeCredentialsCardFormFragment_to_installmentFragment"
             app:destination="@id/installmentFragment" />
+        <argument
+            android:name="credentialCard"
+            app:argType="com.tikonsil.tikonsil509.domain.model.CredentialCard" />
+
     </fragment>
     <fragment
         android:id="@+id/installmentFragment"

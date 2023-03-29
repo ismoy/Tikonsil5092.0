@@ -6,6 +6,10 @@ import com.tikonsil.tikonsil509.data.local.entity.PriceRechargeAccountMaster
 import com.tikonsil.tikonsil509.domain.model.*
 import com.tikonsil.tikonsil509.domain.model.mercadoPago.MercadoPagoCardTokenBody
 import com.tikonsil.tikonsil509.domain.model.mercadoPago.Payment
+import com.tikonsil.tikonsil509.domain.model.sendReceipt.SendReceipt
+import com.tikonsil.tikonsil509.domain.model.sendReceipt.SendReceiptResponse
+import com.tikonsil.tikonsil509.domain.model.stripePayment.StripePayment
+import com.tikonsil.tikonsil509.domain.model.stripePayment.StripePaymentResponse
 import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.Response
@@ -85,4 +89,18 @@ interface TikonsilApi {
     suspend fun getListPriceRechargeAccountMaster(
         @Url url:String
     ):Response<PriceRechargeAccountMasterResponse>
+
+    @POST
+    suspend fun stripePayment(
+        @HeaderMap authorization: Map<String,String>,
+        @Url url: String,
+        @Body stripePayment: StripePayment
+    ):Response<StripePaymentResponse>
+
+    @POST
+    suspend fun sendReceipt(
+        @HeaderMap authorization: Map<String, String> ,
+        @Url url: String ,
+        @Body sendReceipt: SendReceipt
+    ):Response<SendReceiptResponse>
 }

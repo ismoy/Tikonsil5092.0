@@ -26,18 +26,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/logo"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="top|center"
+                android:src="@drawable/tikonsillogo"
                 app:layout_constraintBottom_toTopOf="@+id/constraintLayout" />
         </androidx.appcompat.widget.LinearLayoutCompat>
+
 
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
             android:layout_width="match_parent"
-            android:layout_height="290dp"
+            android:layout_height="match_parent"
             android:layout_marginHorizontal="16dp"
             android:background="@color/white"
             android:elevation="8dp"
@@ -55,6 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
+                android:visibility="gone"
                 app:helperTextTextColor="@color/design_default_color_error"
                 android:layout_marginHorizontal="32dp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -67,6 +71,53 @@
                     android:hint="Seleccione una cuotas"
                     android:inputType="none" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardView"
+                android:layout_width="match_parent"
+                android:layout_height="108dp"
+                android:background="@color/white"
+                app:cardPreventCornerOverlap="false"
+                android:layout_gravity="top|center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Credit or debit card"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:gravity="center"
+                    android:layout_marginTop="8dp"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="40dp"
+                    android:layout_gravity="center_horizontal">
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/visa"/>
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/mastercard"
+                        android:layout_marginStart="8dp"/>
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/americanexpress"
+                        android:layout_marginStart="8dp"/>
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/bt_ic_maestro"
+                        android:layout_marginStart="8dp"/>
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -81,10 +132,11 @@
                     android:id="@+id/tvTotalMaster"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Total a pagar:"
+                    android:text="Total:"
                     android:layout_alignParentStart="true"
-                    android:textStyle="normal"
-                    android:layout_marginBottom="8dp" />
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                     />
 
                 <TextView
                     android:id="@+id/valueTotalMaster"
@@ -92,27 +144,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     tools:text="$20"
+                    android:textSize="16sp"
                     android:textStyle="bold"
-                    android:layout_marginBottom="8dp"
+
                     />
-
-                <TextView
-                    android:id="@+id/tvSubTotalMaster"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="SubTotal:"
-                    android:textStyle="normal"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@id/tvTotalMaster" />
-
-                <TextView
-                    android:id="@+id/valueSubTotalMaster"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    tools:text="$20"
-                    android:textStyle="bold"
-                    android:layout_below="@id/valueTotalMaster" />
 
             </RelativeLayout>
 
@@ -122,17 +157,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="32dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="50dp"
                 android:layout_marginBottom="10dp">
 
                 <TextView
                     android:id="@+id/productName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nombre del producto:"
-                    android:textStyle="normal"
+                    android:text="@string/product"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     android:layout_alignParentStart="true"
-                    android:layout_marginBottom="8dp" />
+                     />
 
                 <TextView
                     android:id="@+id/productNameValue"
@@ -142,16 +177,21 @@
                     tools:text="MonCash"
                     android:textStyle="bold"
                     android:text="@{product.nameProduct}"
-                    android:layout_marginBottom="8dp" />
-
+                     />
+                  <View
+                      android:background="@color/shimmer_color"
+                      android:layout_width="match_parent"
+                      android:layout_height="1dp"
+                      android:layout_below="@+id/productName"/>
                 <TextView
                     android:id="@+id/operatorName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nombre del operator:"
-                    android:textStyle="normal"
+                    android:text="@string/operator"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     android:layout_alignParentStart="true"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_below="@id/productNameValue" />
 
                 <TextView
@@ -162,17 +202,23 @@
                     tools:text="Digicel"
                     android:text="@{product.companyName}"
                     android:textStyle="bold"
-                    android:layout_marginBottom="8dp"
-                    android:layout_below="@id/productNameValue" />
+                    android:layout_marginTop="8dp"
+                    android:layout_below="@id/productName" />
 
+                <View
+                    android:background="@color/shimmer_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/operatorName"/>
                 <TextView
                     android:id="@+id/phoneName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Telefono:"
-                    android:textStyle="normal"
+                    android:text="@string/phone_card"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     android:layout_alignParentStart="true"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_below="@id/operatorName" />
 
                 <TextView
@@ -183,17 +229,23 @@
                     tools:text="+5698747364"
                     android:text="@{product.phoneNumber}"
                     android:textStyle="bold"
-                    android:layout_marginBottom="8dp"
-                    android:layout_below="@id/operatorValue" />
+                    android:layout_marginTop="8dp"
+                    android:layout_below="@id/operatorName" />
 
+                <View
+                    android:background="@color/shimmer_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/phoneName"/>
                 <TextView
                     android:id="@+id/amountReceiverName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cantitad Enviado:"
-                    android:textStyle="normal"
+                    android:text="@string/quantity_to_send"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
                     android:layout_alignParentStart="true"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_below="@id/phoneName" />
 
                 <TextView
@@ -204,38 +256,26 @@
                     tools:text="$5000"
                     android:text="@{product.receiverAmount}"
                     android:textStyle="bold"
-                    android:layout_marginBottom="8dp"
-                    android:layout_below="@id/phoneValue" />
+                    android:layout_marginTop="8dp"
+                    android:layout_below="@id/phoneName" />
 
-                <TextView
-                    android:id="@+id/tvTotal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Total a pagar:"
-                    android:layout_alignParentStart="true"
-                    android:textStyle="normal"
-                    android:layout_below="@id/amountReceiverName"
-                    android:layout_marginBottom="8dp" />
-
-                <TextView
-                    android:id="@+id/valueTotal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    tools:text="$20"
-                    android:text="@{product.amount}"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="8dp"
-                    android:layout_below="@id/amountreceiverValue" />
+                <View
+                    android:background="@color/shimmer_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/amountReceiverName"/>
 
                 <TextView
                     android:id="@+id/tvSubTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="SubTotal:"
-                    android:textStyle="normal"
+                    android:layout_below="@id/amountReceiverName"
                     android:layout_alignParentStart="true"
-                    android:layout_below="@id/tvTotal" />
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="8dp"
+                    android:text="SubTotal:"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/valueSubTotal"
@@ -243,41 +283,99 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     tools:text="$20"
+                    android:layout_marginTop="8dp"
                     android:textStyle="bold"
-                    android:layout_below="@id/valueTotal" />
+                    android:layout_below="@id/amountReceiverName" />
+
+                <View
+                    android:background="@color/shimmer_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/tvSubTotal"/>
+                <TextView
+                    android:id="@+id/tvFee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fee"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="8dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@id/tvSubTotal" />
+
+                <TextView
+                    android:id="@+id/valueFee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    tools:text="$20"
+                    android:layout_marginTop="8dp"
+                    android:textStyle="bold"
+                    android:layout_below="@id/tvSubTotal" />
+                <View
+                    android:background="@color/shimmer_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_below="@+id/tvFee"/>
+                <TextView
+                    android:id="@+id/tvTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total:"
+                    android:layout_alignParentStart="true"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_below="@id/tvFee" />
+
+                <TextView
+                    android:id="@+id/valueTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    tools:text="$20"
+                    android:layout_marginTop="8dp"
+                    android:textStyle="bold"
+                    android:layout_below="@id/valueFee" />
+
 
 
             </RelativeLayout>
+
+           <androidx.constraintlayout.widget.ConstraintLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_gravity="bottom">
+               <com.google.android.material.button.MaterialButton
+                   android:id="@+id/btnNext"
+                   android:layout_width="match_parent"
+                   android:layout_height="58dp"
+                   android:layout_marginHorizontal="16dp"
+                   android:text="@string/pay"
+                   android:textAllCaps="false"
+                   android:textColor="@color/white"
+                   android:textSize="18sp"
+                   app:cornerRadius="50dp"
+                   android:layout_marginBottom="20dp"
+                   app:layout_constraintBottom_toBottomOf="parent"
+                   app:layout_constraintEnd_toEndOf="parent"
+                   app:layout_constraintStart_toStartOf="parent"
+                   app:strokeColor="@android:color/transparent" />
+
+               <ProgressBar
+                   android:id="@+id/progressBar"
+                   android:layout_width="20dp"
+                   android:layout_height="20dp"
+                   android:layout_marginTop="8dp"
+                   android:elevation="100dp"
+                   android:indeterminateDrawable="@drawable/circular_progress_bar"
+                   android:visibility="gone"
+                   app:layout_constraintBottom_toBottomOf="@+id/btnNext"
+                   app:layout_constraintEnd_toEndOf="@+id/btnNext"
+                   app:layout_constraintStart_toStartOf="@+id/btnNext"
+                   app:layout_constraintTop_toTopOf="@+id/btnNext" />
+           </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnNext"
-            android:layout_width="0dp"
-            android:layout_height="58dp"
-            android:layout_marginHorizontal="16dp"
-            android:text="@string/pay"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:cornerRadius="50dp"
-            android:enabled="false"
-            android:layout_marginBottom="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:strokeColor="@android:color/transparent" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="8dp"
-            android:elevation="100dp"
-            android:indeterminateDrawable="@drawable/circular_progress_bar"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/btnNext"
-            app:layout_constraintEnd_toEndOf="@+id/btnNext"
-            app:layout_constraintStart_toStartOf="@+id/btnNext"
-            app:layout_constraintTop_toTopOf="@+id/btnNext" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

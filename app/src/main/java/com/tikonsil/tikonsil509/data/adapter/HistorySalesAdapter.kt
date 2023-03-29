@@ -3,6 +3,7 @@ package com.tikonsil.tikonsil509.data.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.tikonsil.tikonsil509.R
 import com.tikonsil.tikonsil509.databinding.HistorySaleItemBinding
@@ -43,21 +44,21 @@ class HistorySalesAdapter(val context: Context): RecyclerView.Adapter<HistorySal
     telefonoinvoiceagente.text =saledata.phone
     fechainvoiceagente.text =saledata.date
     tiporecargainvoiceagente.text =saledata.typerecharge
-    paisinvoiceagente.text = saledata.country
+    paisinvoiceagente.text = saledata.codecountry
     subtotalinvoiceagente.text =saledata.subtotal
     descriptioninvoiceagente.text =saledata.description
     totalRecharge.text =saledata.salesPrice
 
     if (saledata.status==0 && saledata.salesPrice!=""){
      changeStatus.text =context.getString(R.string.pending)
-     changeStatus.background =context.resources.getDrawable(R.drawable.background_pending)
+     changeStatus.background =  ResourcesCompat.getDrawable(context.resources,R.drawable.background_pending,null)
     }else if (saledata.status ==0){
      changeStatus.text =context.getString(R.string.pending)
-     changeStatus.background =context.resources.getDrawable(R.drawable.background_pending)
+     changeStatus.background =  ResourcesCompat.getDrawable(context.resources,R.drawable.background_pending,null)
     }
     else{
      changeStatus.text =context.getString(R.string.Finalized)
-     changeStatus.background =context.resources.getDrawable(R.drawable.background_confirmed)
+     changeStatus.background = ResourcesCompat.getDrawable(context.resources,R.drawable.background_confirmed,null)
     }
    }
   }

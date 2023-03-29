@@ -17,27 +17,21 @@ import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.tikonsil.tikonsil509.R
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
-import com.tikonsil.tikonsil509.domain.repository.login.LoginRepository
 import com.tikonsil.tikonsil509.presentation.home.UserViewModel
-import com.tikonsil.tikonsil509.presentation.login.LoginViewModelFactory
 import com.tikonsil.tikonsil509.utils.service.ConstantGeneral.PHONENUMBERWHATSAPP
 import de.hdodenhof.circleimageview.CircleImageView
 
 /** * Created by ISMOY BELIZAIRE on 23/04/2022. */
 abstract class BaseActivity<VM : ViewModel, VB : ViewBinding> : AppCompatActivity() {
     protected lateinit var binding: VB
-    protected lateinit var viewmodel: UserViewModel
     protected lateinit var mAuthProvider: AuthProvider
-
     protected lateinit var navController: NavController
+    private val viewmodel by  lazy { ViewModelProvider(this)[UserViewModel::class.java]}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = getActivityBinding()
         setContentView(binding.root)
-        val repository = LoginRepository()
-        val factory = LoginViewModelFactory(repository)
-        viewmodel = ViewModelProvider(this, factory)[UserViewModel::class.java]
         mAuthProvider = AuthProvider()
     }
 
