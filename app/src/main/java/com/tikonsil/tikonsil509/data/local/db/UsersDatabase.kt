@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.tikonsil.tikonsil509.data.local.dao.MercadoPagoCredencialsDao
 import com.tikonsil.tikonsil509.data.local.dao.PriceRechargeAccountMasterDao
 import com.tikonsil.tikonsil509.data.local.dao.ProductDao
@@ -21,22 +22,26 @@ import com.tikonsil.tikonsil509.data.local.entity.UsersEntity
  * for the underlying connection to your app's data.
  */
 
-@Database(entities = [UsersEntity::class,MercadoPagoCredencials::class,Product::class,PriceRechargeAccountMaster::class], version = 15, exportSchema = false)
-abstract class UsersDatabase: RoomDatabase() {
+@Database(
+    entities = [UsersEntity::class, MercadoPagoCredencials::class, Product::class, PriceRechargeAccountMaster::class],
+    version = 15,
+    exportSchema = false
+)
+abstract class UsersDatabase : RoomDatabase() {
 
     abstract fun userDao(): UsersDao
 
     companion object {
         @Volatile
-        private var INSTANCE: UsersDatabase?= null
+        private var INSTANCE: UsersDatabase? = null
 
         fun getDatabase(context: Context): UsersDatabase {
             val tempInstance = INSTANCE
-            if(tempInstance != null ) {
+            if (tempInstance != null) {
                 return tempInstance
 
             }
-            synchronized(this){
+            synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     UsersDatabase::class.java,
@@ -47,13 +52,16 @@ abstract class UsersDatabase: RoomDatabase() {
             }
 
         }
+
         suspend fun clearLocalStorage() {
             INSTANCE!!.productDao().deleteAll()
 
         }
     }
+
     abstract fun mercadoPagoCredentialsDao(): MercadoPagoCredencialsDao
     abstract fun productDao(): ProductDao
-    abstract fun priceRechargeAccountMasterDao():PriceRechargeAccountMasterDao
+    abstract fun priceRechargeAccountMasterDao(): PriceRechargeAccountMasterDao
+
 
 }

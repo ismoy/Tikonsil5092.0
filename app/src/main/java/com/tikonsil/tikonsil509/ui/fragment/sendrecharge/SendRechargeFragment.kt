@@ -72,6 +72,7 @@ class SendRechargeFragment : Fragment() {
     private var topUpSelected:Float?=null
     private var idProductSelected:String?=null
     private var operatorSelected:String?=null
+    private var currentlyCountry:String?=null
     private lateinit var mAuthProvider:AuthProvider
     private var totalBalanceTopUpUser:Float =0F
     private  var tokenUser:String?=null
@@ -80,7 +81,7 @@ class SendRechargeFragment : Fragment() {
     private var priceMonCash:Float=0F
     private var priceNatCash:Float=0F
     private var priceLapoula:Float=0F
-    private var subTotalSelected:Float=0F
+    private var subTotalSelected:String?=null
     private lateinit var mUserProvider: UserProvider
     private lateinit var mTokensAdminProvider:TokensAdminProvider
     private lateinit var viewmodelsavenotification: SaveNotificationViewModel
@@ -192,7 +193,8 @@ class SendRechargeFragment : Fragment() {
             salesPrice = "",
             imageUser!!,
             binding.subtotal.text.toString(),
-           salesPriceFee = "0"
+           salesPriceFee = "0",
+           "HTG"
         )
         sendDataInFirebase(salesData)
     }
@@ -216,7 +218,8 @@ class SendRechargeFragment : Fragment() {
             idProduct = 0,
             salesPrice = "",
             imageUser!!,binding.subtotal.text.toString(),
-            salesPriceFee = "0"
+            salesPriceFee = "0",
+            "HTG"
         )
         sendDataInFirebase(salesData)
     }
@@ -240,7 +243,8 @@ class SendRechargeFragment : Fragment() {
             idProduct = 0,
             salesPrice = "",
             imageUser!!,binding.subtotal.text.toString(),
-            salesPriceFee = "0"
+            salesPriceFee = "0",
+            "HTG"
         )
         sendDataInFirebase(salesData)
     }
@@ -324,7 +328,7 @@ class SendRechargeFragment : Fragment() {
                 "${binding.codigo.text}${binding.phone.text.toString()}",
                 subTotalSelected.toString(),idProductSelected!!.toInt(),mAuthProvider.getId().toString(),
                 firstNameUser!!,lastNameUser!!,roleUser!!.toInt(),tokenUser!!,tokenAdmin!!, currentDate,0,countrySelected!!,imageUser!!,
-                totalBalanceTopUpUser,subTotalSelected.toString(),)
+                totalBalanceTopUpUser,subTotalSelected.toString(),currentlyCountry!!)
             viewModel.insertProduct(product)
             navController.navigate(R.id.action_sendRechargeFragment_to_takeCredentialsCardFormFragment)
 
@@ -383,7 +387,7 @@ class SendRechargeFragment : Fragment() {
             "${binding.codigo.text}${binding.phone.text.toString()}",
             currentDate,binding.paises.selectedCountryName,countrySelected,subTotalSelected.toString(),
             binding.description.text.toString(),tokenUser, 1,idProductSelected!!.toInt(),topUpSelected.toString(),imageUser!!,topUpSelected.toString(),
-            salesPriceFee = "0")
+            salesPriceFee = "0",currentlyCountry!!)
 
         val sendRechargeProduct = SendRechargeProduct(idProductSelected!!.toInt(),"${binding.codigo.text}${binding.phone.text.toString()}",emailUser!!)
         dialog.setContentView(R.layout.dialog_loading)
@@ -437,6 +441,7 @@ class SendRechargeFragment : Fragment() {
                 subTotalSelected = UtilsView.extractNumberSubTotal(newListProductPair[i].first)
                 val result = newListProductPair[i].first.substringAfterLast(" ")
                operatorSelected = result
+                currentlyCountry = listPrice.last().nameMoneyCountryReceiver
             }
     }
 

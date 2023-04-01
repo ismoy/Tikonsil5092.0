@@ -25,6 +25,7 @@ data class Sales(
     @SerializedName("salesPrice") val salesPrice:String,
     @SerializedName("image") val image:String,
     @SerializedName("salesPriceSubtotal") val salesPriceSubtotal:String,
-    @SerializedName("salesPriceFee") val salesPriceFee:String
+    @SerializedName("salesPriceFee") val salesPriceFee:String,
+    @SerializedName("currency") val currency:String
 
 ):Parcelable

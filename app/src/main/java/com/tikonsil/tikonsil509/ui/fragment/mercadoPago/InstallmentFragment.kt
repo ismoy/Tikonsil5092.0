@@ -2,18 +2,14 @@ package com.tikonsil.tikonsil509.ui.fragment.mercadoPago
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import androidx.core.content.ContextCompat
 import androidx.core.view.isGone
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.tikonsil.tikonsil509.R
 import com.tikonsil.tikonsil509.data.local.entity.Product
 import com.tikonsil.tikonsil509.data.remote.provider.AuthProvider
@@ -23,8 +19,6 @@ import com.tikonsil.tikonsil509.domain.model.CredentialCard
 import com.tikonsil.tikonsil509.domain.model.Sales
 import com.tikonsil.tikonsil509.domain.model.SendRechargeProduct
 import com.tikonsil.tikonsil509.domain.model.SendRechargeResponse
-import com.tikonsil.tikonsil509.domain.model.mercadoPago.MercadoPagoInstallments
-import com.tikonsil.tikonsil509.domain.model.mercadoPago.Payment
 import com.tikonsil.tikonsil509.domain.model.sendReceipt.SendReceipt
 import com.tikonsil.tikonsil509.domain.model.stripePayment.StripePayment
 import com.tikonsil.tikonsil509.domain.repository.lastsales.LastSalesRepository
@@ -40,6 +34,7 @@ import com.tikonsil.tikonsil509.utils.constants.ConstantServiceCountry
 import com.tikonsil.tikonsil509.utils.constants.UtilsView
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.createDialogErrorForAgent
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.createDialogErrorPayWithMercadoPago
+import com.tikonsil.tikonsil509.utils.constants.UtilsView.createDialogErrorServer
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.createDialogSuccessForAgent
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.createDialogSuccessRechargeAccountMaster
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.hideProgress
@@ -47,7 +42,9 @@ import com.tikonsil.tikonsil509.utils.constants.UtilsView.showProgress
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.math.roundToInt
+import java.math.BigDecimal
+import java.math.RoundingMode
+
 
 
 @Suppress("IMPLICIT_CAST_TO_ANY")
@@ -115,9 +112,9 @@ class InstallmentFragment : Fragment() {
          if (resultListener == "RechargeAccountMaster"){
              cretePaymentAccount()
          }else{
-             val product =listProduct.last()
+             val valueTotal = binding.valueTotal.text.toString()
              val stripePayment = StripePayment(credentialCard.cardNumber,credentialCard.cardMonth,
-                 credentialCard.cardYear,credentialCard.cardCvv,"${product.amount.toFloat().plus(product.amount.toFloat() * 0.05).roundToInt()}")
+                 credentialCard.cardYear,credentialCard.cardCvv,UtilsView.extractValue(valueTotal).toString())
              stripePaymentViewModel.createPayment(stripePayment)
          }
 
@@ -162,6 +159,8 @@ class InstallmentFragment : Fragment() {
                     }
                     createDialogErrorPayWithMercadoPago(requireActivity())
                 }
+            }else if (responseStripe.code() ==500){
+                createDialogErrorServer(requireActivity())
             }
         }
         stripePaymentViewModel.isLoading.observe(viewLifecycleOwner) {
@@ -231,7 +230,7 @@ class InstallmentFragment : Fragment() {
         val salesData = Sales(outputString,product.firstName,product.lastName,product.email,product.role,
             ConstantServiceCountry.SERVICEHAITI4,product.phoneNumber,product.date,product.countryName,"",
             product.subTotal,message,product.tokenUser,0,product.idProduct,product.soldTopUp.toString(),
-            product.imageUrl,product.soldTopUp.toString(),valueFees.toString())
+            product.imageUrl,product.soldTopUp.toString(),valueFees.toString(),product.currently)
         sendRechargeViewModel.salesWithErrorInnoverit(salesData)
     }
 
@@ -242,7 +241,7 @@ class InstallmentFragment : Fragment() {
         val salesData = Sales(mAuthProvider.getId()!!,product.firstName,product.lastName,product.email,product.role,
             ConstantServiceCountry.SERVICEHAITI4,product.phoneNumber,product.date,product.countryName,product.countryName,
             product.subTotal,"",product.tokenUser,0,product.idProduct,product.soldTopUp.toString(),
-            product.imageUrl,product.soldTopUp.toString(),valueFees.toString())
+            product.imageUrl,product.soldTopUp.toString(),valueFees.toString(),product.currently)
         sendRechargeViewModel.sales(outputString,salesData)
     }
 
@@ -251,7 +250,7 @@ class InstallmentFragment : Fragment() {
         val salesData = Sales(mAuthProvider.getId()!!,product.firstName,product.lastName,product.email,product.role,
             ConstantServiceCountry.SERVICEHAITI4,product.phoneNumber,product.date,product.countryName,product.countryName,
         product.subTotal,"",product.tokenUser,1,product.idProduct,"${product.amount.toFloat().plus("%.2f".format(valueFees).toFloat())}" ,
-        product.imageUrl,product.amount,"${"%.2f".format(valueFees).toFloat()}")
+        product.imageUrl,product.amount,"${"%.2f".format(valueFees).toFloat()}",product.currently)
         val inputString = "${mAuthProvider.getId()}${product.idProduct}${product.date}"
         val outputString = inputString.replace("/", "").replace(" ", "").replace(":", "")
         sendRechargeViewModel.sales(outputString,salesData)
@@ -268,13 +267,15 @@ class InstallmentFragment : Fragment() {
            if (product.isNotEmpty()){
               product.map {
                   binding.product = it
-                  valueFees =it.amount.toFloat() * 0.05F
+                  val resultado = it.amount.toFloat() * 0.029F + 0.30F
+                  val redondeado = String.format("%.2f", resultado)
+                  valueFees = redondeado.toFloatOrNull()
                   "${it.amount} USD ".also {aL-> binding.valueSubTotal.text = aL }
 
               }
                listProduct = product
-               "${"%.2f".format(valueFees)} USD ".also { binding.valueFee.text = it }
-               "${product.last().amount.toFloat().plus("%.2f".format(valueFees).toFloat())} USD ".also { binding.valueTotal.text = it }
+               "$valueFees USD".also { binding.valueFee.text = it }
+               "${product.last().amount.toFloat() + valueFees!!.toFloat()} USD ".also { binding.valueTotal.text = it }
            }
        }
     }

@@ -45,7 +45,7 @@ class HistorySalesAdapter(val context: Context): RecyclerView.Adapter<HistorySal
     fechainvoiceagente.text =saledata.date
     tiporecargainvoiceagente.text =saledata.typerecharge
     paisinvoiceagente.text = saledata.codecountry
-    subtotalinvoiceagente.text =saledata.subtotal
+    subtotalinvoiceagente.text ="${saledata.subtotal}"
     descriptioninvoiceagente.text =saledata.description
     totalRecharge.text =saledata.salesPrice
 

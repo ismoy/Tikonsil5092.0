@@ -24,6 +24,7 @@ data class Product(
    val countryName:String,
    val imageUrl:String,
    val soldTopUp:Float,
-   val subTotal:String
+   val subTotal:String,
+   val currently:String
 
 )

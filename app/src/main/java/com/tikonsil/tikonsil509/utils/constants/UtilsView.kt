@@ -270,6 +270,26 @@ object UtilsView {
         }
     }
 
+    fun createDialogErrorServer(activity: Activity) {
+        val view = View.inflate(activity , R.layout.error_server , null)
+        val builder = AlertDialog.Builder(activity)
+        builder.setView(view)
+        val dialog = builder.create()
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.white)
+        dialog.setCancelable(false)
+        val button = view.findViewById<Button>(R.id.btnRetry)
+        button.setOnClickListener {
+            val intent = Intent(activity , HomeActivity::class.java)
+            activity.startActivity(intent)
+            activity.finish()
+            dialog.dismiss()
+        }
+    }
+
+
+
+
     fun createDialogSuccessRechargeAccountMaster(activity: Activity) {
         val view = View.inflate(activity , R.layout.dialog_success , null)
         val builder = AlertDialog.Builder(activity)
@@ -326,11 +346,17 @@ object UtilsView {
         }
     }
 
-    fun extractNumberSubTotal(input: String): Float {
-        val regex = "([\\d.]+)".toRegex()
-        val match = regex.find(input)
-        return match?.value?.toFloat() ?: 0.0F
+    fun extractNumberSubTotal(input: String): String {
+        return Regex("\\s==>\\s").split(input)[0]
     }
+
+    fun extractValue(valueTotal: String): String? {
+        val regex = Regex("\\s*(\\d+(?:\\.\\d+)?)\\s*USD\\s*")
+        val matchResult = regex.find(valueTotal)
+        return matchResult?.groups?.get(1)?.value
+    }
+
+
 
     fun showProgress(materialButton: MaterialButton , progressBar: ProgressBar) {
         materialButton.isEnabled = false

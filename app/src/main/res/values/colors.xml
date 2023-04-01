@@ -15,4 +15,5 @@
     <color name="blue_btn_bg_color">#AEDEF4</color>
     <color name="shimmer_color">#BFBDBD</color>
     <color name="colorAccent">#4CAF50</color>
+    <color name="colorBackgroundHome">#F2F7FF</color>
 </resources>
