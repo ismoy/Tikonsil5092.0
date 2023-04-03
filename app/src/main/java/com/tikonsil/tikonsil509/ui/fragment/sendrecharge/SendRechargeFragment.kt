@@ -2,7 +2,6 @@ package com.tikonsil.tikonsil509.ui.fragment.sendrecharge
 
 import android.app.Dialog
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -39,6 +38,7 @@ import com.tikonsil.tikonsil509.presentation.sendReceipt.SendReceiptViewModel
 import com.tikonsil.tikonsil509.presentation.sendrecharge.SendRechargeViewModel
 import com.tikonsil.tikonsil509.presentation.sendrecharge.SendRechargeViewModelProvider
 import com.tikonsil.tikonsil509.ui.activity.home.HomeActivity
+import com.tikonsil.tikonsil509.ui.fragment.dialog.DialogConfirm
 import com.tikonsil.tikonsil509.utils.constants.Constant.Companion.currentDate
 import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEHAITI
 import com.tikonsil.tikonsil509.utils.constants.ConstantServiceCountry.SERVICEHAITI1
@@ -46,16 +46,14 @@ import com.tikonsil.tikonsil509.utils.constants.ConstantServiceCountry.SERVICEHA
 import com.tikonsil.tikonsil509.utils.constants.ConstantServiceCountry.SERVICEHAITI3
 import com.tikonsil.tikonsil509.utils.constants.ConstantServiceCountry.SERVICEHAITI4
 import com.tikonsil.tikonsil509.utils.constants.UtilsView
-import com.tikonsil.tikonsil509.utils.constants.UtilsView.createDialogNoMoney
-import com.tikonsil.tikonsil509.utils.constants.UtilsView.createDialogSuccess
-import com.tikonsil.tikonsil509.utils.constants.UtilsView.createDialogSuccessManually
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.hideProgress
+import com.tikonsil.tikonsil509.utils.constants.UtilsView.readTokenAdminListFromSharedPreferences
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.showProgress
+import com.tikonsil.tikonsil509.utils.service.ConstantGeneral
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.IOException
 
 class SendRechargeFragment : Fragment() {
     private lateinit var binding: FragmentSendRechargeBinding
@@ -76,7 +74,7 @@ class SendRechargeFragment : Fragment() {
     private lateinit var mAuthProvider:AuthProvider
     private var totalBalanceTopUpUser:Float =0F
     private  var tokenUser:String?=null
-    private var tokenAdmin:String?=null
+    private var tokenAdmin:ArrayList<String>?=null
     private var imageUser:String?=null
     private var priceMonCash:Float=0F
     private var priceNatCash:Float=0F
@@ -88,6 +86,7 @@ class SendRechargeFragment : Fragment() {
     private lateinit var dialog:Dialog
     private lateinit var navController: NavController
     private val sendReceiptViewModel by lazy { ViewModelProvider(this)[SendReceiptViewModel::class.java] }
+    private  val bottomSheet = DialogConfirm()
 
     override fun onCreateView(
         inflater: LayoutInflater ,
@@ -127,6 +126,7 @@ class SendRechargeFragment : Fragment() {
         initializeComponent()
 
         binding.recargar.setOnClickListener {sendTopUPRecharge()}
+
     }
 
     private fun calculateMonCash(chipSelected: String) {
@@ -196,7 +196,7 @@ class SendRechargeFragment : Fragment() {
            salesPriceFee = "0",
            "HTG"
         )
-        sendDataInFirebase(salesData)
+        sendDataInFirebase(salesData,"NatCash")
     }
 
     private fun sendLapouLa() {
@@ -221,7 +221,7 @@ class SendRechargeFragment : Fragment() {
             salesPriceFee = "0",
             "HTG"
         )
-        sendDataInFirebase(salesData)
+        sendDataInFirebase(salesData,"Lapoula")
     }
 
     private fun sendMonCash() {
@@ -246,7 +246,7 @@ class SendRechargeFragment : Fragment() {
             salesPriceFee = "0",
             "HTG"
         )
-        sendDataInFirebase(salesData)
+        sendDataInFirebase(salesData,"MonCash")
     }
 
     private fun viewModelObserver() {
@@ -266,9 +266,28 @@ class SendRechargeFragment : Fragment() {
                     imageUser = image
                     totalBalanceTopUpUser = soltopup
                     priceMonCash = soldmoncash
+                    priceNatCash = soldnatcash
+                    priceLapoula = soldlapoula
                 }
             }
         })
+
+        sendRechargeViewModel.myResponseSales.observe(viewLifecycleOwner){
+            if (it.isSuccessful){
+                hideProgress(binding.recargar,binding.progressBar,getString(R.string.SendReload))
+                if (roleUser!=1 && idProductSelected.isNullOrEmpty()){
+                    bottomSheet.show(childFragmentManager,"DialogConfirm")
+                    bottomSheet.subtitle =getString(R.string.thanks) + ConstantGeneral.PHONENUMBERWHATSAPP
+                    bottomSheet.btnCancel = false
+                    bottomSheet.isSalesMaster = true
+                    bottomSheet.btnConfirm = "Confirm"
+                    createNotification()
+                }
+            }else{
+                hideProgress(binding.recargar,binding.progressBar,getString(R.string.SendReload))
+            }
+        }
+
     }
 
     private fun manageTopUpSelected(valueTopUp: String) {
@@ -327,26 +346,27 @@ class SendRechargeFragment : Fragment() {
             val product = Product(0,"TOPUP",topUpSelected.toString(),emailUser!!,operatorSelected?:"",
                 "${binding.codigo.text}${binding.phone.text.toString()}",
                 subTotalSelected.toString(),idProductSelected!!.toInt(),mAuthProvider.getId().toString(),
-                firstNameUser!!,lastNameUser!!,roleUser!!.toInt(),tokenUser!!,tokenAdmin!!, currentDate,0,countrySelected!!,imageUser!!,
+                firstNameUser!!,lastNameUser!!,roleUser!!.toInt(),tokenUser!!,tokenAdmin.toString(), currentDate,0,countrySelected!!,imageUser!!,
                 totalBalanceTopUpUser,subTotalSelected.toString(),currentlyCountry!!)
             viewModel.insertProduct(product)
             navController.navigate(R.id.action_sendRechargeFragment_to_takeCredentialsCardFormFragment)
 
     }
-    private fun sendDataInFirebase(salesData: Sales) {
+    private fun sendDataInFirebase(salesData: Sales,typeSelected:String) {
         showProgress(binding.recargar,binding.progressBar)
-        sendRechargeViewModel.sales("${mAuthProvider.getId()}${idProductSelected}",salesData)
-        sendRechargeViewModel.myResponseSales.observe(viewLifecycleOwner){
-            if (it.isSuccessful){
-               val  sendReceipt = SendReceipt("${mAuthProvider.getId()}${idProductSelected}")
-                sendReceiptViewModel.sendReceipt(sendReceipt)
-                hideProgress(binding.recargar,binding.progressBar,getString(R.string.SendReload))
-                if (roleUser!=2){
-                    createDialogSuccessManually(salesData,requireActivity())
-                    createNotification()
-                }
-            }else{
-                hideProgress(binding.recargar,binding.progressBar,getString(R.string.SendReload))
+        when (typeSelected) {
+            "MonCash" -> {
+                sendRechargeViewModel.sales("${mAuthProvider.getId()}${typeSelected}",salesData)
+            }
+            "Lapoula" -> {
+                sendRechargeViewModel.sales("${mAuthProvider.getId()}${typeSelected}",salesData)
+            }
+            "NatCash" -> {
+                sendRechargeViewModel.sales("${mAuthProvider.getId()}${typeSelected}",salesData)
+            }
+            else -> {
+                sendRechargeViewModel.sales("${mAuthProvider.getId()}${idProductSelected}",salesData)
+
             }
         }
     }
@@ -358,10 +378,11 @@ class SendRechargeFragment : Fragment() {
                 "Tienes una nueva venta de $chipSelected por favor ingresa en la aplicación para" +
                         "confirmar la compra",
             ),
-            tokenAdmin!!
+            tokenAdmin.toString()
         ).also {pushNotification ->
             sendNotification(pushNotification)
         }
+        Log.e("tokenAdmin",tokenAdmin.toString())
     }
 
     private fun sendNotification(pushNotification: PushNotification) {
@@ -376,7 +397,10 @@ class SendRechargeFragment : Fragment() {
 
     private fun verifyAccountBeforeSendTopUp() {
         if (topUpSelected!! >totalBalanceTopUpUser){
-            createDialogNoMoney(requireContext(),totalBalanceTopUpUser)
+            bottomSheet.show(childFragmentManager,"DialogConfirm")
+            bottomSheet.subtitle = requireActivity().getString(R.string.nomoney) + requireContext().getString(R.string.yourbalance) + " $ " + totalBalanceTopUpUser
+            bottomSheet.btnCancel = true
+            bottomSheet.isSalesMasterError = true
         }else{
             createProcessToPay()
         }
@@ -390,12 +414,7 @@ class SendRechargeFragment : Fragment() {
             salesPriceFee = "0",currentlyCountry!!)
 
         val sendRechargeProduct = SendRechargeProduct(idProductSelected!!.toInt(),"${binding.codigo.text}${binding.phone.text.toString()}",emailUser!!)
-        dialog.setContentView(R.layout.dialog_loading)
-        dialog.setCancelable(false)
-        if (dialog.window!=null){
-            dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
-        }
-        dialog.show()
+         showProgress(binding.recargar,binding.progressBar)
         sendRechargeViewModel.sendRechargeViaInnoVit(sendRechargeProduct)
         sendRechargeViewModel.responseInnoVit.observe(viewLifecycleOwner){result->
             when{
@@ -406,10 +425,16 @@ class SendRechargeFragment : Fragment() {
                             response: Response<SendRechargeResponse>
                         ) {
                             if (response.body()?.status =="success"){
-                                createDialogSuccess(salesDataAuto,requireActivity())
+                                bottomSheet.show(childFragmentManager,"DialogConfirm")
+                                bottomSheet.subtitle =  getString(R.string.success)
+                                bottomSheet.btnCancel = false
+                                bottomSheet.btnConfirm = "Confirm"
+                                bottomSheet.isSalesMaster = true
                                 updateSoldTopUpUser()
-                                sendDataInFirebase(salesDataAuto)
-                                dialog.dismiss()
+                                sendDataInFirebase(salesDataAuto,"TopUp")
+                                hideProgress(binding.recargar,binding.progressBar,requireActivity().getString(R.string.SendReload))
+                                val  sendReceipt = SendReceipt("${mAuthProvider.getId()}${idProductSelected}")
+                                sendReceiptViewModel.sendReceipt(sendReceipt)
                             }else{
                                 Toast.makeText(requireContext() , " ${response.body()?.message}" , Toast.LENGTH_LONG).show()
                                 startActivity(Intent(requireContext(),HomeActivity::class.java))
@@ -455,7 +480,9 @@ class SendRechargeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
        tokenUser = UtilsView.getValueSharedPreferences(requireActivity(),"tokenUsers")
-        tokenAdmin = UtilsView.getValueSharedPreferences(requireActivity(),"tokenAdmin")
+        val tokenAdminList = readTokenAdminListFromSharedPreferences(requireContext())
+        tokenAdmin = tokenAdminList
+        Log.e("llegoTokens",tokenAdmin.toString())
         lifecycleScope.launch {
             UsersDatabase.getDatabase(requireContext()).productDao().deleteAll()
         }

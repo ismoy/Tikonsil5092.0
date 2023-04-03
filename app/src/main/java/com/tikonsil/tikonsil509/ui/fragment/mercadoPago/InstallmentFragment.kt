@@ -30,21 +30,14 @@ import com.tikonsil.tikonsil509.presentation.sendReceipt.SendReceiptViewModel
 import com.tikonsil.tikonsil509.presentation.sendrecharge.SendRechargeViewModel
 import com.tikonsil.tikonsil509.presentation.sendrecharge.SendRechargeViewModelProvider
 import com.tikonsil.tikonsil509.presentation.stripePayment.StripePaymentViewModel
+import com.tikonsil.tikonsil509.ui.fragment.dialog.DialogConfirm
 import com.tikonsil.tikonsil509.utils.constants.ConstantServiceCountry
 import com.tikonsil.tikonsil509.utils.constants.UtilsView
-import com.tikonsil.tikonsil509.utils.constants.UtilsView.createDialogErrorForAgent
-import com.tikonsil.tikonsil509.utils.constants.UtilsView.createDialogErrorPayWithMercadoPago
-import com.tikonsil.tikonsil509.utils.constants.UtilsView.createDialogErrorServer
-import com.tikonsil.tikonsil509.utils.constants.UtilsView.createDialogSuccessForAgent
-import com.tikonsil.tikonsil509.utils.constants.UtilsView.createDialogSuccessRechargeAccountMaster
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.hideProgress
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.showProgress
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.math.BigDecimal
-import java.math.RoundingMode
-
 
 
 @Suppress("IMPLICIT_CAST_TO_ANY")
@@ -63,6 +56,7 @@ class InstallmentFragment : Fragment() {
     private var valueFees:Float?=0F
     private  lateinit var mviewmodellastsales:LastSalesViewModel
     private val sendReceiptViewModel by lazy { ViewModelProvider(this)[SendReceiptViewModel::class.java] }
+    private  val bottomSheet = DialogConfirm()
 
 
 
@@ -144,7 +138,10 @@ class InstallmentFragment : Fragment() {
             if (responseStripe.isSuccessful){
                 if (responseStripe.body()?.status == "succeeded"){
                     if (resultListener =="RechargeAccountMaster"){
-                        createDialogSuccessRechargeAccountMaster(requireActivity())
+                        bottomSheet.show(childFragmentManager,"DialogConfirm")
+                        bottomSheet.subtitle = requireActivity().getString(R.string.successrecarcheaccount)
+                        bottomSheet.btnCancel = false
+                        bottomSheet.btnConfirm = "Confirm"
                         updateSoldTopUpUser()
                     }else{
                         sendTopUpByInnoverit()
@@ -154,14 +151,40 @@ class InstallmentFragment : Fragment() {
                         btnNext.isEnabled = false
                     }
                 }else{
+                    when (responseStripe.body()!!.message) {
+                        "Your card has insufficient funds." -> {
+                            bottomSheet.show(childFragmentManager,"DialogConfirm")
+                            bottomSheet.subtitle = requireActivity().getString(R.string.insifficientfunds)
+                            bottomSheet.btnCancel = true
+                        }
+                        "Your card was declined." -> {
+                            bottomSheet.show(childFragmentManager,"DialogConfirm")
+                            bottomSheet.subtitle = "Your card was declined."
+                            bottomSheet.btnCancel = true
+                        }
+                        "Your card's security code is incorrect." -> {
+                            bottomSheet.show(childFragmentManager,"DialogConfirm")
+                            bottomSheet.subtitle = "Your card's security code is incorrect."
+                            bottomSheet.btnCancel = true
+                        }
+                        "Your card has expired." -> {
+                            bottomSheet.show(childFragmentManager,"DialogConfirm")
+                            bottomSheet.subtitle = "Your card has expired."
+                            bottomSheet.btnCancel = true
+                        }
+                    }
+                    Log.e("respuesta",responseStripe.body()!! .message)
                     with(binding) {
                         hideProgress(btnNext,progressBar,getString(R.string.pay))
                     }
-                    createDialogErrorPayWithMercadoPago(requireActivity())
                 }
-            }else if (responseStripe.code() ==500){
-                createDialogErrorServer(requireActivity())
+            }else{
+                Log.e("respuesta",responseStripe.body().toString())
             }
+        /*else if (responseStripe.code() ==500){
+                createDialogErrorServer(requireActivity())
+
+            }*/
         }
         stripePaymentViewModel.isLoading.observe(viewLifecycleOwner) {
             with(binding) {
@@ -177,13 +200,21 @@ class InstallmentFragment : Fragment() {
                             response: Response<SendRechargeResponse>
                         ) {
                             if (response.body()?.status == "success") {
-                                createDialogSuccessForAgent(requireActivity())
+                                bottomSheet.show(childFragmentManager,"DialogConfirm")
+                                bottomSheet.subtitle = requireActivity().getString(R.string.success)
+                                bottomSheet.btnCancel = false
+                                bottomSheet.btnConfirm = "Confirm"
+                               // createDialogSuccessForAgent(requireActivity())
                                 sendDataInFirebase()
                                 hideProgress(binding.btnNext,binding.progressBar,getString(R.string.aproved))
                                 viewModel.deleteAll()
                                 viewModel.deleteProduct()
                             } else {
-                                createDialogErrorForAgent(requireActivity())
+                                bottomSheet.show(childFragmentManager,"DialogConfirm")
+                                bottomSheet.subtitle = requireActivity(). getString(R.string.errorsendtopupinnoverit)
+                                bottomSheet.btnCancel = false
+                                bottomSheet.btnConfirm = "Confirm"
+                               // createDialogErrorForAgent(requireActivity())
                                 sendDataInFirebaseWhenError(response.body()!!.message)
                                 sendDataInFirebaseWhenErrorAgent()
                                 viewModel.deleteAll()

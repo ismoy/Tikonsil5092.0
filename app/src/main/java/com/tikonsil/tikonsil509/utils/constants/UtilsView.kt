@@ -7,8 +7,11 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Point
 import android.net.Uri
+import android.preference.PreferenceManager
 import android.view.View
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
@@ -16,6 +19,8 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.isGone
 import androidx.core.widget.doOnTextChanged
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
@@ -24,11 +29,15 @@ import com.tikonsil.tikonsil509.R
 import com.tikonsil.tikonsil509.domain.model.Sales
 import com.tikonsil.tikonsil509.ui.activity.home.HomeActivity
 import com.tikonsil.tikonsil509.ui.activity.invoice.InvoiceActivity
+import com.tikonsil.tikonsil509.ui.fragment.mercadoPago.TakeCredentialsCardFormFragment
 import com.tikonsil.tikonsil509.utils.service.ConstantGeneral
 import kotlin.math.roundToInt
 
 object UtilsView {
 
+    val TOLERANCE = 0.9
+    val WITDH = 1
+    val HEIGHT = 2
     fun inputValidator(
         phone: TextInputEditText ,
         phoneLayout: TextInputLayout ,
@@ -116,15 +125,15 @@ object UtilsView {
     }
 
     fun calculatePriceServiceHaitiNatCash(
-        total: TextInputEditText ,
+        amount: TextInputEditText ,
         chipSelected: String ,
         priceNatCash: Float ,
         subtotal: TextInputEditText
     ) {
-        total.doOnTextChanged { valueInput , _ , _ , _ ->
-            if (valueInput!!.isNotEmpty() && chipSelected == ConstantServiceCountry.SERVICEHAITI2) {
-                val countvaluemoncash: Double = valueInput.toString().toDouble() / priceNatCash
-                subtotal.setText(countvaluemoncash.roundToInt().toString())
+        amount.doOnTextChanged { valueInput , _ , _ , _ ->
+            if (valueInput!!.isNotEmpty() && chipSelected == ConstantServiceCountry.SERVICEHAITI3) {
+                val countvaluenatcash: Double = valueInput.toString().toDouble() / priceNatCash
+                subtotal.setText(countvaluenatcash.roundToInt().toString())
 
             }
         }
@@ -138,7 +147,7 @@ object UtilsView {
         subtotal: TextInputEditText
     ) {
         total.doOnTextChanged { valueInput , _ , _ , _ ->
-            if (valueInput!!.isNotEmpty() && chipSelected == ConstantServiceCountry.SERVICEHAITI3) {
+            if (valueInput!!.isNotEmpty() && chipSelected == ConstantServiceCountry.SERVICEHAITI2) {
                 val countvaluemoncash: Double = valueInput.toString().toDouble() / priceLapouLa
                 subtotal.setText(countvaluemoncash.roundToInt().toString())
 
@@ -194,156 +203,17 @@ object UtilsView {
 
         }
     }
-    @SuppressLint("SetTextI18n")
-    fun createDialogNoMoney(context: Context , totalBalanceTopUpUser: Float) {
-        val view = View.inflate(context , R.layout.dialognomoney , null)
-        val builder = AlertDialog.Builder(context)
-        builder.setView(view)
-        val dialog = builder.create()
-        dialog.show()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setCancelable(false)
-        val message = view.findViewById<TextView>(R.id.messagenomoney)
-        val button = view.findViewById<Button>(R.id.confirm)
-        message.text =
-            context.getString(R.string.nomoney) + context.getString(R.string.yourbalance) + " $ " + totalBalanceTopUpUser
-        button.setOnClickListener {
-            dialog.dismiss()
-        }
-    }
 
-    @SuppressLint("SetTextI18n")
-    fun createDialogErrorPayWithMercadoPago(activity: Activity) {
-        val view = View.inflate(activity , R.layout.dialognomoney , null)
-        val builder = AlertDialog.Builder(activity)
-        builder.setView(view)
-        val dialog = builder.create()
-        dialog.show()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setCancelable(false)
-        val message = view.findViewById<TextView>(R.id.messagenomoney)
-        val button = view.findViewById<Button>(R.id.confirm)
-        message.text = activity.getString(R.string.errorpaymenymercadopago)
-        button.text = "Ok"
-        button.setOnClickListener {
-            activity.startActivity(Intent(activity , HomeActivity::class.java))
-            dialog.dismiss()
-        }
-    }
+    fun screenDisplay(
+        window: WindowManager,
+        orientation: Int = WITDH,
+        tolerance: Double = TOLERANCE
+    ): Int {
+        val point = Point()
+        window.defaultDisplay.getSize(point)
 
-    fun createDialogSuccess(salesData: Sales , activity: Activity) {
-        val view = View.inflate(activity , R.layout.dialog_success , null)
-        val builder = AlertDialog.Builder(activity)
-        builder.setView(view)
-        val dialog = builder.create()
-        dialog.show()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setCancelable(false)
-        val message = view.findViewById<TextView>(R.id.messagehasmoney)
-        val button = view.findViewById<Button>(R.id.confirm)
-        message.text = activity.getString(R.string.success)
-        button.setOnClickListener {
-            val intent = Intent(activity , InvoiceActivity::class.java)
-            intent.putExtra("saleData" , salesData)
-            activity.startActivity(intent)
-            activity.finish()
-            dialog.dismiss()
-        }
-    }
-
-    fun createDialogSuccessForAgent(activity: Activity) {
-        val view = View.inflate(activity , R.layout.dialog_success , null)
-        val builder = AlertDialog.Builder(activity)
-        builder.setView(view)
-        val dialog = builder.create()
-        dialog.show()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setCancelable(false)
-        val message = view.findViewById<TextView>(R.id.messagehasmoney)
-        val button = view.findViewById<Button>(R.id.confirm)
-        message.text = activity.getString(R.string.success)
-        button.setOnClickListener {
-            val intent = Intent(activity , HomeActivity::class.java)
-            activity.startActivity(intent)
-            activity.finish()
-            dialog.dismiss()
-        }
-    }
-
-    fun createDialogErrorServer(activity: Activity) {
-        val view = View.inflate(activity , R.layout.error_server , null)
-        val builder = AlertDialog.Builder(activity)
-        builder.setView(view)
-        val dialog = builder.create()
-        dialog.show()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.white)
-        dialog.setCancelable(false)
-        val button = view.findViewById<Button>(R.id.btnRetry)
-        button.setOnClickListener {
-            val intent = Intent(activity , HomeActivity::class.java)
-            activity.startActivity(intent)
-            activity.finish()
-            dialog.dismiss()
-        }
-    }
-
-
-
-
-    fun createDialogSuccessRechargeAccountMaster(activity: Activity) {
-        val view = View.inflate(activity , R.layout.dialog_success , null)
-        val builder = AlertDialog.Builder(activity)
-        builder.setView(view)
-        val dialog = builder.create()
-        dialog.show()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setCancelable(false)
-        val message = view.findViewById<TextView>(R.id.messagehasmoney)
-        val button = view.findViewById<Button>(R.id.confirm)
-        message.text = activity.getString(R.string.successrecarcheaccount)
-        button.setOnClickListener {
-            val intent = Intent(activity , HomeActivity::class.java)
-            activity.startActivity(intent)
-            activity.finish()
-            dialog.dismiss()
-        }
-    }
-
-    fun createDialogErrorForAgent(activity: Activity) {
-        val view = View.inflate(activity , R.layout.dialog_success , null)
-        val builder = AlertDialog.Builder(activity)
-        builder.setView(view)
-        val dialog = builder.create()
-        dialog.show()
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.setCancelable(false)
-        val message = view.findViewById<TextView>(R.id.messagehasmoney)
-        val button = view.findViewById<Button>(R.id.confirm)
-        message.text = activity.getString(R.string.errorsendtopupinnoverit)
-        button.setOnClickListener {
-            val intent = Intent(activity , HomeActivity::class.java)
-            activity.startActivity(intent)
-            activity.finish()
-            dialog.dismiss()
-        }
-    }
-
-    @SuppressLint("SetTextI18n")
-    fun createDialogSuccessManually(salesData: Sales , activity: Activity) {
-        val view = View.inflate(activity , R.layout.dialog_success , null)
-        val builder = androidx.appcompat.app.AlertDialog.Builder(activity)
-        builder.setView(view)
-        val dialog = builder.create()
-        dialog.show()
-        dialog.setCancelable(false)
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        val message = view.findViewById<TextView>(R.id.messagehasmoney)
-        val button = view.findViewById<Button>(R.id.confirm)
-        message.text = activity.getString(R.string.thanks) + ConstantGeneral.PHONENUMBERWHATSAPP
-        button.setOnClickListener {
-            sendWhatsapp(salesData , activity)
-            dialog.dismiss()
-        }
+        val size = (if (orientation == HEIGHT) point.y else point.x)
+        return ((size * tolerance).toInt())
     }
 
     fun extractNumberSubTotal(input: String): String {
@@ -369,4 +239,20 @@ object UtilsView {
         materialButton.text = text
         progressBar.isGone = true
     }
+
+    fun saveTokenAdminToSharedPreferences(context: Context, tokenAdminList: ArrayList<String>) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val editor = prefs.edit()
+        val set = HashSet<String>(tokenAdminList)
+        editor.putStringSet("tokenAdminList", set)
+        editor.apply()
+    }
+
+    fun readTokenAdminListFromSharedPreferences(context: Context): ArrayList<String> {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val set = prefs.getStringSet("tokenAdminList", HashSet<String>()) ?: HashSet<String>()
+        return ArrayList<String>(set)
+    }
+
+
 }

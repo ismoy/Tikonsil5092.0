@@ -135,6 +135,7 @@
     <string name="titleamount">Enter the amount you want to deposit into your account</string>
     <string name="successrecarcheaccount">Your account has been successfully recharged</string>
     <string name="errorpaymenymercadopago">oops!! we can\'t make the payment please try again</string>
+    <string name="insifficientfunds">Oops!! Your card doesn\'t have sufficient funds. Please try another card</string>
     <string name="errorsendtopupinnoverit">Thank you for your purchase you will receive your TopUp immediately</string>
     <string name="recover_password">Recover password</string>
     <string name="lang_email">en</string>

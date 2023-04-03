@@ -46,8 +46,20 @@ class LastSaleAdapter(val context: Context): RecyclerView.Adapter<LastSaleAdapte
           dateform.text =saledata.dates
           nameTypeRecharge.text= saledata.typerecharge
          }
+         saledata.typerecharge =="NATCASH" && saledata.codecountry=="HT"->{
+          Glide.with(context).load(R.drawable.haitiflag).into(imageViewPlaneta)
+          saldoform.text = " HTG "+saledata.subtotal
+          dateform.text =saledata.dates
+          nameTypeRecharge.text= saledata.typerecharge
+         }
+         saledata.typerecharge =="LAPOULA" && saledata.codecountry=="HT"->{
+          Glide.with(context).load(R.drawable.haitiflag).into(imageViewPlaneta)
+          saldoform.text = " HTG "+saledata.subtotal
+          dateform.text =saledata.dates
+          nameTypeRecharge.text= saledata.typerecharge
+         }
          saledata.typerecharge=="TOPUP" && saledata.codecountry=="BR"->{
-          Glide.with(context).load(R.drawable.brazil).into(imageViewPlaneta)
+          Glide.with(context).load(R.drawable.brasil).into(imageViewPlaneta)
           saldoform.text = saledata.subtotal
           dateform.text =saledata.dates
           nameTypeRecharge.text= saledata.typerecharge
@@ -65,7 +77,7 @@ class LastSaleAdapter(val context: Context): RecyclerView.Adapter<LastSaleAdapte
           nameTypeRecharge.text= saledata.typerecharge
          }
          saledata.typerecharge=="TOPUP" && saledata.codecountry=="DO"->{
-          Glide.with(context).load(R.drawable.republicadominicana).into(imageViewPlaneta)
+          Glide.with(context).load(R.drawable.dominicana).into(imageViewPlaneta)
           saldoform.text = saledata.subtotal
           dateform.text =saledata.dates
           nameTypeRecharge.text= saledata.typerecharge
@@ -83,11 +95,18 @@ class LastSaleAdapter(val context: Context): RecyclerView.Adapter<LastSaleAdapte
           nameTypeRecharge.text= saledata.typerecharge
 
          }
+         saledata.typerecharge=="TOPUP" && saledata.codecountry=="US"->{
+          Glide.with(context).load(R.drawable.usa).into(imageViewPlaneta)
+          saldoform.text = saledata.subtotal
+          dateform.text =saledata.dates
+          nameTypeRecharge.text= saledata.typerecharge
+
+         }
          else->{
          saldoform.text =saledata.subtotal
          dateform.text =saledata.dates
          nameTypeRecharge.text= "TOPUP"
-          Glide.with(context).load(R.drawable.planeta).into(imageViewPlaneta)
+          Glide.with(context).load(R.drawable.earth).into(imageViewPlaneta)
          }
         }
       }

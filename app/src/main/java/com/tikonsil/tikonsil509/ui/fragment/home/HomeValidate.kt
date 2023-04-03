@@ -3,6 +3,7 @@ package com.tikonsil.tikonsil509.ui.fragment.home
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,7 @@ import com.tikonsil.tikonsil509.presentation.lastsales.LastSalesViewModelProvide
 import com.tikonsil.tikonsil509.presentation.savestatus.StatusUserViewModel
 import com.tikonsil.tikonsil509.ui.activity.login.LoginActivity
 import com.tikonsil.tikonsil509.utils.constants.UtilsView
+import com.tikonsil.tikonsil509.utils.constants.UtilsView.saveTokenAdminToSharedPreferences
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlin.math.roundToInt
 
@@ -215,22 +217,25 @@ abstract class HomeValidate<VB:ViewBinding,VM:ViewModel>:Fragment() {
   })
  }
 
- fun getTokenAdmin(){
-  mTokensAdminProvider.getToken()?.addListenerForSingleValueEvent(object :ValueEventListener{
+ fun getTokenAdmin() {
+  val tokenAdminList = ArrayList<String>()
+  mTokensAdminProvider.getToken()?.addListenerForSingleValueEvent(object : ValueEventListener {
    override fun onDataChange(snapshot: DataSnapshot) {
-   if (snapshot.exists()){
-    for (ds in snapshot.children){
-     val tokenAdmin =ds.child("token").value.toString()
-     UtilsView.setValueSharedPreferences(requireActivity(),"tokenAdmin",tokenAdmin)
+    if (snapshot.exists()) {
+     for (ds in snapshot.children) {
+      val tokenAdmin = ds.child("token").value.toString()
+      tokenAdminList.add(tokenAdmin)
+     }
+     saveTokenAdminToSharedPreferences(requireContext(), tokenAdminList)
+     Log.e("tokenAdminList",tokenAdminList.toString())
     }
-
-   }
    }
 
    override fun onCancelled(error: DatabaseError) {
+    // Handle error
    }
-
   })
  }
+
 
 }

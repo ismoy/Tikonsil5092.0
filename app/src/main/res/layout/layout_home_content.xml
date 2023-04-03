@@ -62,118 +62,122 @@
             android:src="@drawable/man" />
 
 
-        <RelativeLayout
-            android:id="@+id/relativebalance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/image"
-            android:layout_marginTop="50dp"
-            android:background="@drawable/bgcardgradient"
-            android:fitsSystemWindows="true"
-            android:visibility="gone"
-            android:layout_alignStart="@id/guideline"
-            android:layout_alignEnd="@id/guideline2"
-            tools:ignore="NotSibling">
-
-            <TextView
-                android:id="@+id/titleBalance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/total_balance"
-                android:textAlignment="center"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_centerInParent="true"
-
-                />
-
-            <TextView
-                android:id="@+id/totalbalance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="0"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:textAlignment="center"
-                android:layout_below="@id/titleBalance"
-                android:layout_marginTop="30dp"/>
-        </RelativeLayout>
 
     </RelativeLayout>
 
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="150dp"
-        android:background="@drawable/bgdashboard"
+    <RelativeLayout
+        android:id="@+id/relativebalance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/image"
+        android:background="@drawable/bgcardgradient"
         android:fitsSystemWindows="true"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
         app:layout_constraintStart_toStartOf="@id/guideline"
-        app:layout_constraintEnd_toEndOf="@id/guideline2">
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        tools:ignore="NotSibling">
+
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/titleBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/total_balance"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"
+
+            />
+
+        <TextView
+            android:id="@+id/totalbalance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="37dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="37dp"
+            android:text="0"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:layout_below="@id/titleBalance"
+            android:layout_marginTop="30dp"/>
+    </RelativeLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativebalance"
+        app:layout_constraintVertical_bias="0.0"
+        android:background="@drawable/bgdashboard">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/bgcardgradient"
             android:text="@string/lastersale"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <RelativeLayout
-            android:id="@+id/relativeLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingStart="20dp"
-            android:paddingTop="29dp"
-            android:paddingEnd="20dp">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerviewultimaventa"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/textView2"
+            app:layout_constraintStart_toStartOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-            <ImageView
-                android:id="@+id/noDataFound"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/nodata"
-                android:visibility="gone"/>
-            <com.facebook.shimmer.ShimmerFrameLayout
-                android:id="@+id/shimmer"
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            app:shimmer_auto_start="true">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                app:shimmer_auto_start="true">
+                android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                <include layout="@layout/item_last_sale_shimmer_eferct" />
 
-                    <include layout="@layout/item_last_sale_shimmer_eferct" />
+                <include layout="@layout/item_last_sale_shimmer_eferct" />
 
-                    <include layout="@layout/item_last_sale_shimmer_eferct" />
+                <include layout="@layout/item_last_sale_shimmer_eferct" />
 
-                    <include layout="@layout/item_last_sale_shimmer_eferct" />
+                <include layout="@layout/item_last_sale_shimmer_eferct" />
 
-                    <include layout="@layout/item_last_sale_shimmer_eferct" />
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
-                </LinearLayout>
-            </com.facebook.shimmer.ShimmerFrameLayout>
+        <ImageView
+            android:id="@+id/noDataFound"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/nodata"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerviewultimaventa"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:visibility="gone"
-                android:layout_marginHorizontal="16dp"/>
-
-
-        </RelativeLayout>
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

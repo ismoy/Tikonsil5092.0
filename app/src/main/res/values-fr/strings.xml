@@ -69,4 +69,6 @@
     <string name="phone_card">Téléphone:</string>
     <string name="quantity_to_send">Quantité à envoyer:</string>
     <string name="fee">Fee:</string>
+    <string name="insifficientfunds">Oops!! Votre carte n\'a pas les fonds suffisants. Veuillez essayer une autre carte</string>
+
 </resources>

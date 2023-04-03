@@ -132,5 +132,13 @@
             android:id="@+id/action_installmentFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/dialogConfirm"
+        android:name="com.tikonsil.tikonsil509.ui.fragment.dialog.DialogConfirm"
+        android:label="DialogConfirm" >
+        <action
+            android:id="@+id/action_dialogConfirm_to_takeCredentialsCardFormFragment"
+            app:destination="@id/takeCredentialsCardFormFragment" />
+    </fragment>
 
 </navigation>
