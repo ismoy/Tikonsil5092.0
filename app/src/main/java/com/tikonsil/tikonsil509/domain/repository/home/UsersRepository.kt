@@ -10,7 +10,6 @@ import retrofit2.Response
 class UsersRepository {
     suspend fun getOnlyUser(uidUser:String):Response<Users> {
         val _tikonsilApi= RetrofitInstance(FirebaseApi.getFSApis().base_url_firebase_instance).tikonsilApi
-        Log.e("BaseUrlfirebase",_tikonsilApi.toString())
         return _tikonsilApi.getOnlyUser(uidUser)
     }
 

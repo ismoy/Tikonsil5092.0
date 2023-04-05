@@ -1,5 +1,6 @@
 package com.tikonsil.tikonsil509.presentation.countryprices
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,12 +12,13 @@ import retrofit2.Response
 /** * Created by ISMOY BELIZAIRE on 28/04/2022. */
 class CountryPricesViewModel(private val repository: CountryPricesRepository) :
     ViewModel() {
-    val myResponseGetCountryPrice: MutableLiveData<Response<CountryPrice>> by lazy { MutableLiveData() }
+    private val _countryPrice: MutableLiveData<Response<CountryPrice>> by lazy { MutableLiveData() }
+    val countryPrice:LiveData<Response<CountryPrice>> = _countryPrice
 
     fun getCountryPrice() {
         viewModelScope.launch {
             val response = repository.getCountryPrice()
-            myResponseGetCountryPrice.value = response
+            _countryPrice.value = response
         }
     }
 }

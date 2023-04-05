@@ -27,11 +27,17 @@ import com.tikonsil.tikonsil509.data.remote.provider.UserProvider
 import com.tikonsil.tikonsil509.databinding.FragmentSendRechargeBinding
 import com.tikonsil.tikonsil509.domain.model.*
 import com.tikonsil.tikonsil509.domain.model.sendReceipt.SendReceipt
+import com.tikonsil.tikonsil509.domain.repository.countryprices.CountryPricesRepository
+import com.tikonsil.tikonsil509.domain.repository.register.RegisterRepository
 import com.tikonsil.tikonsil509.domain.repository.savenotification.SaveNotificationRepository
 import com.tikonsil.tikonsil509.domain.repository.sendrecharge.SendRechargeRepository
+import com.tikonsil.tikonsil509.presentation.countryprices.CountryPricesViewModel
+import com.tikonsil.tikonsil509.presentation.countryprices.CountryPricesViewModelFactory
 import com.tikonsil.tikonsil509.presentation.fcm.SendNotificationViewModel
 import com.tikonsil.tikonsil509.presentation.home.UserViewModel
 import com.tikonsil.tikonsil509.presentation.mercadoPago.MercadoPagoViewModel
+import com.tikonsil.tikonsil509.presentation.register.RegisterViewModel
+import com.tikonsil.tikonsil509.presentation.register.RegisterViewModelFactory
 import com.tikonsil.tikonsil509.presentation.savenotification.SaveNotificationViewModel
 import com.tikonsil.tikonsil509.presentation.savenotification.SaveNotificationViewModelProvider
 import com.tikonsil.tikonsil509.presentation.sendReceipt.SendReceiptViewModel
@@ -76,13 +82,14 @@ class SendRechargeFragment : Fragment() {
     private  var tokenUser:String?=null
     private var tokenAdmin:ArrayList<String>?=null
     private var imageUser:String?=null
-    private var priceMonCash:Float=0F
-    private var priceNatCash:Float=0F
-    private var priceLapoula:Float=0F
+    private var priceMonCashHaiti:Float=0F
+    private var priceNatCashHaiti:Float=0F
+    private var priceLapoulaHaiti:Float=0F
     private var subTotalSelected:String?=null
     private lateinit var mUserProvider: UserProvider
     private lateinit var mTokensAdminProvider:TokensAdminProvider
     private lateinit var viewmodelsavenotification: SaveNotificationViewModel
+    private lateinit var viewModelCountryPrice: CountryPricesViewModel
     private lateinit var dialog:Dialog
     private lateinit var navController: NavController
     private val sendReceiptViewModel by lazy { ViewModelProvider(this)[SendReceiptViewModel::class.java] }
@@ -103,6 +110,9 @@ class SendRechargeFragment : Fragment() {
         val factory = SendRechargeViewModelProvider(repository)
         mAuthProvider = AuthProvider()
         mUserProvider = UserProvider()
+        val repositoryCountry = CountryPricesRepository()
+        val factoryCountry = CountryPricesViewModelFactory(repositoryCountry)
+        viewModelCountryPrice = ViewModelProvider(requireActivity(),factoryCountry)[CountryPricesViewModel::class.java]
         dialog = Dialog(requireContext())
         navController = Navigation.findNavController(view)
         mTokensAdminProvider = TokensAdminProvider()
@@ -121,29 +131,30 @@ class SendRechargeFragment : Fragment() {
         )[SaveNotificationViewModel::class.java]
 
         setCountryListener()
-        manageChipGroup()
+
         viewModelObserver()
         initializeComponent()
 
         binding.recargar.setOnClickListener {sendTopUPRecharge()}
+        manageChipGroup()
 
     }
 
     private fun calculateMonCash(chipSelected: String) {
        binding.apply {
-           UtilsView.calculatePriceServiceHaitiMonCash(total,chipSelected,priceMonCash, subtotal)
+           UtilsView.calculatePriceServiceHaitiMonCash(total,chipSelected,priceMonCashHaiti, subtotal)
        }
     }
 
     private fun calculateNatCash(chipSelected: String) {
         binding.apply {
-            UtilsView.calculatePriceServiceHaitiNatCash(total,chipSelected,priceNatCash, subtotal)
+            UtilsView.calculatePriceServiceHaitiNatCash(total,chipSelected,priceNatCashHaiti, subtotal)
         }
     }
 
     private fun calculateLapouLa(chipSelected: String) {
         binding.apply {
-            UtilsView.calculatePriceServiceHaitiLapouLa(total,chipSelected,priceLapoula, subtotal)
+            UtilsView.calculatePriceServiceHaitiLapouLa(total,chipSelected,priceLapoulaHaiti, subtotal)
         }
     }
     private fun initializeComponent() {
@@ -256,6 +267,7 @@ class SendRechargeFragment : Fragment() {
         })
 
         userViewModel.getOnlyUser(mAuthProvider.getId().toString())
+        viewModelCountryPrice.getCountryPrice()
         userViewModel.ResposeUsers.observe(viewLifecycleOwner, Observer {
             if (it.isSuccessful){
                 it.body()?.apply {
@@ -265,17 +277,24 @@ class SendRechargeFragment : Fragment() {
                     emailUser = email
                     imageUser = image
                     totalBalanceTopUpUser = soltopup
-                    priceMonCash = soldmoncash
-                    priceNatCash = soldnatcash
-                    priceLapoula = soldlapoula
                 }
             }
         })
 
+        viewModelCountryPrice.countryPrice.observe(viewLifecycleOwner){country_price->
+            if (country_price.isSuccessful){
+                country_price.body()?.apply {
+                    priceMonCashHaiti = pricemoncashhaiti
+                    priceNatCashHaiti = pricenatcashhaiti
+                    priceLapoulaHaiti = pricelapoulahaiti
+                }
+            }
+        }
+
         sendRechargeViewModel.myResponseSales.observe(viewLifecycleOwner){
             if (it.isSuccessful){
                 hideProgress(binding.recargar,binding.progressBar,getString(R.string.SendReload))
-                if (roleUser!=1 && idProductSelected.isNullOrEmpty()){
+                if (idProductSelected.isNullOrEmpty()){
                     bottomSheet.show(childFragmentManager,"DialogConfirm")
                     bottomSheet.subtitle =getString(R.string.thanks) + ConstantGeneral.PHONENUMBERWHATSAPP
                     bottomSheet.btnCancel = false

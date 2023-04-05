@@ -55,6 +55,7 @@ class DialogConfirm : DialogFragment() {
                 binding.textView3.text = requireActivity().getText(R.string.aproved)
                 confirm.setOnClickListener {
                     startActivity(Intent(requireActivity(),HomeActivity::class.java))
+                    requireActivity().finish()
                 }
             }
             if (btnCancel == true){
@@ -62,6 +63,7 @@ class DialogConfirm : DialogFragment() {
                 confirm.isGone = true
                 cancel.setOnClickListener {
                  startActivity(Intent(requireActivity(),HomeActivity::class.java))
+                    requireActivity().finish()
                 }
             }
             if (btnCancel == true && isSalesMasterError == true){

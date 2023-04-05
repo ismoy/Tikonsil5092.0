@@ -19,10 +19,7 @@ import retrofit2.http.*
 interface TikonsilApi {
     @PATCH("Clients/{uidUser}.json")
     suspend fun registerClient(
-        @Path(
-            "uidUser"
-        ) uidUser: String , @Body param: Users
-    ): Response<Users>
+        @Path("uidUser") uidUser: String , @Body param: Users): Response<Users>
 
     @GET("Clients/{uidUser}.json")
     suspend fun getOnlyUser(

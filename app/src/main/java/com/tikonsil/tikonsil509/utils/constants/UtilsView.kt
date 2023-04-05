@@ -108,6 +108,132 @@ object UtilsView {
         }
     }
 
+    fun registerUserValidator(
+        textInputLayoutFirsName:TextInputLayout,
+        textFirstName:TextInputEditText,
+        textInputLayoutLastName:TextInputLayout,
+        textLastName:TextInputEditText,
+        textInputLayoutEmail: TextInputLayout,
+        textEmail:TextInputEditText,
+        textInputLayoutPhone:TextInputLayout,
+        textPhone:TextInputEditText,
+        textInputLayoutPassword: TextInputLayout,
+        textPassword:TextInputEditText,
+        textInputLayoutConfirmPassword: TextInputLayout,
+        textConfirmPassword:TextInputEditText,
+        btnRegister:MaterialButton,
+        context: Context,
+        mConstant: Constant
+
+    ){
+        textFirstName.doOnTextChanged { firstName, _, _, _ ->
+            when {
+                firstName.toString().isEmpty() -> {
+                    textInputLayoutFirsName.helperText = context.getString(R.string.erroremptyfield)
+                    btnRegister.isEnabled = false
+                }
+                !mConstant.validateonlyleter(firstName.toString()) -> {
+                    textInputLayoutFirsName.helperText = context.getString(R.string.error_firsname_onlyletter)
+                    btnRegister.isEnabled = false
+                }
+                else -> {
+                    textInputLayoutFirsName.helperText = ""
+                    btnRegister.isEnabled = true
+                }
+            }
+        }
+
+        textLastName.doOnTextChanged { lastName, _, _, _ ->
+            when{
+               lastName.toString().isEmpty() ->{
+                   textInputLayoutLastName.helperText = context.getString(R.string.erroremptyfield)
+                   btnRegister.isEnabled = false
+               }
+                !mConstant.validateonlyleter(lastName.toString()) -> {
+                    textInputLayoutLastName.helperText = context.getString(R.string.error_lastname_onlyletter)
+                    btnRegister.isEnabled = false
+                }
+                else -> {
+                    textInputLayoutLastName.helperText = ""
+                    btnRegister.isEnabled = true
+                }
+            }
+        }
+
+        textEmail.doOnTextChanged { txtEmail, _, _, _ ->
+            when {
+                txtEmail!!.toString().isEmpty() -> {
+                    textInputLayoutEmail.helperText =context.getString(R.string.erroremptyfield)
+                    btnRegister.isEnabled = false
+                    return@doOnTextChanged
+                }
+                !mConstant.validateEmail(txtEmail.toString())!! -> {
+                    textInputLayoutEmail.helperText = context.getString(R.string.error_email_invalid)
+                    btnRegister.isEnabled = false
+                }
+                else -> {
+                    textInputLayoutEmail.helperText = ""
+                    btnRegister.isEnabled = true
+                }
+            }
+        }
+
+        textPhone.doOnTextChanged { phone, _, _, _ ->
+            when{
+                phone.toString().isEmpty() ->{
+                    textInputLayoutPhone.helperText = context.getString(R.string.erroremptyfield)
+                    btnRegister.isEnabled = false
+                }
+                !mConstant.validatelenghnumberphone(phone.toString()) ->{
+                   textInputLayoutPhone.helperText = context.getString(R.string.error_longitud_number)
+                    btnRegister.isEnabled = false
+                }
+                else ->{
+                    textInputLayoutPhone.helperText = ""
+                    btnRegister.isEnabled = true
+                }
+            }
+        }
+
+        textPassword.doOnTextChanged { password, _, _, _ ->
+            when{
+                password.toString().isEmpty() ->{
+                    textInputLayoutPassword.helperText = context.getString(R.string.erroremptyfield)
+                    btnRegister.isEnabled = false
+                }
+                !mConstant.validatelongitudepassword(password.toString()) ->{
+                    textInputLayoutPassword.helperText = context.getString(R.string.error_longitudepassword)
+                    btnRegister.isEnabled = false
+                }
+                else ->{
+                    textInputLayoutPassword.helperText = ""
+                    btnRegister.isEnabled = true
+                }
+            }
+        }
+
+        textConfirmPassword.doOnTextChanged { password, _, _, _ ->
+            when{
+                password.toString().isEmpty() ->{
+                    textInputLayoutConfirmPassword.helperText = context.getString(R.string.erroremptyfield)
+                    btnRegister.isEnabled = false
+                }
+                !mConstant.validatelongitudepassword(password.toString()) ->{
+                    textInputLayoutConfirmPassword.helperText = context.getString(R.string.error_longitudepassword)
+                    btnRegister.isEnabled = false
+                }
+                textPassword.text.toString() != textConfirmPassword.text.toString() ->{
+                    textInputLayoutConfirmPassword.helperText = context.getString(R.string.error_no_coecidence_password)
+                    btnRegister.isEnabled = false
+                }
+                else ->{
+                    textInputLayoutConfirmPassword.helperText = ""
+                    btnRegister.isEnabled = true
+                }
+            }
+        }
+    }
+
     fun calculatePriceServiceHaitiMonCash(
         total: TextInputEditText ,
         chipSelected: String ,
@@ -117,7 +243,8 @@ object UtilsView {
         total.doOnTextChanged { valueInput , _ , _ , _ ->
             if (valueInput!!.isNotEmpty() && chipSelected == ConstantServiceCountry.SERVICEHAITI1) {
                 val countvaluemoncash: Double = valueInput.toString().toDouble() / priceMonCash
-                subtotal.setText(countvaluemoncash.roundToInt().toString())
+                val roundString = String.format("%.2f", countvaluemoncash)
+                subtotal.setText(roundString)
 
             }
         }
@@ -133,7 +260,8 @@ object UtilsView {
         amount.doOnTextChanged { valueInput , _ , _ , _ ->
             if (valueInput!!.isNotEmpty() && chipSelected == ConstantServiceCountry.SERVICEHAITI3) {
                 val countvaluenatcash: Double = valueInput.toString().toDouble() / priceNatCash
-                subtotal.setText(countvaluenatcash.roundToInt().toString())
+                val roundString = String.format("%.2f", countvaluenatcash)
+                subtotal.setText(roundString)
 
             }
         }
@@ -148,8 +276,9 @@ object UtilsView {
     ) {
         total.doOnTextChanged { valueInput , _ , _ , _ ->
             if (valueInput!!.isNotEmpty() && chipSelected == ConstantServiceCountry.SERVICEHAITI2) {
-                val countvaluemoncash: Double = valueInput.toString().toDouble() / priceLapouLa
-                subtotal.setText(countvaluemoncash.roundToInt().toString())
+                val countvaluelapoula: Double = valueInput.toString().toDouble() / priceLapouLa
+                val roundString = String.format("%.2f", countvaluelapoula)
+                subtotal.setText(roundString)
 
             }
         }
