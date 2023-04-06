@@ -301,14 +301,12 @@ object UtilsView {
 
     @SuppressLint("StringFormatInvalid")
     fun sendWhatsapp(salesData: Sales , activity: Activity) = try {
-        val mensaje = activity.getString(
-            R.string.extract_whatsapp ,
-            "${salesData.phone} Name: ${salesData.firstname}" + " Total TopUp ${salesData.subtotal} Country: ${salesData.country}"
-        )
+        val mensaje ="${activity.getString(R.string.extract_whatsapp)}:${salesData.phone}\n Name: ${salesData.firstname} \n TypeRecharge: ${salesData.typerecharge}\n Valor enviado: ${salesData.subtotal}\n Country: ${salesData.country}\n Fecha: ${salesData.date}"
         val i = Intent(Intent.ACTION_VIEW)
         i.data =
             Uri.parse("whatsapp://send?phone=${ConstantGeneral.PHONENUMBERWHATSAPP}&text=$mensaje")
         activity.startActivity(i)
+
     } catch (e: ActivityNotFoundException) {
         // WhatsApp is not installed on the device. Prompt the entity to install it.
         Toast.makeText(

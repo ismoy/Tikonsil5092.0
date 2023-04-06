@@ -299,6 +299,12 @@ class SendRechargeFragment : Fragment() {
                     bottomSheet.subtitle =getString(R.string.thanks) + ConstantGeneral.PHONENUMBERWHATSAPP
                     bottomSheet.btnCancel = false
                     bottomSheet.isSalesMaster = true
+                    bottomSheet.isNoTopUp = true
+                     it.body().let {sale->
+                         if (sale != null) {
+                             bottomSheet.saleData = sale
+                         }
+                    }
                     bottomSheet.btnConfirm = "Confirm"
                     createNotification()
                 }
@@ -366,7 +372,7 @@ class SendRechargeFragment : Fragment() {
                 "${binding.codigo.text}${binding.phone.text.toString()}",
                 subTotalSelected.toString(),idProductSelected!!.toInt(),mAuthProvider.getId().toString(),
                 firstNameUser!!,lastNameUser!!,roleUser!!.toInt(),tokenUser!!,tokenAdmin.toString(), currentDate,0,countrySelected!!,imageUser!!,
-                totalBalanceTopUpUser,subTotalSelected.toString(),currentlyCountry!!)
+                "${"%.2f".format(topUpSelected).toFloat()}",subTotalSelected.toString(),currentlyCountry!!)
             viewModel.insertProduct(product)
             navController.navigate(R.id.action_sendRechargeFragment_to_takeCredentialsCardFormFragment)
 

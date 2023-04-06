@@ -70,5 +70,7 @@
     <string name="quantity_to_send">Quantité à envoyer:</string>
     <string name="fee">Fee:</string>
     <string name="insifficientfunds">Oops!! Votre carte n\'a pas les fonds suffisants. Veuillez essayer une autre carte</string>
+    <string name="extract_whatsapp">Bonjour, j\'ai envoyé une demande de recharge, pouvez-vous m\'aider s\'il vous plaît, voici le numéro de téléphone et les détails de l\'achat</string>
+
 
 </resources>

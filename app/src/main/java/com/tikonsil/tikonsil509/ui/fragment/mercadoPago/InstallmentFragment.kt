@@ -35,6 +35,7 @@ import com.tikonsil.tikonsil509.utils.constants.ConstantServiceCountry
 import com.tikonsil.tikonsil509.utils.constants.UtilsView
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.hideProgress
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.showProgress
+import okhttp3.internal.format
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -306,7 +307,8 @@ class InstallmentFragment : Fragment() {
               }
                listProduct = product
                "$valueFees USD".also { binding.valueFee.text = it }
-               "${product.last().amount.toFloat() + valueFees!!.toFloat()} USD ".also { binding.valueTotal.text = it }
+               val roundTotal = format("%.2f",product.last().amount.toFloat() + valueFees!!.toFloat())
+               "$roundTotal USD".also { binding.valueTotal.text = it }
            }
        }
     }

@@ -128,7 +128,7 @@
     <string name="total_recarga">Total Recharge</string>
     <string name="status">Status</string>
     <string name="titlesuccess">Success</string>
-    <string name="extract_whatsapp" translatable="false">Hello, I have sent a recharge request, can you help me please, here are the details phone number</string>
+    <string name="extract_whatsapp">Hello, I have sent a recharge request, can you help me please, here is the phone number and details of the purchase</string>
     <string name="topup_balance">Recharge your account</string>
     <string name="pay">Pay</string>
     <string name="aproved">Successful</string>

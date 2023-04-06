@@ -12,9 +12,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.navigation.Navigation
 import com.tikonsil.tikonsil509.R
 import com.tikonsil.tikonsil509.databinding.FragmentDialogConfirmBinding
+import com.tikonsil.tikonsil509.domain.model.Sales
 import com.tikonsil.tikonsil509.ui.activity.home.HomeActivity
 import com.tikonsil.tikonsil509.ui.fragment.mercadoPago.TakeCredentialsCardFormFragment
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.screenDisplay
+import com.tikonsil.tikonsil509.utils.constants.UtilsView.sendWhatsapp
 
 class DialogConfirm : DialogFragment() {
     var title:String?=null
@@ -23,6 +25,8 @@ class DialogConfirm : DialogFragment() {
     var btnCancel:Boolean?=false
     var isSalesMaster:Boolean?=false
     var isSalesMasterError:Boolean?=false
+    var isNoTopUp:Boolean?=false
+    lateinit var saleData:Sales
     private lateinit var binding:FragmentDialogConfirmBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -79,6 +83,15 @@ class DialogConfirm : DialogFragment() {
                 binding.textView3.text = requireActivity().getText(R.string.aproved)
                 binding.imageView.setImageDrawable(ResourcesCompat.getDrawable(resources,R.drawable.ic_baseline_check_24,null))
 
+            }
+            if (btnCancel == false && isNoTopUp == true && !btnConfirm.isNullOrEmpty() && isSalesMaster ==true){
+                binding.imageView.background =  ResourcesCompat.getDrawable(requireContext().resources,R.drawable.bg_iv,null)
+                binding.imageView.setImageDrawable(ResourcesCompat.getDrawable(resources,R.drawable.ic_baseline_check_24,null))
+                binding.textView3.text = requireActivity().getText(R.string.aproved)
+                confirm.setOnClickListener {
+                    sendWhatsapp(saleData,requireActivity())
+                    requireActivity().finish()
+                }
             }
         }
 

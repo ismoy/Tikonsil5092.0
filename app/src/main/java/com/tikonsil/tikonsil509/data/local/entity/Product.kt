@@ -23,7 +23,7 @@ data class Product(
    val status:Int,
    val countryName:String,
    val imageUrl:String,
-   val soldTopUp:Float,
+   val soldTopUp:String,
    val subTotal:String,
    val currently:String
 

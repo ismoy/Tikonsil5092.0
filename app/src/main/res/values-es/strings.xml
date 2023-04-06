@@ -70,6 +70,8 @@
     <string name="quantity_to_send">Cantidad a enviar:</string>
     <string name="fee">Tarifa:</string>
     <string name="insifficientfunds">¡¡Ups!! Su tarjeta no tiene fondos suficientes.Por favor intente con otra tarjeta</string>
+    <string name="extract_whatsapp">Hola, he enviado una solicitud de recarga, me pueden ayudar por favor, aquí está el número de teléfono y los detalles de la compra</string>
+
 
 
 
