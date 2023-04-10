@@ -193,42 +193,61 @@ class InstallmentFragment : Fragment() {
             }
         }
         sendRechargeViewModel.responseInnoVit.observe(viewLifecycleOwner) { result ->
-            when {
-                result.isSuccess -> {
-                    result.getOrNull()?.enqueue(object : Callback<SendRechargeResponse> {
-                        override fun onResponse(
-                            call: Call<SendRechargeResponse> ,
-                            response: Response<SendRechargeResponse>
-                        ) {
-                            if (response.body()?.status == "success") {
-                                bottomSheet.show(childFragmentManager,"DialogConfirm")
-                                bottomSheet.subtitle = requireActivity().getString(R.string.success)
-                                bottomSheet.btnCancel = false
-                                bottomSheet.btnConfirm = "Confirm"
-                               // createDialogSuccessForAgent(requireActivity())
-                                sendDataInFirebase()
-                                hideProgress(binding.btnNext,binding.progressBar,getString(R.string.aproved))
-                                viewModel.deleteAll()
-                                viewModel.deleteProduct()
-                            } else {
-                                bottomSheet.show(childFragmentManager,"DialogConfirm")
-                                bottomSheet.subtitle = requireActivity(). getString(R.string.errorsendtopupinnoverit)
-                                bottomSheet.btnCancel = false
-                                bottomSheet.btnConfirm = "Confirm"
-                               // createDialogErrorForAgent(requireActivity())
-                                sendDataInFirebaseWhenError(response.body()!!.message)
-                                sendDataInFirebaseWhenErrorAgent()
-                                viewModel.deleteAll()
-                                viewModel.deleteProduct()
-                            }
-                        }
-
-                        override fun onFailure(call: Call<SendRechargeResponse> , t: Throwable) {}
-
-                    })
+            result.enqueue(object :Callback<SendRechargeResponse>{
+                override fun onResponse(
+                    call: Call<SendRechargeResponse>,
+                    response: Response<SendRechargeResponse>
+                ) {
+                   if (response.isSuccessful){
+                       when (response.body()!!.status) {
+                           "success" -> {
+                               bottomSheet.show(childFragmentManager, "DialogConfirm")
+                               bottomSheet.subtitle = requireActivity().getString(R.string.success)
+                               bottomSheet.btnCancel = false
+                               bottomSheet.btnConfirm = "Confirm"
+                               sendDataInFirebase()
+                               hideProgress(
+                                   binding.btnNext,
+                                   binding.progressBar,
+                                   getString(R.string.aproved)
+                               )
+                           }
+                           "provider_error" -> {
+                               bottomSheet.show(childFragmentManager, "DialogConfirm")
+                               bottomSheet.subtitle = response.body()?.message
+                               bottomSheet.btnCancel = true
+                               bottomSheet.isDuplicateRecharge = true
+                               hideProgress(
+                                   binding.btnNext,
+                                   binding.progressBar,
+                                   getString(R.string.error)
+                               )
+                               sendDataInFirebaseWhenError(response.body()!!.message)
+                               sendDataInFirebaseWhenErrorAgent()
+                           }
+                       }
+                   }else{
+                       bottomSheet.show(childFragmentManager, "DialogConfirm")
+                       bottomSheet.subtitle =
+                           requireActivity().getString(R.string.errorsendtopupinnoverit)
+                       bottomSheet.btnCancel = false
+                       bottomSheet.btnConfirm = "Confirm"
+                       sendDataInFirebaseWhenError(response.body()!!.message)
+                       sendDataInFirebaseWhenErrorAgent()
+                   }
                 }
-                result.isFailure -> {}
-            }
+
+                override fun onFailure(call: Call<SendRechargeResponse>, t: Throwable) {
+                    bottomSheet.show(childFragmentManager, "DialogConfirm")
+                    bottomSheet.subtitle =
+                        requireActivity().getString(R.string.errorsendtopupinnoverit)
+                    bottomSheet.btnCancel = false
+                    bottomSheet.btnConfirm = "Confirm"
+                    sendDataInFirebaseWhenError(t.message.toString())
+                    sendDataInFirebaseWhenErrorAgent()
+                }
+
+            })
 
         }
 
@@ -262,7 +281,8 @@ class InstallmentFragment : Fragment() {
         val salesData = Sales(outputString,product.firstName,product.lastName,product.email,product.role,
             ConstantServiceCountry.SERVICEHAITI4,product.phoneNumber,product.date,product.countryName,"",
             product.subTotal,message,product.tokenUser,0,product.idProduct,product.soldTopUp.toString(),
-            product.imageUrl,product.soldTopUp.toString(),valueFees.toString(),product.currently)
+            product.imageUrl,
+            product.soldTopUp,valueFees.toString(),product.currently)
         sendRechargeViewModel.salesWithErrorInnoverit(salesData)
     }
 
@@ -273,7 +293,8 @@ class InstallmentFragment : Fragment() {
         val salesData = Sales(mAuthProvider.getId()!!,product.firstName,product.lastName,product.email,product.role,
             ConstantServiceCountry.SERVICEHAITI4,product.phoneNumber,product.date,product.countryName,product.countryName,
             product.subTotal,"",product.tokenUser,0,product.idProduct,product.soldTopUp.toString(),
-            product.imageUrl,product.soldTopUp.toString(),valueFees.toString(),product.currently)
+            product.imageUrl,
+            product.soldTopUp,valueFees.toString(),product.currently)
         sendRechargeViewModel.sales(outputString,salesData)
     }
 

@@ -30,9 +30,7 @@ class Constant {
   const val KEY ="create"
   const val NOTE ="false"
   const val ID_PRODUCT ="22050786"
-  @SuppressLint("SimpleDateFormat")
-  var sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
-  val currentDate = sdf.format(Date())
+
  }
  //validate email
  fun validateEmail(email:String?): Boolean? {

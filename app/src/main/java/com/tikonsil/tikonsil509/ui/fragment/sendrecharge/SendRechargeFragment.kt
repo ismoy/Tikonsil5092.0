@@ -1,7 +1,7 @@
 package com.tikonsil.tikonsil509.ui.fragment.sendrecharge
 
+import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -28,7 +28,6 @@ import com.tikonsil.tikonsil509.databinding.FragmentSendRechargeBinding
 import com.tikonsil.tikonsil509.domain.model.*
 import com.tikonsil.tikonsil509.domain.model.sendReceipt.SendReceipt
 import com.tikonsil.tikonsil509.domain.repository.countryprices.CountryPricesRepository
-import com.tikonsil.tikonsil509.domain.repository.register.RegisterRepository
 import com.tikonsil.tikonsil509.domain.repository.savenotification.SaveNotificationRepository
 import com.tikonsil.tikonsil509.domain.repository.sendrecharge.SendRechargeRepository
 import com.tikonsil.tikonsil509.presentation.countryprices.CountryPricesViewModel
@@ -36,30 +35,30 @@ import com.tikonsil.tikonsil509.presentation.countryprices.CountryPricesViewMode
 import com.tikonsil.tikonsil509.presentation.fcm.SendNotificationViewModel
 import com.tikonsil.tikonsil509.presentation.home.UserViewModel
 import com.tikonsil.tikonsil509.presentation.mercadoPago.MercadoPagoViewModel
-import com.tikonsil.tikonsil509.presentation.register.RegisterViewModel
-import com.tikonsil.tikonsil509.presentation.register.RegisterViewModelFactory
 import com.tikonsil.tikonsil509.presentation.savenotification.SaveNotificationViewModel
 import com.tikonsil.tikonsil509.presentation.savenotification.SaveNotificationViewModelProvider
 import com.tikonsil.tikonsil509.presentation.sendReceipt.SendReceiptViewModel
 import com.tikonsil.tikonsil509.presentation.sendrecharge.SendRechargeViewModel
 import com.tikonsil.tikonsil509.presentation.sendrecharge.SendRechargeViewModelProvider
-import com.tikonsil.tikonsil509.ui.activity.home.HomeActivity
 import com.tikonsil.tikonsil509.ui.fragment.dialog.DialogConfirm
-import com.tikonsil.tikonsil509.utils.constants.Constant.Companion.currentDate
 import com.tikonsil.tikonsil509.utils.constants.ConstantCodeCountry.CODEHAITI
 import com.tikonsil.tikonsil509.utils.constants.ConstantServiceCountry.SERVICEHAITI1
 import com.tikonsil.tikonsil509.utils.constants.ConstantServiceCountry.SERVICEHAITI2
 import com.tikonsil.tikonsil509.utils.constants.ConstantServiceCountry.SERVICEHAITI3
 import com.tikonsil.tikonsil509.utils.constants.ConstantServiceCountry.SERVICEHAITI4
 import com.tikonsil.tikonsil509.utils.constants.UtilsView
+import com.tikonsil.tikonsil509.utils.constants.UtilsView.getValueSharedPreferences
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.hideProgress
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.readTokenAdminListFromSharedPreferences
+import com.tikonsil.tikonsil509.utils.constants.UtilsView.setValueSharedPreferences
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.showProgress
 import com.tikonsil.tikonsil509.utils.service.ConstantGeneral
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
 
 class SendRechargeFragment : Fragment() {
     private lateinit var binding: FragmentSendRechargeBinding
@@ -185,6 +184,10 @@ class SendRechargeFragment : Fragment() {
     }
 
     private fun sendNatCash() {
+        val calendar: Calendar? = Calendar.getInstance()
+        @SuppressLint("SimpleDateFormat")
+        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+        val currentDate:String = sdf.format(calendar!!.time)
        val  salesData= Sales(
             mAuthProvider.getId()!!,
             firstNameUser ,
@@ -211,6 +214,10 @@ class SendRechargeFragment : Fragment() {
     }
 
     private fun sendLapouLa() {
+        val calendar: Calendar? = Calendar.getInstance()
+        @SuppressLint("SimpleDateFormat")
+        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+        val currentDate:String = sdf.format(calendar!!.time)
         val  salesData= Sales(
             mAuthProvider.getId()!!,
             firstNameUser ,
@@ -236,6 +243,10 @@ class SendRechargeFragment : Fragment() {
     }
 
     private fun sendMonCash() {
+        val calendar: Calendar? = Calendar.getInstance()
+        @SuppressLint("SimpleDateFormat")
+        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+        val currentDate:String = sdf.format(calendar!!.time)
         val  salesData= Sales(
             mAuthProvider.getId()!!,
             firstNameUser ,
@@ -367,6 +378,10 @@ class SendRechargeFragment : Fragment() {
         mUserProvider.updateTopup(mAuthProvider.getId(), newSoldTopUp)?.isSuccessful
     }
     private fun goToPayWithMercadoPago() {
+        val calendar: Calendar? = Calendar.getInstance()
+        @SuppressLint("SimpleDateFormat")
+        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+        val currentDate:String = sdf.format(calendar!!.time)
             showProgress(binding.recargar,binding.progressBar)
             val product = Product(0,"TOPUP",topUpSelected.toString(),emailUser!!,operatorSelected?:"",
                 "${binding.codigo.text}${binding.phone.text.toString()}",
@@ -390,7 +405,10 @@ class SendRechargeFragment : Fragment() {
                 sendRechargeViewModel.sales("${mAuthProvider.getId()}${typeSelected}",salesData)
             }
             else -> {
-                sendRechargeViewModel.sales("${mAuthProvider.getId()}${idProductSelected}",salesData)
+                val inputString = "${mAuthProvider.getId()}${idProductSelected}${salesData.date}"
+                val outputString = inputString.replace("/", "").replace(" ", "").replace(":", "")
+                sendRechargeViewModel.sales(outputString,salesData)
+                setValueSharedPreferences(requireActivity(),"idKeySales",outputString)
 
             }
         }
@@ -432,6 +450,10 @@ class SendRechargeFragment : Fragment() {
     }
 
     private fun createProcessToPay() {
+        val calendar: Calendar? = Calendar.getInstance()
+        @SuppressLint("SimpleDateFormat")
+        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+        val currentDate:String = sdf.format(calendar!!.time)
         val salesDataAuto = Sales(mAuthProvider.getId()!!,firstNameUser,lastNameUser,emailUser,roleUser!!,SERVICEHAITI4,
             "${binding.codigo.text}${binding.phone.text.toString()}",
             currentDate,binding.paises.selectedCountryName,countrySelected,subTotalSelected.toString(),
@@ -442,14 +464,14 @@ class SendRechargeFragment : Fragment() {
          showProgress(binding.recargar,binding.progressBar)
         sendRechargeViewModel.sendRechargeViaInnoVit(sendRechargeProduct)
         sendRechargeViewModel.responseInnoVit.observe(viewLifecycleOwner){result->
-            when{
-                result.isSuccess ->{
-                    result.getOrNull()?.enqueue(object :Callback<SendRechargeResponse>{
-                        override fun onResponse(
-                            call: Call<SendRechargeResponse> ,
-                            response: Response<SendRechargeResponse>
-                        ) {
-                            if (response.body()?.status =="success"){
+            result.enqueue(object :Callback<SendRechargeResponse>{
+                override fun onResponse(
+                    call: Call<SendRechargeResponse>,
+                    response: Response<SendRechargeResponse>
+                ) {
+                    if (response.isSuccessful){
+                        when(response.body()!!.status){
+                            "success" -> {
                                 bottomSheet.show(childFragmentManager,"DialogConfirm")
                                 bottomSheet.subtitle =  getString(R.string.success)
                                 bottomSheet.btnCancel = false
@@ -458,23 +480,35 @@ class SendRechargeFragment : Fragment() {
                                 updateSoldTopUpUser()
                                 sendDataInFirebase(salesDataAuto,"TopUp")
                                 hideProgress(binding.recargar,binding.progressBar,requireActivity().getString(R.string.SendReload))
-                                val  sendReceipt = SendReceipt("${mAuthProvider.getId()}${idProductSelected}")
+                                val  sendReceipt = SendReceipt(getValueSharedPreferences(requireActivity(),"idKeySales"))
                                 sendReceiptViewModel.sendReceipt(sendReceipt)
-                            }else{
-                                Toast.makeText(requireContext() , " ${response.body()?.message}" , Toast.LENGTH_LONG).show()
-                                startActivity(Intent(requireContext(),HomeActivity::class.java))
+                                bottomSheet.saleData = salesDataAuto
+                                bottomSheet.isSuccessGoToReceipt = true
+                            }
+                            "provider_error" -> {
+                                bottomSheet.show(childFragmentManager,"DialogConfirm")
+                                bottomSheet.subtitle =  response.body()?.message
+                                bottomSheet.btnCancel = true
+                                bottomSheet.isDuplicateRecharge = true
+                                hideProgress(binding.recargar,binding.progressBar,requireActivity().getString(R.string.SendReload))
                             }
                         }
 
-                        override fun onFailure(call: Call<SendRechargeResponse> , t: Throwable) {}
+                    }else{
+                            bottomSheet.show(childFragmentManager,"DialogConfirm")
+                            bottomSheet.subtitle =  response.body()?.message
+                            bottomSheet.btnCancel = true
+                            bottomSheet.isDuplicateRecharge = true
+                            hideProgress(binding.recargar,binding.progressBar,requireActivity().getString(R.string.SendReload))
+                    }
+                }
 
-                    })
+                override fun onFailure(call: Call<SendRechargeResponse>, t: Throwable) {
+                    Log.e("erroresss",t.message.toString())
+                    Toast.makeText(requireContext() , "No fue posible realizar la recarga pon en contacto con su proveedor" , Toast.LENGTH_SHORT).show()
                 }
-                result.isFailure ->{
-                    Toast.makeText(requireContext() , "No fue posible realizar la recarga pon en contacto con su proveedor ${result.getOrThrow()}" , Toast.LENGTH_SHORT).show()
-                    dialog.dismiss()
-                }
-            }
+
+            })
 
         }
     }

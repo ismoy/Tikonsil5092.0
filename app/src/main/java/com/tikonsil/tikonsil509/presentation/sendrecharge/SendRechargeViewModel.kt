@@ -24,8 +24,8 @@ class SendRechargeViewModel(private val repository: SendRechargeRepository) :Vie
 
     val responseIdProduct:MutableLiveData<List<CostInnoverit>> by lazy { MutableLiveData() }
 
-    private val _responseInnoVit:MutableLiveData<Result<Call<SendRechargeResponse>>> by lazy { MutableLiveData() }
-    val responseInnoVit : LiveData<Result<Call<SendRechargeResponse>>> =_responseInnoVit
+    private val _responseInnoVit:MutableLiveData<Call<SendRechargeResponse>> by lazy { MutableLiveData() }
+    val responseInnoVit : LiveData<Call<SendRechargeResponse>> =_responseInnoVit
 
     init {
         noExistSnapshot =repository.noExistSnapshot

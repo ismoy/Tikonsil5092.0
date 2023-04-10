@@ -14,6 +14,7 @@ import com.tikonsil.tikonsil509.R
 import com.tikonsil.tikonsil509.databinding.FragmentDialogConfirmBinding
 import com.tikonsil.tikonsil509.domain.model.Sales
 import com.tikonsil.tikonsil509.ui.activity.home.HomeActivity
+import com.tikonsil.tikonsil509.ui.activity.invoice.InvoiceActivity
 import com.tikonsil.tikonsil509.ui.fragment.mercadoPago.TakeCredentialsCardFormFragment
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.screenDisplay
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.sendWhatsapp
@@ -26,8 +27,10 @@ class DialogConfirm : DialogFragment() {
     var isSalesMaster:Boolean?=false
     var isSalesMasterError:Boolean?=false
     var isNoTopUp:Boolean?=false
+    var isDuplicateRecharge:Boolean?=false
     lateinit var saleData:Sales
     private lateinit var binding:FragmentDialogConfirmBinding
+    var isSuccessGoToReceipt:Boolean?=false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,8 +61,16 @@ class DialogConfirm : DialogFragment() {
                 binding.imageView.setImageDrawable(ResourcesCompat.getDrawable(resources,R.drawable.ic_baseline_check_24,null))
                 binding.textView3.text = requireActivity().getText(R.string.aproved)
                 confirm.setOnClickListener {
-                    startActivity(Intent(requireActivity(),HomeActivity::class.java))
-                    requireActivity().finish()
+                    if (isSuccessGoToReceipt ==true){
+                        val intent = Intent(requireContext() , InvoiceActivity::class.java)
+                        intent.putExtra("saleData" , saleData)
+                        requireActivity().startActivity(intent)
+                        requireActivity().finish()
+                    }else{
+                        startActivity(Intent(requireActivity(),HomeActivity::class.java))
+                        requireActivity().finish()
+                    }
+
                 }
             }
             if (btnCancel == true){
@@ -75,6 +86,15 @@ class DialogConfirm : DialogFragment() {
                 binding.textView3.text = requireActivity().getText(R.string.error)
                 cancel.setOnClickListener {
                    dialog?.dismiss()
+                }
+            }
+
+            if (btnCancel == true && isDuplicateRecharge == true){
+                binding.imageView.background =  ResourcesCompat.getDrawable(requireContext().resources,R.drawable.bg_iv_er,null)
+                binding.textView3.text = requireActivity().getText(R.string.error)
+                cancel.setOnClickListener {
+                    startActivity(Intent(requireActivity(),HomeActivity::class.java))
+                    requireActivity().finish()
                 }
             }
 

@@ -35,15 +35,13 @@ class SendRechargeRepository {
         return _tikonsilApi.salesWithErrorInnoverit(FirebaseApi.getFSApis().end_point_save_sales_error_innoverit,sales)
     }
 
-    suspend fun sendRechargeViaInnoVit(sendRechargeProduct: SendRechargeProduct): Result<Call<SendRechargeResponse>> {
-        return runCatching {
+    suspend fun sendRechargeViaInnoVit(sendRechargeProduct: SendRechargeProduct): Call<SendRechargeResponse> {
             val _tikonsilApi = RetrofitInstance(FirebaseApi.getFSApis().base_url_tikonsil).tikonsilApi
             val response = withContext(Dispatchers.IO){
                 _tikonsilApi.sendProduct(Headers.getHeaderTikonsil509(),FirebaseApi.getFSApis().end_point_send_product,
                 sendRechargeProduct)
             }
-            response
-        }
+        return response
     }
 
     fun getIdProductSelected(countryCode:String):LiveData<List<CostInnoverit>>{
