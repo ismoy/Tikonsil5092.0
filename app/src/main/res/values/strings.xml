@@ -144,6 +144,10 @@
     <string name="phone_card">Phone:</string>
     <string name="quantity_to_send">Quantity to send:</string>
     <string name="fee">Fee:</string>
-
+    <string name="error_server">We had connection problems. please try again.</string>
+    <string name="title_error_server">Oh! Something went wrong</string>
+    <string name="update">Update</string>
+    <string name="updated">Update</string>
+    <string name="nue_version_available">A new version of Tikonsil509 is now available.</string>
 
 </resources>

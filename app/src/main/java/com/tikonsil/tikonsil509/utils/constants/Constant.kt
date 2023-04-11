@@ -30,7 +30,9 @@ class Constant {
   const val KEY ="create"
   const val NOTE ="false"
   const val ID_PRODUCT ="22050786"
-
+  const val PLAYSTORE_URL = "market://details?id="
+  const val WEB_URL = "https://play.google.com/store/apps/details?id="
+  const val url = "com.tikonsil.tikonsil509&hl=es_CL&gl=US"
  }
  //validate email
  fun validateEmail(email:String?): Boolean? {

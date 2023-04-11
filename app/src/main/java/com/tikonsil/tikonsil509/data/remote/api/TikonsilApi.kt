@@ -2,7 +2,6 @@ package com.tikonsil.tikonsil509.data.remote.api
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.tikonsil.tikonsil509.data.local.entity.PriceRechargeAccountMaster
 import com.tikonsil.tikonsil509.domain.model.*
 import com.tikonsil.tikonsil509.domain.model.mercadoPago.MercadoPagoCardTokenBody
 import com.tikonsil.tikonsil509.domain.model.mercadoPago.Payment
@@ -10,7 +9,6 @@ import com.tikonsil.tikonsil509.domain.model.sendReceipt.SendReceipt
 import com.tikonsil.tikonsil509.domain.model.sendReceipt.SendReceiptResponse
 import com.tikonsil.tikonsil509.domain.model.stripePayment.StripePayment
 import com.tikonsil.tikonsil509.domain.model.stripePayment.StripePaymentResponse
-import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -100,4 +98,8 @@ interface TikonsilApi {
         @Url url: String ,
         @Body sendReceipt: SendReceipt
     ):Response<SendReceiptResponse>
+    @GET
+    suspend fun getVersion(
+        @Url url: String
+    ):Response<VersionsResponse>
 }

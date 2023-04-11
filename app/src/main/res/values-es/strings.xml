@@ -71,8 +71,11 @@
     <string name="fee">Tarifa:</string>
     <string name="insifficientfunds">¡¡Ups!! Su tarjeta no tiene fondos suficientes.Por favor intente con otra tarjeta</string>
     <string name="extract_whatsapp">Hola, he enviado una solicitud de recarga, me pueden ayudar por favor, aquí está el número de teléfono y los detalles de la compra</string>
-
-
+    <string name="error_server">Tuvimos problemas de conexión. por favor, vuelve a intentarlo.</string>
+    <string name="title_error_server">¡Vaya! Algo salió mal</string>
+    <string name="update">Actualización</string>
+    <string name="updated">Actualizar</string>
+    <string name="nue_version_available">Ya está disponible una nueva versión de Tikonsil509.</string>
 
 
 </resources>

@@ -20,7 +20,8 @@ data class Apis(
     val end_point_mercado_pago_payment:String ="",
     val end_point_save_sales_error_innoverit:String = "",
     val end_point_payment_stripe:String ="",
-    val endPoint_send_receipt:String =""
+    val endPoint_send_receipt:String ="",
+    val end_point_version:String =""
 )
 
 data class FCM(

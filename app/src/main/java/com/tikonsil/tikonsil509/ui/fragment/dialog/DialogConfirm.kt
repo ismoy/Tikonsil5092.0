@@ -2,6 +2,7 @@ package com.tikonsil.tikonsil509.ui.fragment.dialog
 
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -16,8 +17,12 @@ import com.tikonsil.tikonsil509.domain.model.Sales
 import com.tikonsil.tikonsil509.ui.activity.home.HomeActivity
 import com.tikonsil.tikonsil509.ui.activity.invoice.InvoiceActivity
 import com.tikonsil.tikonsil509.ui.fragment.mercadoPago.TakeCredentialsCardFormFragment
+import com.tikonsil.tikonsil509.utils.constants.Constant.Companion.PLAYSTORE_URL
+import com.tikonsil.tikonsil509.utils.constants.Constant.Companion.WEB_URL
+import com.tikonsil.tikonsil509.utils.constants.Constant.Companion.url
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.screenDisplay
 import com.tikonsil.tikonsil509.utils.constants.UtilsView.sendWhatsapp
+import kotlinx.android.synthetic.main.dialognomoney.*
 
 class DialogConfirm : DialogFragment() {
     var title:String?=null
@@ -31,6 +36,8 @@ class DialogConfirm : DialogFragment() {
     lateinit var saleData:Sales
     private lateinit var binding:FragmentDialogConfirmBinding
     var isSuccessGoToReceipt:Boolean?=false
+    var hasNewVersion:Boolean?=false
+    var isErrorServer:Boolean?=false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -113,7 +120,29 @@ class DialogConfirm : DialogFragment() {
                     requireActivity().finish()
                 }
             }
+            if (hasNewVersion == true && btnCancel == false){
+                binding.imageView.background =  ResourcesCompat.getDrawable(requireContext().resources,R.drawable.bg_iv_er,null)
+                binding.textView3.text = getString(R.string.update)
+                confirm.setOnClickListener {
+                    try {
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("$PLAYSTORE_URL${url}")))
+                        dismiss()
+                    }catch (ex:java.lang.Exception){
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("$WEB_URL${url}")))
+                        dismiss()
+                    }
+                }
+            }
+
+            if (isErrorServer == true && btnCancel == true){
+                binding.textView3.text = getString(R.string.title_error_server)
+                cancel.setOnClickListener {
+                    startActivity(Intent(requireActivity(),HomeActivity::class.java))
+                    requireActivity().finish()
+                }
+            }
         }
+
 
     }
 

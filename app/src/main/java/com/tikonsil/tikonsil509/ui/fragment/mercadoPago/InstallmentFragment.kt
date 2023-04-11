@@ -173,6 +173,11 @@ class InstallmentFragment : Fragment() {
                             bottomSheet.subtitle = "Your card has expired."
                             bottomSheet.btnCancel = true
                         }
+                        "Your card number is incorrect." ->{
+                            bottomSheet.show(childFragmentManager,"DialogConfirm")
+                            bottomSheet.subtitle = responseStripe.body()!! .message
+                            bottomSheet.btnCancel = true
+                        }
                     }
                     Log.e("respuesta",responseStripe.body()!! .message)
                     with(binding) {
@@ -180,12 +185,12 @@ class InstallmentFragment : Fragment() {
                     }
                 }
             }else{
+                    bottomSheet.show(childFragmentManager,"DialogConfirm")
+                    bottomSheet.subtitle = responseStripe.body()?.message?:getString(R.string.error_server)
+                    bottomSheet.btnCancel = true
+                    bottomSheet.isErrorServer = true
                 Log.e("respuesta",responseStripe.body().toString())
             }
-        /*else if (responseStripe.code() ==500){
-                createDialogErrorServer(requireActivity())
-
-            }*/
         }
         stripePaymentViewModel.isLoading.observe(viewLifecycleOwner) {
             with(binding) {
