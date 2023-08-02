@@ -456,7 +456,7 @@ class SendRechargeFragment : Fragment() {
         val currentDate:String = sdf.format(calendar!!.time)
         val salesDataAuto = Sales(mAuthProvider.getId()!!,firstNameUser,lastNameUser,emailUser,roleUser!!,SERVICEHAITI4,
             "${binding.codigo.text}${binding.phone.text.toString()}",
-            currentDate,binding.paises.selectedCountryName,countrySelected,subTotalSelected.toString(),
+            currentDate,binding.paises.selectedCountryName,countrySelected,topUpSelected.toString(),
             binding.description.text.toString(),tokenUser, 1,idProductSelected!!.toInt(),topUpSelected.toString(),imageUser!!,topUpSelected.toString(),
             salesPriceFee = "0",currentlyCountry!!)
 
@@ -530,15 +530,21 @@ class SendRechargeFragment : Fragment() {
     }
 
     private fun takeValueForTopUp(first: String) {
-        val pattern = "([\\d.]+) USD".toRegex()
-        val result = pattern.find(first)?.groups?.get(1)?.value
-        topUpSelected = result?.toFloat()
+        val regexPattern = """\d+\.\d+""".toRegex()
+        val matchResults = regexPattern.findAll(first)
+        val extractedValues = matchResults.map { it.value }.toList()
+        if (extractedValues.isNotEmpty()) {
+            val targetValue = extractedValues.last()
+            topUpSelected = targetValue.toFloat()
+        } else {
+            println("No se encontró un valor decimal en el string.")
+        }
     }
 
 
     override fun onResume() {
         super.onResume()
-       tokenUser = UtilsView.getValueSharedPreferences(requireActivity(),"tokenUsers")
+       tokenUser = getValueSharedPreferences(requireActivity(),"tokenUsers")
         val tokenAdminList = readTokenAdminListFromSharedPreferences(requireContext())
         tokenAdmin = tokenAdminList
         Log.e("llegoTokens",tokenAdmin.toString())

@@ -8,6 +8,7 @@ plugins {
     id 'kotlin-kapt'
     id 'com.google.firebase.firebase-perf'
     id 'kotlin-android-extensions'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -60,6 +61,7 @@ dependencies {
     def library_country_version= "2.5.4"
     def dagger_version ="2.38.1"
     def rxJavaVersion = '2.1.1'
+
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
