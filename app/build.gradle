@@ -18,8 +18,8 @@ android {
         applicationId "com.tikonsil.tikonsil509"
         minSdk 23
         targetSdk 33
-        versionCode 12
-        versionName "1.0.9.2"
+        versionCode 13
+        versionName "1.0.9.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
